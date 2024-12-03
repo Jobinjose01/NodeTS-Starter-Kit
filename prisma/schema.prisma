@@ -1,0 +1,65 @@
+generator client {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "debian-openssl-3.0.x", "linux-musl-openssl-3.0.x", "windows"]
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model Role {
+    id              Int              @id @default(autoincrement())
+    name            String           @unique
+    status          Int              @default(1)
+    createdAt       DateTime         @default(now())
+    updatedAt       DateTime         @updatedAt
+    deletedAt       DateTime? // Nullable deletedAt field
+    users           User[]
+    rolePermissions RolePermission[]
+}
+
+model User {
+    id        Int       @id @default(autoincrement())
+    firstName String
+    lastName  String
+    username  String    @unique
+    password  String
+    phone     String?
+    status    Int       @default(1)
+    roleId    Int       @default(4)
+    role      Role      @relation(fields: [roleId], references: [id])
+    token     String?   @db.Text
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime? 
+
+    @@map("Users") // Set table name to "users"
+}
+
+model Permission {
+    id              Int              @id @default(autoincrement())
+    name            String           @unique
+    createdAt       DateTime         @default(now())
+    updatedAt       DateTime         @updatedAt
+    deletedAt       DateTime?
+    rolePermissions RolePermission[]
+}
+
+model RolePermission {
+    id           Int       @id @default(autoincrement())
+    roleId       Int
+    permissionId Int
+    add          Int       @default(0)
+    edit         Int       @default(0)
+    remove       Int       @default(0)
+    view         Int       @default(0)
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+    deletedAt    DateTime?
+
+    role       Role       @relation(fields: [roleId], references: [id])
+    permission Permission @relation(fields: [permissionId], references: [id])
+
+    @@unique([roleId, permissionId])
+}

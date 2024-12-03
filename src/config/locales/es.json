@@ -1,0 +1,66 @@
+{
+    "user": {
+        "USER_NOT_FOUND": "Usuario no encontrado",
+        "RECORD_NOT_FOUND": "¡Registro no encontrado!",
+        "NO_USERS_AVAILABLE": "No hay usuarios disponibles",
+        "USERNAME_ALREADY_TAKEN": "El nombre de usuario ya está en uso",
+        "FAILED_TO_UPDATE_USER": "No se pudo actualizar el usuario",
+        "USER_CREATED_SUCCESSFULLY": "Usuario creado con éxito",
+        "USER_UPDATED_SUCCESSFULLY": "Usuario actualizado con éxito",
+        "USER_DELETED_SUCCESSFULLY": "Usuario eliminado con éxito",
+        "USERS_FETCHED": "Datos de usuarios obtenidos con éxito",
+        "USER_FETCHED": "Datos del usuario obtenidos con éxito"
+    },
+    "login": {
+        "INVALID_CREDENTIALS": "Credenciales inválidas",
+        "INVALID_USERNAME": "Nombre de usuario incorrecto",
+        "INVALID_PASSWORD": "Contraseña incorrecta",
+        "LOGIN_SUCCESSFUL": "Inicio de sesión exitoso",
+        "AUTHENTICATION_FAILED": "Autenticación fallida",
+        "FAILED_TO_GENERATE_TOKEN": "No se pudo generar el token.",
+        "USER_ID_IS_UNDEFINED": "El ID de usuario no está definido.",
+        "LOGGED_IN_SUCCESSFULLY": "¡Inicio de sesión exitoso!",
+        "LOGGED_OUT_SUCCESSFULLY": "¡Cierre de sesión exitoso!",
+        "NO_TOKEN_PROVIDED": "No se proporcionó un token",
+        "UNAUTHORIZED": "No autorizado",
+        "USER_NOT_FOUND": "Usuario no encontrado",
+        "INVALID_TOKEN": "Token inválido"
+    },
+    "validator": {
+        "USERNAME_MUST_BE_A_STRING": "El nombre de usuario debe ser una cadena",
+        "USERNAME_MUST_BE_A_VALID_EMAIL": "El nombre de usuario debe ser un correo electrónico válido",
+        "USERNAME_MUST_BE_VALID": "¡El nombre de usuario debe ser válido!",
+        "PASSWORD_MUST_BE_A_STRING": "La contraseña debe ser una cadena",
+        "PASSWORD_MUST_BE_AT_LEAST_6_CHARACTERS_LONG": "La contraseña debe tener al menos 6 caracteres",
+        "FIRST_NAME_MUST_BE_A_STRING": "El nombre debe ser una cadena",
+        "FIRST_NAME_MUST_BE_LESS_THAN_191_CHARACTERS": "El nombre debe tener menos de 191 caracteres",
+        "LAST_NAME_MUST_BE_A_STRING": "El apellido debe ser una cadena",
+        "LAST_NAME_MUST_BE_LESS_THAN_191_CHARACTERS": "El apellido debe tener menos de 191 caracteres",
+        "PHONE_NUMBER_MUST_BE_A_STRING": "El número de teléfono debe ser una cadena",
+        "PHONE_NUMBER_IS_REQUIRED": "Se requiere el número de teléfono",
+        "USER_ID_MUST_BE_A_VALID_NUMBER": "El ID de usuario debe ser un número válido",
+        "USER_ID_IS_REQUIRED": "Se requiere el ID de usuario"
+    },
+    "permission": {
+        "PERMISSION_CREATED": "Permisos de rol creados con éxito",
+        "PERMISSION_DELETED": "Permisos de rol eliminados con éxito",
+        "PERMISSION_FETCHED": "Permisos obtenidos con éxito",
+        "PERMISSION_NOT_FOUND": "No se encontraron permisos",
+        "ROLEID_MUSTBE_NUMBER": "roleId debe ser un número entero",
+        "PERMISSION_INVALID_INPUTDATA": "los permisos deben ser un array con al menos un elemento",
+        "PERMISSION_ID_MUSTBE_NUMBER": "permissionId debe ser un número entero",
+        "ADD_MUSTBE_NUMBER": "agregar debe ser un número entero",
+        "EDIT_MUSTBE_NUMBER": "editar debe ser un número entero",
+        "REMOVE_MUSTBE_NUMBER": "eliminar debe ser un número entero",
+        "VIEW_MUSTBE_NUMBER": "ver debe ser un número entero",
+        "REORDER_MUSTBE_NUMBER": "Reordenar debe ser un número entero"
+    },
+
+    "UNAUTHORIZED": "NO AUTORIZADO",
+    "NOT_ATHOURISED_ACTION": "¡No estás autorizado para realizar esta acción!",
+    "INVALID_TOKEN": "TOKEN INVÁLIDO",
+    "common": {
+        "SOMETHING_WENT_WRONG": "¡Vaya, algo salió mal!"
+    },
+    "USER_NOT_FOUND": "USUARIO NO ENCONTRADO"
+}

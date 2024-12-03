@@ -1,0 +1,91 @@
+{
+    "UNAUTHORIZED": "UNAUTHORIZED",
+    "NOT_ATHOURISED_ACTION": "You are not authorised to do this action!",
+    "INVALID_TOKEN": "INVALID_TOKEN",
+    "USER_NOT_FOUND": "User not found",
+    "user": {
+        "USER_NOT_FOUND": "User not found",
+        "RECORD_NOT_FOUND": "Record Not found!",
+        "NO_USERS_AVAILABLE": "No users available",
+        "USERNAME_ALREADY_TAKEN": "Username is already in use",
+        "FAILED_TO_UPDATE_USER": "Failed to update user",
+        "USER_CREATED_SUCCESSFULLY": "User created successfully",
+        "USER_UPDATED_SUCCESSFULLY": "User updated successfully",
+        "USER_DELETED_SUCCESSFULLY": "User Deleted Successfully",
+        "USERS_FETCHED": "Users data fetched successfully",
+        "USER_FETCHED": "User data fetched successfully"
+    },
+    "login": {
+        "INVALID_CREDENTIALS": "Invalid credentials",
+        "INVALID_USERNAME": "Incorrect username",
+        "INVALID_PASSWORD": "Incorrect password",
+        "LOGIN_SUCCESSFUL": "Login Successful",
+        "AUTHENTICATION_FAILED": "Authentication failed",
+        "FAILED_TO_GENERATE_TOKEN": "Failed to generate Token.",
+        "USER_ID_IS_UNDEFINED": "User ID is undefined.",
+        "LOGGED_IN_SUCCESSFULLY": "Logged in successfully!",
+        "LOGGED_OUT_SUCCESSFULLY": "Logged out successfully!",
+        "NO_TOKEN_PROVIDED": "No token provided",
+        "UNAUTHORIZED": "Unauthorized",
+        "USER_NOT_FOUND": "User not found",
+        "INVALID_TOKEN": "Invalid token"
+    },
+    "validator": {
+        "USERNAME_MUST_BE_A_STRING": "Username must be a string",
+        "USERNAME_MUST_BE_A_VALID_EMAIL": "Username must be a valid email",
+        "USERNAME_MUST_BE_VALID": "Username must be a valid!",
+        "PASSWORD_MUST_BE_A_STRING": "Password must be a string",
+        "PASSWORD_MUST_BE_AT_LEAST_6_CHARACTERS_LONG": "Password must be at least 6 characters long",
+        "FIRST_NAME_MUST_BE_A_STRING": "First name must be a string",
+        "FIRST_NAME_MUST_BE_LESS_THAN_191_CHARACTERS": "First name must be less than 191 characters",
+        "LAST_NAME_MUST_BE_A_STRING": "Last name must be a string",
+        "LAST_NAME_MUST_BE_LESS_THAN_191_CHARACTERS": "Last name must be less than 191 characters",
+        "PHONE_NUMBER_MUST_BE_A_STRING": "Phone number must be a string",
+        "PHONE_NUMBER_IS_REQUIRED": "Phone number is required",
+        "USER_ID_MUST_BE_A_VALID_NUMBER": "User ID must be a valid number",
+        "USER_ID_IS_REQUIRED": "User ID is required",
+        "ROLE_NAME_MUST_BE_UNIQUE": "Role name must be unique",
+        "ROLE_NAME_MUST_BE_LESS_THAN_191_CHARACTERS": "Role name must be less than 191 characters",
+        "ROLE_NAME_MUST_BE_A_STRING": "Role name must be a string",
+        "ROLE_NAME_IS_REQUIRED": "Role name is required",
+        "STATUS_MUST_BE_A_VALID_INTEGER": "validator.STATUS_MUST_BE_A_VALID_INTEGER"
+    },
+    "permission": {
+        "PERMISSION_CREATED": "Role permissions created successfully",
+        "PERMISSION_DELETED": "Role permissions deleted successfully",
+        "PERMISSION_FETCHED": "Permissions retrieved successfully",
+        "PERMISSION_NOT_FOUND": "No Permissions Found",
+        "ROLEID_MUSTBE_NUMBER": "roleId must be an integer",
+        "PERMISSION_INVALID_INPUTDATA": "permissions must be an array with at least one item",
+        "PERMISSION_ID_MUSTBE_NUMBER": "permissionId must be an integer",
+        "ADD_MUSTBE_NUMBER": "add must be an integer",
+        "EDIT_MUSTBE_NUMBER": "edit must be an integer",
+        "REMOVE_MUSTBE_NUMBER": "remove must be an integer",
+        "VIEW_MUSTBE_NUMBER": "view must be an integer",
+        "REORDER_MUSTBE_NUMBER": "Reorder must be an integer"
+    },
+    "common": {
+        "SOMETHING_WENT_WRONG": "Oops something went wrong!"
+    },
+    "role": {
+        "ROLE_CREATED_SUCCESSFULLY": "Role created successfully",
+        "ROLE_UPDATED_SUCCESSFULLY": "Role updated successfully",
+        "FAILED_TO_UPDATE_ROLE": "Failed to update Role",
+        "ROLE_NOT_FOUND": "Role not found",
+        "ROLE_DELETED_SUCCESSFULLY": "Role deleted successfully",
+        "ROLES_FETCHED": "Roles data fetched successfully",
+        "NO_ROLES_AVAILABLE": "No roles available",
+        "ROLE_FETCHED": "Role details fetched"
+    },
+    "language": {
+        "ROLES_FETCHED": "language.ROLES_FETCHED"
+    },
+    "item": {
+        "CREATED_SUCCESSFULLY": "CREATED_SUCCESSFULLY",
+        "FETCHED_ALL_SUCCESSFULLY": "FETCHED_ALL_SUCCESSFULLY",
+        "DELETED_SUCCESSFULLY": "DELETED_SUCCESSFULLY",
+        "FETCHED_SUCCESSFULLY": "FETCHED_SUCCESSFULLY",
+        "NOT_FOUND": "NOT_FOUND",
+        "UPDATED_SUCCESSFULLY": "UPDATED_SUCCESSFULLY"
+    }
+}

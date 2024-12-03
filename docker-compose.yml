@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - ./src/logs:/usr/src/app/logs
+    env_file:
+      - ./.env
+    ports:
+      - "${PORT}:${PORT}"
+    command: ["npm", "run", "dev"]
+    environment:
+      - NODE_ENV=development
+    tty: true
