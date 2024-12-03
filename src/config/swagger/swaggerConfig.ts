@@ -6,6 +6,7 @@ import authPaths from './paths/authPaths';
 import rolePaths from './paths/rolePaths';
 import userPaths from './paths/userPaths';
 import permissionPaths from './paths/permissionPaths';
+import languagePaths from './paths/languagePaths';
 
 // Definition Imports
 import authDefinitions from './definitions/authDefinitions';
@@ -13,6 +14,7 @@ import roleDefinitions from './definitions/roleDefinitions';
 import commonDefinitions from './definitions/commonDefinitions';
 import userDefinition from './definitions/userDefinitions';
 import permissionDefinitions from './definitions/permissionDefinitions';
+import languageDefinitions from './definitions/languageDefinition';
 
 const swaggerDocument = {
     openapi: '3.0.0',
@@ -42,6 +44,7 @@ const swaggerDocument = {
         ...rolePaths,
         ...userPaths,
         ...permissionPaths,
+        ...languagePaths,
     },
     definitions: {
         // register new defintions here
@@ -50,6 +53,7 @@ const swaggerDocument = {
         ...commonDefinitions,
         ...userDefinition,
         ...permissionDefinitions,
+        ...languageDefinitions,
     },
 };
 

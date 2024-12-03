@@ -26,6 +26,14 @@ export const rolePermissions = [
                 view: 1,
                 
             },            
+            {
+                permissionId: 4,
+                add: 1,
+                edit: 1,
+                remove: 1,
+                view: 1,
+                
+            }           
         ],
     }
 ];

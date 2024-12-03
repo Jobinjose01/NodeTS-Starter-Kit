@@ -7,6 +7,8 @@ const paths = {
   controller: 'src/controllers',
   service: 'src/services',
   routes: 'src/routes',
+  swaggerPath: 'src/config/swagger/paths',
+  swaggerDefPath: 'src/config/swagger/definitions',
 };
 
 const schemaPath = path.join(process.cwd(), 'prisma/schema.prisma');
@@ -80,6 +82,57 @@ function mapPrismaTypeToTS(prismaType: string): string {
     const tsType = map[baseType] || baseType;
 
     return `${tsType}${isArray ? '[]' : ''}${isOptional ? ' | undefined' : ''}`;
+}
+
+function generateSwagger(modelName: string): any {
+  const { fields, types } = extractModelDefinition(modelName);
+
+  // Define the basic structure for Swagger definitions
+  const swaggerDefinition: any = {
+      [modelName]: {
+          type: 'object',
+          required: [],
+          properties: {},
+      },
+  };
+
+  // Loop through the fields and types to build the Swagger definition
+  fields.forEach((field, idx) => {
+      if (field === 'id' || field === 'createdAt' || field === 'updatedAt' || field === 'deletedAt') {
+          return; // Skip these fields for create method
+      }
+
+      // Mark fields like 'name' as required
+      const isRequired = !types[idx].includes('null') && !types[idx].includes('undefined');
+
+      // Map the field to Swagger definition
+      swaggerDefinition[modelName].properties[field] = {
+          type: mapPrismaTypeToSwagger(types[idx]),
+      };
+
+      if (isRequired) {
+          swaggerDefinition[modelName].required.push(field);
+      }
+  });
+
+  return swaggerDefinition;
+}
+
+function mapPrismaTypeToSwagger(prismaType: string): string {
+  const map: Record<string, string> = {
+      String: 'string',
+      Int: 'integer',
+      Float: 'number',
+      Boolean: 'boolean',
+      DateTime: 'string', // Swagger uses string for Date
+  };
+
+  const isArray = prismaType.endsWith('[]');
+  const baseType = prismaType.replace('[]', '');
+
+  const swaggerType = map[baseType] || 'string'; // Default to string if no mapping found
+
+  return isArray ? `array[${swaggerType}]` : swaggerType;
 }
 
 function generateController(modelName: string){
@@ -203,7 +256,26 @@ function addImportsToV1Routes(modelName: string) {
     }
   }
 
+function generateSwaggerPath(modelName: string){
 
+    const templatePath = path.join('src', 'config', 'templates', 'swaggerPaths.ts');
+    let content = fs.readFileSync(templatePath, 'utf-8');
+    const modelNameLowerCase = modelName.charAt(0).toLowerCase() + modelName.slice(1);
+    content = content.replace(/\${modelName}/g, modelNameLowerCase);
+    content = content.replace(/\${ModelName}/g, modelName);
+    fs.outputFileSync(path.join(paths.swaggerPath, `${modelNameLowerCase}Paths.ts`), content);
+    console.log(`Swagger Path file for ${modelName} created at ${paths.swaggerPath}/${modelNameLowerCase}Paths.ts`);
+    
+    const templateDefPath = path.join('src', 'config', 'templates', 'swaggerDefinition.ts');
+    let contentDef = fs.readFileSync(templateDefPath, 'utf-8');
+    const swaggerDef = generateSwagger(modelName);
+    contentDef = contentDef.replace(/\${modelName}/g, modelNameLowerCase);
+    contentDef = contentDef.replace(/\${ModelName}/g, modelName);
+    contentDef = contentDef.replace(/\${swaggerDef}/g, JSON.stringify(swaggerDef, null, 2));
+    fs.outputFileSync(path.join(paths.swaggerDefPath, `${modelNameLowerCase}Definition.ts`), contentDef);
+    console.log(`Swagger Definition file for ${modelName} created at ${paths.swaggerDefPath}/${modelNameLowerCase}Definitions.ts`);
+
+}
 async function promptInputs() {
   const answers = await inquirer.prompt([
     {
@@ -234,6 +306,7 @@ async function promptInputs() {
     generateRoutes(modelName,permissionName);
     addImportsToInversifyConfig(modelName);
     addImportsToV1Routes(modelName);
+    generateSwaggerPath(modelName);
 
     console.log(`Files for ${modelName} created successfully!`);
   } catch (err) {
