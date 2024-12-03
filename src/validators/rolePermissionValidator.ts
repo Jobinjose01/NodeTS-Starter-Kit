@@ -30,9 +30,5 @@ export const rolePermissionValidationRules = (): ValidationChain[] => {
             .isInt()
             .toInt()
             .withMessage(i18n.__('permission.VIEW_MUSTBE_NUMBER')),
-        body('permissions.*.reordering')
-            .isInt()
-            .toInt()
-            .withMessage(i18n.__('permission.REORDER_MUSTBE_NUMBER')),
     ];
 };

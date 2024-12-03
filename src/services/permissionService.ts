@@ -1,20 +1,23 @@
-import { PrismaClient } from '@prisma/client';
 import { injectable } from 'inversify';
-import { RolePermissionDTO } from '../dtos/RolePermission';
-import { RolePermissionResponse } from '../types/RolePermissionResponse';
+import { BaseService } from './BaseService';
+import { RolePermission } from '../models/RolePermission';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
-
 @injectable()
-export class PermissionService {
-    async createPermission(
-        data: RolePermissionDTO,
-    ): Promise<RolePermissionResponse> {
+export class PermissionService extends BaseService<RolePermission> {
+    protected model: any;
+    constructor() {
+        super();
+        this.model = prisma.rolePermission;
+    }
+
+    async create(data: any) {
         const { roleId, permissions } = data;
 
-        await this.deletePermissionByRoleId(roleId);
+        await this.delete(roleId);
 
-        const rolePermissions = permissions.map((permission) => ({
+        const rolePermissions = permissions.map((permission: any) => ({
             roleId,
             ...permission,
             createdAt: new Date(),
@@ -26,14 +29,14 @@ export class PermissionService {
         });
     }
 
-    async getPermissionByRoleId(roleId: number) {
+    async getById(roleId: number) {
         return await prisma.rolePermission.findMany({
             where: { roleId },
             include: { permission: true },
         });
     }
 
-    async deletePermissionByRoleId(roleId: number): Promise<void> {
+    async delete(roleId: number): Promise<void> {
         await prisma.rolePermission.deleteMany({
             where: { roleId },
         });

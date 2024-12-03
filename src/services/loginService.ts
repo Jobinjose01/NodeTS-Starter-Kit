@@ -33,9 +33,7 @@ export class LoginService {
             return null;
         }
 
-        const scope = await this.permissionService.getPermissionByRoleId(
-            user.roleId,
-        );
+        const scope = await this.permissionService.getById(user.roleId);
         const payload = {
             user: handleUserResponse(user),
             scope: scope,

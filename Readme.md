@@ -22,8 +22,6 @@ This project setup has following features.
 
 `cp .env.example .env`
 
-`cp elbit.db database/elbit.db`
-
 ### Run the seeders
 
 `npm run seed`

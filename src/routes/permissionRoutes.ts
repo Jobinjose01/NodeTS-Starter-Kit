@@ -4,35 +4,40 @@ import { validate } from '../middlewares/validate';
 import container from '../config/inversifyConfig';
 import checkPermissions from '../middlewares/checkPermissions';
 import { rolePermissionValidationRules } from '../validators/rolePermissionValidator';
+import { createRouter, RouteConfig } from './BaseRouter';
 
 const router = Router();
 const permissionController =
     container.get<PermissionController>(PermissionController);
 
-router.post(
-    '/create',
-    rolePermissionValidationRules(),
-    validate,
-    checkPermissions([{ permission: 'Permissions', action: 'add' }]),
-    async (req: Request, res: Response, next: NextFunction) => {
-        await permissionController.createPermission(req, res, next);
+const roleRoutes: RouteConfig<PermissionController>[] = [
+    {
+        method: 'post',
+        path: '/create',
+        action: 'create',
+        middlewares: [
+            checkPermissions([{ permission: 'Permissions', action: 'add' }]),
+            rolePermissionValidationRules(),
+            validate,
+        ],
     },
-);
-
-router.delete(
-    '/:id',
-    checkPermissions([{ permission: 'Permissions', action: 'remove' }]),
-    async (req: Request, res: Response, next: NextFunction) => {
-        await permissionController.deletePermission(req, res, next);
+    {
+        method: 'delete',
+        path: '/:id',
+        action: 'delete',
+        middlewares: [
+            checkPermissions([{ permission: 'Permissions', action: 'remove' }]),
+        ],
     },
-);
-
-router.get(
-    '/:id',
-    checkPermissions([{ permission: 'Permissions', action: 'view' }]),
-    async (req: Request, res: Response, next: NextFunction) => {
-        await permissionController.getPermissionByRoleId(req, res, next);
+    {
+        method: 'get',
+        path: '/:id',
+        action: 'getById',
+        middlewares: [
+            checkPermissions([{ permission: 'Permissions', action: 'view' }]),
+        ],
     },
-);
+];
 
-export default router;
+const roleRouter = createRouter(permissionController, roleRoutes);
+export default roleRouter;
