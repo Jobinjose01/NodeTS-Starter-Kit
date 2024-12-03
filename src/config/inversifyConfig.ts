@@ -11,6 +11,9 @@ import { PermissionController } from '../controllers/permissionController';
 import { RoleController } from '../controllers/roleController';
 import { RoleService } from '../services/roleService';
 
+import { LanguageController } from '../controllers/languageController';
+import { LanguageService } from '../services/languageService';
+
 const container = new Container();
 
 container.bind<UserController>(UserController).toSelf();
@@ -24,5 +27,8 @@ container.bind<PermissionService>(PermissionService).toSelf();
 
 container.bind<RoleController>(RoleController).toSelf();
 container.bind<RoleService>(RoleService).toSelf();
+
+container.bind<LanguageController>(LanguageController).toSelf();
+container.bind<LanguageService>(LanguageService).toSelf();
 
 export default container;
