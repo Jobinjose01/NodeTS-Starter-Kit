@@ -2,6 +2,10 @@ import { validate } from '../middlewares/validate';
 import container from '../config/inversifyConfig';
 import checkPermissions from '../middlewares/checkPermissions';
 import { ${ModelName}Controller } from '../controllers/${modelName}Controller';
+import {
+    ${modelName}ValidationRules,
+    ${modelName}UpdateValidationRules,
+} from '../validators/${modelName}Validator';
 import { createRouter, RouteConfig } from './BaseRouter';
 
 const ${modelName}Controller = container.get<${ModelName}Controller>(${ModelName}Controller);
@@ -13,6 +17,7 @@ const ${modelName}Routes: RouteConfig<${ModelName}Controller>[] = [
         action: 'create',
         middlewares: [
             checkPermissions([{ permission: '${permission}', action: 'add' }]),
+            ${modelName}ValidationRules(),
             validate,
         ],
     },
@@ -30,6 +35,7 @@ const ${modelName}Routes: RouteConfig<${ModelName}Controller>[] = [
         action: 'update',
         middlewares: [
             checkPermissions([{ permission: '${permission}', action: 'edit' }]),
+            ${modelName}UpdateValidationRules(),
             validate,
         ],
     },

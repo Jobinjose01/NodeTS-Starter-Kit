@@ -7,12 +7,28 @@ const paths = {
   controller: 'src/controllers',
   service: 'src/services',
   routes: 'src/routes',
+  validators: 'src/validators',
   swaggerPath: 'src/config/swagger/paths',
   swaggerDefPath: 'src/config/swagger/definitions',
 };
 
 const schemaPath = path.join(process.cwd(), 'prisma/schema.prisma');
 const schemaContent = fs.readFileSync(schemaPath, 'utf-8');
+
+function getTypeValidation(type: string): string {
+  switch (type.replace(/[?]/g, '')) {
+      case 'String':
+          return `.isString().withMessage(i18n.__('validator.MUST_BE_A_STRING'))`;
+      case 'Int':
+          return `.toInt().isInt().withMessage(i18n.__('validator.MUST_BE_A_VALID_INTEGER'))`;
+      case 'Float':
+          return `.isFloat().withMessage(i18n.__('validator.MUST_BE_A_VALID_FLOAT'))`;
+      case 'Boolean':
+          return `.isBoolean().withMessage(i18n.__('validator.MUST_BE_A_BOOLEAN'))`;
+      default:
+          return '';
+  }
+}
 
 function extractModelDefinition(modelName: string): { fields: string[]; types: string[]; optionalFields: Set<string> } {
     const modelRegex = new RegExp(`model ${modelName} {([\\s\\S]*?)}`, 'm');
@@ -40,6 +56,78 @@ function extractModelDefinition(modelName: string): { fields: string[]; types: s
     }
 
     return { fields, types, optionalFields };
+}
+
+function extractValidationRules(modelName: string) {
+  const modelRegex = new RegExp(`model ${modelName} {([\\s\\S]*?)}`, 'm');
+  const match = schemaContent.match(modelRegex);
+
+  if (!match) {
+      throw new Error(`Model ${modelName} not found in schema.prisma`);
+  }
+
+  const fieldLines = match[1].trim().split('\n');
+  const validationRules: string[] = [];
+  const updateRules: string[] = [];
+
+  for (const line of fieldLines) {
+      const [field, type, ...rest] = line.trim().split(/\s+/);
+
+      // Skip system fields
+      if (['id', 'createdAt', 'updatedAt', 'deletedAt'].includes(field)) {
+          continue;
+      }
+
+      const isUnique = rest.includes('@unique');
+      const isRequired = !rest.includes('?');
+      const maxLength = type === 'String' ? 190 : null;
+      const typeValidation = getTypeValidation(type);
+
+      // Create rules
+      const createRule = [
+          `body('${field}')`,
+          isRequired ? `.notEmpty().withMessage(i18n.__('validator.${modelName.toUpperCase()}_${field.toUpperCase()}_IS_REQUIRED'))` : `.optional()`,
+          typeValidation,
+          maxLength ? `.isLength({ max: ${maxLength} }).withMessage(i18n.__('validator.${modelName.toUpperCase()}_${field.toUpperCase()}_MUST_BE_LESS_THAN_${maxLength + 1}_CHARACTERS'))` : '',
+          isUnique
+              ? `.custom(async (${field}) => {
+                  const ${modelName.toLowerCase()} = await prisma.${modelName.toLowerCase()}.findUnique({
+                      where: { ${field} },
+                  });
+                  if (${modelName.toLowerCase()}) {
+                      throw new Error(i18n.__('validator.${modelName.toUpperCase()}_${field.toUpperCase()}_MUST_BE_UNIQUE'));
+                  }
+                  return true;
+              })`
+              : '',
+      ].filter(Boolean);
+
+      validationRules.push(createRule.join('\n'));
+
+      // Update rules
+      const updateRule = [
+          `body('${field}')`,
+          `.optional()`,
+          typeValidation,
+          maxLength ? `.isLength({ max: ${maxLength} }).withMessage(i18n.__('validator.${modelName.toUpperCase()}_${field.toUpperCase()}_MUST_BE_LESS_THAN_${maxLength + 1}_CHARACTERS'))` : '',
+          isUnique
+              ? `.custom(async (${field} ,{ req }) => {
+                  const { id  } : any = req.params;
+                  const ${modelName.toLowerCase()} = await prisma.${modelName.toLowerCase()}.findUnique({
+                      where: { ${field} },
+                  });
+                  if (${modelName.toLowerCase()} && ${modelName.toLowerCase()}.id !== Number(id)) {
+                      throw new Error(i18n.__('validator.${modelName.toUpperCase()}_${field.toUpperCase()}_MUST_BE_UNIQUE'));
+                  }
+                  return true;
+              })`
+              : '',
+      ].filter(Boolean);
+
+      updateRules.push(updateRule.join('\n'));
+  }
+
+  return { validationRules, updateRules };
 }
 
 function generateModel(modelName: string, fields: string[], types: string[], optionalFields: Set<string>) {
@@ -167,6 +255,21 @@ function generateRoutes(modelName: string,permission: string){
     content = content.replace(/\${permission}/g, permission);
     fs.outputFileSync(path.join(paths.routes, `${modelNameLowerCase}Routes.ts`), content);
     console.log(`Routes file for ${modelName} created at ${paths.routes}/${modelNameLowerCase}Routes.ts`);
+}
+
+function generateValidationFile(modelName: string) {
+
+  const { validationRules, updateRules } = extractValidationRules(modelName);
+  const templatePath = path.join('src', 'config', 'templates', 'validator.ts');
+  let content = fs.readFileSync(templatePath, 'utf-8');
+  const modelNameLowerCase = modelName.charAt(0).toLowerCase() + modelName.slice(1);
+  content = content.replace(/\${modelName}/g, modelNameLowerCase);
+  content = content.replace(/\${ModelName}/g, modelName);
+  content = content.replace(/\${createValidation}/g, validationRules.join(',\n        '));
+  content = content.replace(/\${updateValidation}/g, updateRules.join(',\n        '));
+  fs.outputFileSync(path.join(paths.validators, `${modelNameLowerCase}Validator.ts`), content);
+  console.log(`Validator file for ${modelName} created at ${paths.validators}/${modelNameLowerCase}Validator.ts`);
+
 }
 
 function addImportsToInversifyConfig(modelName: string) {
@@ -363,6 +466,7 @@ async function promptInputs() {
     generateController(modelName);
     generateService(modelName);
     generateRoutes(modelName,permissionName);
+    generateValidationFile(modelName);
     addImportsToInversifyConfig(modelName);
     addImportsToV1Routes(modelName);
     generateSwaggerPath(modelName);

@@ -42,14 +42,13 @@ export const roleUpdateValidationRules = () => {
             .withMessage(
                 i18n.__('validator.ROLE_NAME_MUST_BE_LESS_THAN_191_CHARACTERS'),
             )
-            .custom(async (name) => {
+            .custom(async (name, { req }) => {
+                const { id }: any = req.params;
                 const role = await prisma.role.findUnique({
-                    where: {
-                        name,
-                    },
+                    where: { name },
                 });
 
-                if (role) {
+                if (role && role.id !== Number(id)) {
                     throw new Error(
                         i18n.__('validator.ROLE_NAME_MUST_BE_UNIQUE'),
                     );
