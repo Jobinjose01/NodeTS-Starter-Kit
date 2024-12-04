@@ -12,7 +12,7 @@ export class PermissionService extends BaseService<RolePermission> {
         this.model = prisma.rolePermission;
     }
 
-    async create(data: any) {
+    async create(data: any): Promise<any> {
         const { roleId, permissions } = data;
 
         await this.delete(roleId);
@@ -29,7 +29,7 @@ export class PermissionService extends BaseService<RolePermission> {
         });
     }
 
-    async getById(roleId: number) {
+    async getById(roleId: number): Promise<any> {
         return await prisma.rolePermission.findMany({
             where: { roleId },
             include: { permission: true },

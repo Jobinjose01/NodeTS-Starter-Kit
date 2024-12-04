@@ -39,7 +39,7 @@ async function seedUsers() {
 async function seedRoles() {
   try{
     await prisma.$executeRaw`SET FOREIGN_KEY_CHECKS = 0;`;  
-    await prisma.$executeRaw`DELETE FROM Role;`;
+    await prisma.$executeRaw`TRUNCATE TABLE Role;`;
 
     for (const role of roles) {
       await prisma.role.upsert({
@@ -60,7 +60,7 @@ async function seedPermissions() {
 
   try{
     await prisma.$executeRaw`SET FOREIGN_KEY_CHECKS = 0;`;  
-    await prisma.$executeRaw`DELETE FROM Permission;`;
+    await prisma.$executeRaw`TRUNCATE TABLE Permission;`;
 
     for (const permission of permissions) {
       await prisma.permission.upsert({

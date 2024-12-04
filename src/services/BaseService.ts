@@ -9,7 +9,7 @@ export abstract class BaseService<T> {
     protected abstract model: any;
 
     // Create a record
-    async create(data: T): Promise<T | any> {
+    async create(data: T): Promise<T> {
         return await this.model.create({
             data,
         });
@@ -63,7 +63,7 @@ export abstract class BaseService<T> {
     }
 
     // Get a record by ID
-    async getById(id: number): Promise<T | null | any> {
+    async getById(id: number): Promise<T | null> {
         return await this.model.findUnique({
             where: { id },
         });
