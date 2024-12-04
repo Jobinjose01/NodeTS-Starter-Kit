@@ -30,6 +30,14 @@ if you want to run a specific seeder only
 
 `npm run seed -- --name=Permissions`
 
+### Generate Code Automatically
+
+`npm run generate`
+
+provide your schema table name and Permission name 
+eg: Language
+
+
 ### Run the app
 
 `npm run dev`
