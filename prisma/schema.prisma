@@ -63,3 +63,13 @@ model RolePermission {
 
     @@unique([roleId, permissionId])
 }
+
+model Language {
+    id                  Int                  @id @default(autoincrement())
+    title               String
+    langCode            String               @unique
+    flag                String?
+    createdAt           DateTime             @default(now())
+    updatedAt           DateTime  @updatedAt
+    deletedAt           DateTime?
+}
