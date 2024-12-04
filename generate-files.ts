@@ -276,6 +276,65 @@ function generateSwaggerPath(modelName: string){
     console.log(`Swagger Definition file for ${modelName} created at ${paths.swaggerDefPath}/${modelNameLowerCase}Definitions.ts`);
 
 }
+
+function addImportsToSwaggerConfig(modelName: string) {
+
+  const v1RoutesPath = path.join('src', 'config','swagger' ,'swaggerConfig.ts');
+  let content = fs.readFileSync(v1RoutesPath, 'utf-8');
+  const modelNameLowerCase = modelName.charAt(0).toLowerCase() + modelName.slice(1);
+
+  const pathImports = `import ${modelNameLowerCase}Paths from './paths/${modelNameLowerCase}Paths';
+  `;
+  const defImports = `import ${modelNameLowerCase}Definitions from './definitions/${modelNameLowerCase}Definition';
+  `;
+  const pathInclude = `...${modelNameLowerCase}Paths,
+  `;
+  const defInclude = `...${modelNameLowerCase}Definitions,
+  `;
+
+  const importsExist = content.includes(`${modelNameLowerCase}Paths`);
+
+  if (importsExist) {
+    console.log(`${modelName}Paths & Definition already present.`);
+    return;
+  }
+   
+  // Find the position of the line `const router = Router();`
+  const containerPathIndex = content.indexOf('// Path Imports ends');
+
+  if (containerPathIndex !== -1) {
+    // Insert the new imports just above this line and add an empty line above and below the inserted imports
+    content = content.slice(0, containerPathIndex) + pathImports + content.slice(containerPathIndex);
+  }
+
+  // Find the position of the line `export default container;`
+  const containerDefIndex = content.indexOf('// Definition Imports ends');
+
+  if (containerDefIndex !== -1) {
+    // Insert the new Binds just above this line
+    content = content.slice(0, containerDefIndex) + defImports + content.slice(containerDefIndex);
+  }
+  // Find the position of the line `export default container;`
+  const containerPathInclude = content.indexOf('// register new paths here');
+
+  if (containerPathInclude !== -1) {
+    // Insert the new Binds just above this line
+    content = content.slice(0, containerPathInclude) + pathInclude + content.slice(containerPathInclude);
+  }
+  // Find the position of the line `export default container;`
+  const containerDefInclude = content.indexOf('// register new defintions here');
+
+  if (containerDefIndex !== -1) {
+    // Insert the new Binds just above this line
+    content = content.slice(0, containerDefInclude) + defInclude + content.slice(containerDefInclude);
+  }
+
+  fs.outputFileSync(v1RoutesPath, content);
+  
+  if (!importsExist) {
+    console.log(`Added ${modelName}Paths and Definitions to SwaggerConfig`);
+  }
+}
 async function promptInputs() {
   const answers = await inquirer.prompt([
     {
@@ -307,6 +366,7 @@ async function promptInputs() {
     addImportsToInversifyConfig(modelName);
     addImportsToV1Routes(modelName);
     generateSwaggerPath(modelName);
+    addImportsToSwaggerConfig(modelName);
 
     console.log(`Files for ${modelName} created successfully!`);
   } catch (err) {

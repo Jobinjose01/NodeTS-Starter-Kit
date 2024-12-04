@@ -1,12 +1,12 @@
 import swaggerUi from 'swagger-ui-express';
 import { Application } from 'express';
 
-// Path Imports
+// Path & definition Imports
 import authPaths from './paths/authPaths';
 import rolePaths from './paths/rolePaths';
 import userPaths from './paths/userPaths';
 import permissionPaths from './paths/permissionPaths';
-import languagePaths from './paths/languagePaths';
+// Path Imports ends
 
 // Definition Imports
 import authDefinitions from './definitions/authDefinitions';
@@ -14,7 +14,7 @@ import roleDefinitions from './definitions/roleDefinitions';
 import commonDefinitions from './definitions/commonDefinitions';
 import userDefinition from './definitions/userDefinitions';
 import permissionDefinitions from './definitions/permissionDefinitions';
-import languageDefinitions from './definitions/languageDefinition';
+// Definition Imports ends
 
 const swaggerDocument = {
     openapi: '3.0.0',
@@ -39,21 +39,19 @@ const swaggerDocument = {
         },
     },
     paths: {
-        // register new paths here
         ...authPaths,
         ...rolePaths,
         ...userPaths,
         ...permissionPaths,
-        ...languagePaths,
+        // register new paths here
     },
     definitions: {
-        // register new defintions here
         ...authDefinitions,
         ...roleDefinitions,
         ...commonDefinitions,
         ...userDefinition,
         ...permissionDefinitions,
-        ...languageDefinitions,
+        // register new defintions here
     },
 };
 

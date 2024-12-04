@@ -49,7 +49,7 @@ const ${modelName}Paths = {
     },
     '/api/v1/${modelName}/{id}': {
         get: {
-            summary: 'Get role by ID',
+            summary: 'Get ${ModelName} by ID',
             description: 'Endpoint to retrieve a ${modelName} by ID',
             security: [{ bearerAuth: [] }],
             tags: ['${ModelName}'],
@@ -66,7 +66,7 @@ const ${modelName}Paths = {
                     description: '${ModelName} found',
                 },
                 '404': {
-                    description: 'Role not found',
+                    description: '${ModelName} not found',
                 },
                 '500': {
                     description: 'Internal server error',
@@ -75,7 +75,7 @@ const ${modelName}Paths = {
         },
         put: {
             tags: ['${ModelName}'],
-            summary: 'Update an existing role',
+            summary: 'Update an existing ${ModelName}',
             description: 'Updates a ${modelName} with the given ID.',
             security: [{ bearerAuth: [] }],
             operationId: 'update${ModelName}',
@@ -112,7 +112,7 @@ const ${modelName}Paths = {
                     },
                 },
                 '404': {
-                    description: 'Role not found',
+                    description: '${ModelName} not found',
                     schema: {
                         $ref: '#/definitions/Error',
                     },
