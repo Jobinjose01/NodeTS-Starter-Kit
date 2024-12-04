@@ -4,7 +4,6 @@ import UserRoutes from './userRoutes';
 import PermissionRoutes from './permissionRoutes';
 import LoginRoutes from './loginRoutes';
 import RoleRoutes from './roleRoutes';
-
 const router = Router();
 
 // Version 1 Routes
