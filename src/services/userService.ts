@@ -4,11 +4,18 @@ import { injectable } from 'inversify';
 import { UserFilterDTO } from '../dtos/UserFilterDTO';
 import { PaginationDTO } from '../dtos/PaginationDTO';
 import { UserResponse } from '../types/UserResponse';
+import { BaseService } from './BaseService';
 
 const prisma = new PrismaClient();
 
 @injectable()
-export class UserService {
+export class UserService extends BaseService<User> {
+    protected model: any;
+    constructor() {
+        super();
+        this.model = prisma.user;
+    }
+
     async createUser(data: User): Promise<User> {
         const token = data.token || ''; // Or any other default value you prefer
 

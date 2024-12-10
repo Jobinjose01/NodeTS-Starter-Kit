@@ -5,13 +5,15 @@ import { User } from '../models/User';
 import bcrypt from 'bcrypt';
 import { inject, injectable } from 'inversify';
 import { UserFilterDTO } from '../dtos/UserFilterDTO';
+import { BaseController } from './BaseController';
 
 @injectable()
-export class UserController {
-    private userService: UserService;
+export class UserController extends BaseController<UserService> {
+    protected service: UserService;
 
     constructor(@inject(UserService) userService: UserService) {
-        this.userService = userService;
+        super();
+        this.service = userService;
     }
 
     async createUser(
@@ -42,7 +44,7 @@ export class UserController {
         };
 
         try {
-            const createdUser = await this.userService.createUser(userData);
+            const createdUser = await this.service.createUser(userData);
             res.status(201).json({
                 message: res.__('user.USER_CREATED_SUCCESSFULLY'),
                 result: handleUserResponse(createdUser),
@@ -81,9 +83,9 @@ export class UserController {
                 password: hashedPassword,
                 updatedAt: new Date(),
             };
-            const user = await this.userService.getUserById(userId);
+            const user = await this.service.getUserById(userId);
             if (user) {
-                const updatedUser = await this.userService.updateUser(
+                const updatedUser = await this.service.updateUser(
                     userId,
                     userDataToUpdate,
                 );
@@ -114,7 +116,7 @@ export class UserController {
     ): Promise<void> {
         const userId = parseInt(req.params.id);
         try {
-            await this.userService.deleteUser(userId);
+            await this.service.deleteUser(userId);
             res.status(200).json({
                 message: res.__('user.USER_DELETED_SUCCESSFULLY'),
             });
@@ -130,7 +132,7 @@ export class UserController {
     ): Promise<void> {
         const userId = parseInt(req.params.id);
         try {
-            const user = await this.userService.getUserById(userId);
+            const user = await this.service.getUserById(userId);
             if (user) {
                 res.status(200).json({
                     message: res.__('user.USER_FETCHED'),
@@ -163,7 +165,7 @@ export class UserController {
             };
 
             const { users, pagination } =
-                await this.userService.getAllUsers(filters);
+                await this.service.getAllUsers(filters);
             if (users) {
                 res.status(200).json({
                     message: res.__('user.USERS_FETCHED'),
