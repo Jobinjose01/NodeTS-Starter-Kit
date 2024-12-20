@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 @injectable()
 export class PermissionService extends BaseService<RolePermission> {
     protected model: any;
+    protected relatedModels: any;
     constructor() {
         super();
         this.model = prisma.rolePermission;

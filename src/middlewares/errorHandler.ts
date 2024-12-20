@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 import { formatErrors } from '../utils/errorFormatter';
 import logger from '../utils/logger';
+import { AppError } from './appError';
 
 export const errorHandler = (
     err: Error,
@@ -25,6 +26,14 @@ export const errorHandler = (
     if (err.name === 'FileFormatError') {
         return res.status(400).json({
             status: 'fail',
+            message: err.message,
+        });
+    }
+
+    if (err instanceof AppError) {
+        return res.status(err.statusCode).json({
+            status: 'fail',
+            error: err.type,
             message: err.message,
         });
     }
