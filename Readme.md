@@ -37,6 +37,16 @@ if you want to run a specific seeder only
 provide your schema table name and Permission name 
 eg: Language
 
+### Delete Restrict with ForienKey Data
+Use soemthing like this in constructor 
+
+`
+this.relatedModels = [
+            { relatedModel: prisma.user, foreignKey: 'roleId' },
+            { relatedModel: prisma.rolePermission, foreignKey: 'roleId' },
+        ];
+`
+
 
 ### Run the app
 
