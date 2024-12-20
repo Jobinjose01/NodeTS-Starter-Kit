@@ -97,7 +97,12 @@ export abstract class BaseService<T> {
     async checkRelatedData(id: number): Promise<void> {
         for (const { relatedModel, foreignKey } of this.relatedModels) {
             const count = await relatedModel.count({
-                where: { [foreignKey]: id },
+                where: {
+                    [foreignKey]: id,
+                    deletedAt: {
+                        not: null,
+                    },
+                },
             });
 
             if (count > 0) {
