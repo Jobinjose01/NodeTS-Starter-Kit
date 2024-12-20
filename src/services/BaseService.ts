@@ -1,12 +1,19 @@
 import { PrismaClient } from '@prisma/client';
 import { injectable } from 'inversify';
 import { PaginationDTO } from '../dtos/PaginationDTO';
+import { createConflictError } from '../utils/errorHelper';
 
 const prisma = new PrismaClient();
+
+type RelatedModelConfig = {
+    relatedModel: any;
+    foreignKey: string;
+};
 
 @injectable()
 export abstract class BaseService<T> {
     protected abstract model: any;
+    protected relatedModels: RelatedModelConfig[] = [];
 
     // Create a record
     async create(data: T): Promise<T> {
@@ -79,9 +86,23 @@ export abstract class BaseService<T> {
 
     // Delete a record by ID (soft delete for now)
     async delete(id: number): Promise<void> {
+        await this.checkRelatedData(id);
         await this.model.update({
             where: { id },
             data: { deletedAt: new Date() },
         });
+    }
+
+    // Check if related data exists in all configured related models
+    async checkRelatedData(id: number): Promise<void> {
+        for (const { relatedModel, foreignKey } of this.relatedModels) {
+            const count = await relatedModel.count({
+                where: { [foreignKey]: id },
+            });
+
+            if (count > 0) {
+                throw createConflictError(`Cannot delete: Related data exists`);
+            }
+        }
     }
 }
