@@ -97,9 +97,12 @@ export abstract class BaseService<T> {
     async checkRelatedData(id: number): Promise<void> {
         for (const { relatedModel, foreignKey } of this.relatedModels) {
             const count = await relatedModel.count({
-                where: { [foreignKey]: id },
+                where: {
+                    [foreignKey]: id,
+                    deletedAt: null,
+                },
             });
-
+            console.log(count);
             if (count > 0) {
                 throw createConflictError(`Cannot delete: Related data exists`);
             }
