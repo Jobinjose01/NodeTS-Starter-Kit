@@ -1,9 +1,8 @@
 import { injectable } from 'inversify';
 import { BaseService } from './BaseService';
 import { RolePermission } from '../models/RolePermission';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../config/prismaClient';
 
-const prisma = new PrismaClient();
 @injectable()
 export class PermissionService extends BaseService<RolePermission> {
     protected model: any;

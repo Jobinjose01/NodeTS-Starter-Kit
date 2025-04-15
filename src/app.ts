@@ -10,13 +10,12 @@ import { errorHandler } from './middlewares/errorHandler';
 
 import path from 'path';
 import appConfig from './config/appConfig';
+import prisma from './config/prismaClient';
 
 // Load environment variables from .env file
 dotenv.config();
 
 const app = express();
-
-const prisma = new PrismaClient();
 
 const corsOptions = {
     origin: '*',

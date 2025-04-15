@@ -5,10 +5,11 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { PermissionService } from './permissionService';
 import { handleUserResponse } from '../responseHandlers/UserResponseHandler';
+import prisma from '../config/prismaClient';
 
 @injectable()
 export class LoginService {
-    private prisma = new PrismaClient();
+    private prisma = prisma;
     private permissionService: PermissionService;
     private secret: string = process.env.JWT_SECRET || 'your_jwt_secret'; // Ensure this is set in your environment
 

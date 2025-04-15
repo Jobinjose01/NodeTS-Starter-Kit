@@ -1,12 +1,11 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { User } from '../models/User';
 import { injectable } from 'inversify';
 import { UserFilterDTO } from '../dtos/UserFilterDTO';
 import { PaginationDTO } from '../dtos/PaginationDTO';
 import { UserResponse } from '../types/UserResponse';
 import { BaseService } from './BaseService';
-
-const prisma = new PrismaClient();
+import prisma from '../config/prismaClient';
 
 @injectable()
 export class UserService extends BaseService<User> {

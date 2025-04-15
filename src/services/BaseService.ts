@@ -3,8 +3,6 @@ import { injectable } from 'inversify';
 import { PaginationDTO } from '../dtos/PaginationDTO';
 import { createConflictError } from '../utils/errorHelper';
 
-const prisma = new PrismaClient();
-
 type RelatedModelConfig = {
     relatedModel: any;
     foreignKey: string;

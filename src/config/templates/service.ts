@@ -1,9 +1,7 @@
 import { injectable } from 'inversify';
 import { BaseService } from './BaseService';
 import { ${ModelName} } from '../models/${ModelName}';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import  prisma  from '../prismaClient';
 @injectable()
 export class ${ModelName}Service extends BaseService<${ModelName}> {
     protected model: any;

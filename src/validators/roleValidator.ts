@@ -1,8 +1,6 @@
-import { PrismaClient } from '@prisma/client';
 import { body, param, ValidationChain } from 'express-validator';
 import i18n from 'i18n';
-
-const prisma = new PrismaClient();
+import prisma from '../config/prismaClient';
 
 export const roleValidationRules = (): ValidationChain[] => {
     return [

@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-
-const prisma = new PrismaClient();
+import prisma from '../config/prismaClient';
 
 const checkPermissions = (
     requiredPermissions: {
