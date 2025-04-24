@@ -31,32 +31,50 @@ function getTypeValidation(type: string): string {
 }
 
 function extractModelDefinition(modelName: string): { fields: string[]; types: string[]; optionalFields: Set<string> } {
-    const modelRegex = new RegExp(`model ${modelName} {([\\s\\S]*?)}`, 'm');
-    const match = schemaContent.match(modelRegex);
+  const modelRegex = new RegExp(`model ${modelName} {([\\s\\S]*?)}`, 'm');
+  const match = schemaContent.match(modelRegex);
 
-    if (!match) throw new Error(`Model ${modelName} not found in schema.prisma`);
+  if (!match) throw new Error(`Model ${modelName} not found in schema.prisma`);
 
-    const fieldLines = match[1].trim().split('\n');
+  const fieldLines = match[1].trim().split('\n');
 
-    const fields: string[] = [];
-    const types: string[] = [];
-    const optionalFields: Set<string> = new Set();
+  const fields: string[] = [];
+  const types: string[] = [];
+  const optionalFields: Set<string> = new Set();
 
-    for (const line of fieldLines) {
-        const [field, type, ...rest] = line.trim().split(/\s+/);
-        const isOptional = type.endsWith('?') || field === 'id' || field === 'deletedAt';
-        const isArray = type.endsWith('[]');
-        const baseType = type.replace(/[?\[\]]/g, ''); // Remove `?` and `[]`
+  let skipRest = false;
 
-        fields.push(field);
-        types.push(`${baseType}${isArray ? '[]' : ''}`);
-        if (isOptional) {
-            optionalFields.add(field);
-        }
-    }
+  for (const line of fieldLines) {
+      const trimmedLine = line.trim();
 
-    return { fields, types, optionalFields };
+      if (!trimmedLine || trimmedLine.startsWith('//')) {
+          // If this is the relation marker, skip the rest
+          if (trimmedLine.toLowerCase().includes('relation starts')) {
+              skipRest = true;
+          }
+          continue;
+      }
+
+      if (skipRest) continue;
+
+      const [field, type, ...rest] = trimmedLine.split(/\s+/);
+      if (!field || !type) continue;
+
+      const isOptional = type.endsWith('?') || field === 'id' || field === 'deletedAt';
+      const isArray = type.endsWith('[]');
+      const baseType = type.replace(/[?\[\]]/g, '');
+
+      fields.push(field);
+      types.push(`${baseType}${isArray ? '[]' : ''}`);
+      if (isOptional) {
+          optionalFields.add(field);
+      }
+  }
+
+  return { fields, types, optionalFields };
 }
+
+
 
 function extractValidationRules(modelName: string) {
   const modelRegex = new RegExp(`model ${modelName} {([\\s\\S]*?)}`, 'm');
@@ -69,9 +87,25 @@ function extractValidationRules(modelName: string) {
   const fieldLines = match[1].trim().split('\n');
   const validationRules: string[] = [];
   const updateRules: string[] = [];
-
+  let skipRest = false;
   for (const line of fieldLines) {
+
+      const trimmedLine = line.trim();
+
+      // Skip empty lines or comment lines
+      if (!trimmedLine || trimmedLine.startsWith('//')) {
+        // If this is the relation marker, skip the rest
+        if (trimmedLine.toLowerCase().includes('relation starts')) {
+            skipRest = true;
+        }
+        continue;
+      }
+
+      if (skipRest) continue;
+
       const [field, type, ...rest] = line.trim().split(/\s+/);
+
+      if (!field || !type) continue; // Safeguard against malformed lines
 
       // Skip system fields
       if (['id', 'createdAt', 'updatedAt', 'deletedAt'].includes(field)) {

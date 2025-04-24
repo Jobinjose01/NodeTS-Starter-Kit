@@ -15,6 +15,8 @@ model Role {
     createdAt       DateTime         @default(now())
     updatedAt       DateTime         @updatedAt
     deletedAt       DateTime? // Nullable deletedAt field
+    
+    //Relation starts below
     users           User[]
     rolePermissions RolePermission[]
 }
@@ -34,6 +36,7 @@ model User {
     updatedAt DateTime  @updatedAt
     deletedAt DateTime? 
 
+    //Relation starts below
     @@map("Users") // Set table name to "users"
 }
 
@@ -43,6 +46,8 @@ model Permission {
     createdAt       DateTime         @default(now())
     updatedAt       DateTime         @updatedAt
     deletedAt       DateTime?
+
+    //Relation starts below
     rolePermissions RolePermission[]
 }
 
@@ -58,6 +63,7 @@ model RolePermission {
     updatedAt    DateTime  @updatedAt
     deletedAt    DateTime?
 
+    //Relation starts below
     role       Role       @relation(fields: [roleId], references: [id])
     permission Permission @relation(fields: [permissionId], references: [id])
 
