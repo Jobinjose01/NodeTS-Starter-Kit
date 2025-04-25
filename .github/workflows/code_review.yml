@@ -4,52 +4,60 @@ on:
   pull_request:
     types: [opened, synchronize]
 
+permissions:
+  pull-requests: write
+  contents: read
+
 jobs:
   code-review:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install GitHub CLI
+        run: sudo apt-get install gh -y
+
       - name: Get PR Diff
         id: get_diff
         run: |
-          echo "DIFF<<EOF" >> $GITHUB_ENV
-          gh pr diff ${{ github.event.pull_request.number }} >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          gh pr diff ${{ github.event.pull_request.number }} > diff.txt
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Send diff to OpenWebUI
         id: ai_review
         run: |
+          DIFF=$(jq -Rs . < diff.txt)
+
           RESPONSE=$(curl -s -X POST "$OPENWEBUI_API_URL" \
             -H "Authorization: Bearer $OPENWEBUI_TOKEN" \
             -H "Content-Type: application/json" \
-            -d '{
-              "model": "qwen2.5-coder:7b",
-              "messages": [
-                {
-                  "role": "system",
-                  "content": "You are an expert code reviewer. Analyze the following diff and suggest improvements:"
-                },
-                {
-                  "role": "user",
-                  "content": "'"${{ env.DIFF }}"'"
-                }
-              ]
-            }')
+            -d @- <<EOF
+{
+  "model": "qwen2.5-coder:7b",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are an expert code reviewer. Analyze the following diff and suggest improvements:"
+    },
+    {
+      "role": "user",
+      "content": $DIFF
+    }
+  ]
+}
+EOF
+          )
 
-          echo "REVIEW_RESPONSE<<EOF" >> $GITHUB_ENV
-          echo "$RESPONSE" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "$RESPONSE" > review.md
         env:
           OPENWEBUI_API_URL: ${{ secrets.OPENWEBUI_API_URL }}
           OPENWEBUI_TOKEN: ${{ secrets.OPENWEBUI_TOKEN }}
 
       - name: Comment on PR
         run: |
-          echo "${{ env.REVIEW_RESPONSE }}" > review.md
           gh pr comment ${{ github.event.pull_request.number }} -F review.md
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
