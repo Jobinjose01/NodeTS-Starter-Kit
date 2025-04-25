@@ -1,21 +1,55 @@
-name: Automated Code Review
+name: AI Code Review
 
 on:
   pull_request:
-    branches:
-      - master
+    types: [opened, synchronize]
 
 jobs:
-  code_review:
+  code-review:
     runs-on: ubuntu-latest
-    name: Ollama Code Review Job
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Ollama Code Review
-        uses: ./.github/actions/ollama-code-review
-        with:
-          llm-model: 'codegemma'
+      - name: Get PR Diff
+        id: get_diff
+        run: |
+          echo "DIFF<<EOF" >> $GITHUB_ENV
+          gh pr diff ${{ github.event.pull_request.number }} >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Send diff to OpenWebUI
+        id: ai_review
+        run: |
+          RESPONSE=$(curl -s -X POST "$OPENWEBUI_API_URL" \
+            -H "Authorization: Bearer $OPENWEBUI_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "model": "qwen2.5-coder:7b",
+              "messages": [
+                {
+                  "role": "system",
+                  "content": "You are an expert code reviewer. Analyze the following diff and suggest improvements:"
+                },
+                {
+                  "role": "user",
+                  "content": "'"${{ env.DIFF }}"'"
+                }
+              ]
+            }')
+
+          echo "REVIEW_RESPONSE<<EOF" >> $GITHUB_ENV
+          echo "$RESPONSE" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+        env:
+          OPENWEBUI_API_URL: ${{ secrets.OPENWEBUI_API_URL }}
+          OPENWEBUI_TOKEN: ${{ secrets.OPENWEBUI_TOKEN }}
+
+      - name: Comment on PR
+        run: |
+          echo "${{ env.REVIEW_RESPONSE }}" > review.md
+          gh pr comment ${{ github.event.pull_request.number }} -F review.md
+        env:
+          GH_TOKEN: ${{ github.token }}
