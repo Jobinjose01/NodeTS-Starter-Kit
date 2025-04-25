@@ -44,32 +44,27 @@ jobs:
 
             split -l 100 file.diff chunk_
 
-            chunk_index=1
             for chunk_file in chunk_*; do
               DIFF=$(jq -Rs . < "$chunk_file")
 
-              cat > payload.json <<EOF
-{
-  "model": "qwen2.5-coder:7b",
-  "messages": [
-    {
-      "role": "system",
-      "content": "You are an expert code reviewer. Please analyze the following code diff and suggest line-by-line improvements. Include the line numbers where possible."
-    },
-    {
-      "role": "user",
-      "content": $DIFF
-    }
-  ]
-}
-EOF
+              echo "{
+                \"model\": \"qwen2.5-coder:7b\",
+                \"messages\": [
+                  {
+                    \"role\": \"system\",
+                    \"content\": \"You are an expert code reviewer. Please analyze the following code diff and suggest line-by-line improvements. Include the line numbers where possible.\"
+                  },
+                  {
+                    \"role\": \"user\",
+                    \"content\": $DIFF
+                  }
+                ]
+              }" > payload.json
 
               RESPONSE=$(curl -s -X POST "$OPENWEBUI_API_URL" \
                 -H "Authorization: Bearer $OPENWEBUI_TOKEN" \
                 -H "Content-Type: application/json" \
                 -d @payload.json)
-
-              rm payload.json
 
               while IFS= read -r line; do
                 LINE_NUMBER=$(echo "$line" | grep -oP "Line \K\d+")
@@ -81,10 +76,9 @@ EOF
                 fi
               done <<< "$RESPONSE"
 
-              chunk_index=$((chunk_index+1))
             done
 
-            rm chunk_*
+            rm chunk_* payload.json
           done < files.txt
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
