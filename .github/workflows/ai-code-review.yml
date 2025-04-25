@@ -48,10 +48,7 @@ jobs:
             for chunk_file in chunk_*; do
               DIFF=$(jq -Rs . < "$chunk_file")
 
-              RESPONSE=$(curl -s -X POST "$OPENWEBUI_API_URL" \
-                -H "Authorization: Bearer $OPENWEBUI_TOKEN" \
-                -H "Content-Type: application/json" \
-                -d @- <<EOF
+              cat > payload.json <<EOF
 {
   "model": "qwen2.5-coder:7b",
   "messages": [
@@ -66,12 +63,15 @@ jobs:
   ]
 }
 EOF
-              )
 
-              # Parse AI's response for line-by-line suggestions
-              # Here we assume the AI returns line numbers and suggestions like: "Line 20: Rename function"
+              RESPONSE=$(curl -s -X POST "$OPENWEBUI_API_URL" \
+                -H "Authorization: Bearer $OPENWEBUI_TOKEN" \
+                -H "Content-Type: application/json" \
+                -d @payload.json)
+
+              rm payload.json
+
               while IFS= read -r line; do
-                # Assuming AI response is structured in a way where line numbers are referenced
                 LINE_NUMBER=$(echo "$line" | grep -oP "Line \K\d+")
                 COMMENT=$(echo "$line" | sed 's/Line [0-9]*: //')
 
