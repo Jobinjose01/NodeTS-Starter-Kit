@@ -2,7 +2,8 @@ name: AI Code Review
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    branches:
+      - master
 
 permissions:
   pull-requests: write
