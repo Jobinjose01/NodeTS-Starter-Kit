@@ -72,7 +72,7 @@ jobs:
 
                 if [ ! -z "$LINE_NUMBER" ] && [ ! -z "$COMMENT" ]; then
                   echo "📝 Commenting on line $LINE_NUMBER: $COMMENT"
-                  gh pr comment ${{ github.event.pull_request.number }} --body "$COMMENT" --path "$file" --line "$LINE_NUMBER"
+                  gh pr review ${{ github.event.pull_request.number }} --comment --body "$COMMENT" --path "$file" --line "$LINE_NUMBER"
                 fi
               done <<< "$RESPONSE"
 
@@ -85,8 +85,3 @@ jobs:
           OPENWEBUI_API_URL: ${{ secrets.OPENWEBUI_API_URL }}
           OPENWEBUI_TOKEN: ${{ secrets.OPENWEBUI_TOKEN }}
 
-      - name: Post review as PR comment
-        run: |
-          gh pr comment ${{ github.event.pull_request.number }} -F review.md
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
