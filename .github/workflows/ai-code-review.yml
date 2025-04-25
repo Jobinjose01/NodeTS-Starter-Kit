@@ -72,7 +72,7 @@ jobs:
 
                 if [ ! -z "$LINE_NUMBER" ] && [ ! -z "$COMMENT" ]; then
                   echo "📝 Commenting on line $LINE_NUMBER: $COMMENT"
-                  gh pr review ${{ github.event.pull_request.number }} --comment --body "$COMMENT" --path "$file" --line "$LINE_NUMBER"
+                  gh pr review ${{ github.event.pull_request.number }} --comment --body "$COMMENT"
                 fi
               done <<< "$RESPONSE"
 
