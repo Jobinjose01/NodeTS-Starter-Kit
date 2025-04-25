@@ -80,7 +80,7 @@ jobs:
             cat review.md
             echo "======================"
             ESCAPED_BODY=$(jq -Rs . < review.md)
-            gh pr comment ${{ github.event.pull_request.number }} --body "$ESCAPED_BODY"
+            #gh pr comment ${{ github.event.pull_request.number }} --body "$ESCAPED_BODY"
           else
             echo "No suggestions generated"
           fi
