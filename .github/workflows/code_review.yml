@@ -9,38 +9,54 @@ permissions:
   contents: read
 
 jobs:
-  code-review:
+  ai-code-review:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout PR code
         uses: actions/checkout@v3
 
-      - name: Install GitHub CLI
-        run: sudo apt-get install gh -y
-
-      - name: Get PR Diff
-        id: get_diff
+      - name: Install dependencies
         run: |
-          gh pr diff ${{ github.event.pull_request.number }} > diff.txt
+          sudo apt-get update
+          sudo apt-get install gh jq -y
+
+      - name: Get list of changed files
+        run: |
+          gh pr diff ${{ github.event.pull_request.number }} --name-only > files.txt
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Send diff to OpenWebUI
-        id: ai_review
-        run: |
-          DIFF=$(jq -Rs . < diff.txt)
+      - name: Initialize review output file
+        run: echo "## 🤖 AI Code Review\n" > review.md
 
-          RESPONSE=$(curl -s -X POST "$OPENWEBUI_API_URL" \
-            -H "Authorization: Bearer $OPENWEBUI_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d @- <<EOF
+      - name: Analyze and comment on code changes
+        run: |
+          while IFS= read -r file; do
+            if [[ ! "$file" =~ \.(js|ts|tsx|php|py)$ ]]; then
+              echo "⏭️ Skipping unsupported file: $file"
+              continue
+            fi
+
+            echo "🔍 Reviewing $file..."
+            gh pr diff ${{ github.event.pull_request.number }} -- "$file" > file.diff
+
+            split -l 100 file.diff chunk_
+
+            chunk_index=1
+            for chunk_file in chunk_*; do
+              DIFF=$(jq -Rs . < "$chunk_file")
+
+              RESPONSE=$(curl -s -X POST "$OPENWEBUI_API_URL" \
+                -H "Authorization: Bearer $OPENWEBUI_TOKEN" \
+                -H "Content-Type: application/json" \
+                -d @- <<EOF
 {
   "model": "qwen2.5-coder:7b",
   "messages": [
     {
       "role": "system",
-      "content": "You are an expert code reviewer. Analyze the following diff and suggest improvements:"
+      "content": "You are an expert code reviewer. Please analyze the following code diff and suggest line-by-line improvements. Include the line numbers where possible."
     },
     {
       "role": "user",
@@ -49,14 +65,32 @@ jobs:
   ]
 }
 EOF
-          )
+              )
 
-          echo "$RESPONSE" > review.md
+              # Parse AI's response for line-by-line suggestions
+              # Here we assume the AI returns line numbers and suggestions like: "Line 20: Rename function"
+              while IFS= read -r line; do
+                # Assuming AI response is structured in a way where line numbers are referenced
+                LINE_NUMBER=$(echo "$line" | grep -oP "Line \K\d+")
+                COMMENT=$(echo "$line" | sed 's/Line [0-9]*: //')
+
+                if [ ! -z "$LINE_NUMBER" ] && [ ! -z "$COMMENT" ]; then
+                  echo "📝 Commenting on line $LINE_NUMBER: $COMMENT"
+                  gh pr comment ${{ github.event.pull_request.number }} --body "$COMMENT" --line "$LINE_NUMBER" --path "$file"
+                fi
+              done <<< "$RESPONSE"
+
+              chunk_index=$((chunk_index+1))
+            done
+
+            rm chunk_*
+          done < files.txt
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENWEBUI_API_URL: ${{ secrets.OPENWEBUI_API_URL }}
           OPENWEBUI_TOKEN: ${{ secrets.OPENWEBUI_TOKEN }}
 
-      - name: Comment on PR
+      - name: Post review as PR comment
         run: |
           gh pr comment ${{ github.event.pull_request.number }} -F review.md
         env:
