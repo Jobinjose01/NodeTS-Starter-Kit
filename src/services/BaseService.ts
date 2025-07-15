@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import { injectable } from 'inversify';
 import { PaginationDTO } from '../dtos/PaginationDTO';
 import { createConflictError } from '../utils/errorHelper';
+import { filterFields } from '../utils/utils';
 
 type RelatedModelConfig = {
     relatedModel: any;
@@ -9,14 +9,18 @@ type RelatedModelConfig = {
 };
 
 @injectable()
-export abstract class BaseService<T> {
+export abstract class BaseService<T extends object> {
     protected abstract model: any;
+    protected insertableFields: (keyof T)[] = [];
+    protected updatableFields: (keyof T)[] = [];
     protected relatedModels: RelatedModelConfig[] = [];
+    protected customIncludes: any;
 
     // Create a record
     async create(data: T): Promise<T> {
+        const filteredData = filterFields(data, this.insertableFields);
         return await this.model.create({
-            data,
+            data: filteredData,
         });
     }
 
@@ -50,6 +54,7 @@ export abstract class BaseService<T> {
             orderBy,
             skip: (page - 1) * limit,
             take: limit,
+            ...(this.customIncludes ? { include: this.customIncludes } : {}),
         });
 
         const totalPages = Math.ceil(totalRecords / limit);
@@ -76,9 +81,10 @@ export abstract class BaseService<T> {
 
     // Update a record by ID
     async update(id: number, data: Partial<T>): Promise<T> {
+        const filteredData = filterFields(data, this.updatableFields);
         return await this.model.update({
             where: { id },
-            data,
+            data: filteredData,
         });
     }
 

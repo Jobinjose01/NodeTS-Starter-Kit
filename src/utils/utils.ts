@@ -15,3 +15,21 @@ export function getUserIdFromToken(authorizationHeader: string): number | null {
         return null;
     }
 }
+
+export function filterFields<T extends object>(
+    data: Partial<T>,
+    allowedFields?: (keyof T)[],
+): Partial<T> {
+    // If no fields are restricted, return the original data as-is
+    if (!allowedFields || allowedFields.length === 0) {
+        return data;
+    }
+
+    const filtered: Partial<T> = {};
+    for (const key of allowedFields) {
+        if (key in data) {
+            filtered[key] = data[key];
+        }
+    }
+    return filtered;
+}
