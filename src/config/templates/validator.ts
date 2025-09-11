@@ -2,7 +2,7 @@
 import { PrismaClient } from '@prisma/client';
 import { body, ValidationChain } from 'express-validator';
 import i18n from 'i18n';
-import  prisma  from '../prismaClient';
+import prisma from '../config/prismaClient';
 
 
 export const ${modelName}ValidationRules = (): ValidationChain[] => {
