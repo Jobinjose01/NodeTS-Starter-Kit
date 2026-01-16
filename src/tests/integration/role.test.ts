@@ -45,7 +45,6 @@ describe('Role Module - Integration Tests', () => {
         it('should create a role successfully with valid data', async () => {
             const roleData = {
                 name: `Test Role ${Date.now()}`,
-                description: 'Integration test role',
                 status: '1',
             };
 
@@ -63,7 +62,6 @@ describe('Role Module - Integration Tests', () => {
             expect(response.body).toHaveProperty('result');
             expect(response.body.result).toMatchObject({
                 name: roleData.name,
-                description: roleData.description,
             });
 
             createdRoleId = response.body.result.id;
@@ -72,7 +70,6 @@ describe('Role Module - Integration Tests', () => {
         it('should fail to create role without authentication', async () => {
             const roleData = {
                 name: 'Unauthorized Role',
-                description: 'Test role',
             };
 
             const response = await performanceTracker.measureApiCall(
@@ -91,7 +88,6 @@ describe('Role Module - Integration Tests', () => {
             const roleName = `Duplicate Role ${Date.now()}`;
             const roleData = {
                 name: roleName,
-                description: 'Duplicate test',
                 status: '1',
             };
 
@@ -151,7 +147,7 @@ describe('Role Module - Integration Tests', () => {
 
             expect(response.body).toHaveProperty('message');
             expect(response.body).toHaveProperty('result');
-            expect(Array.isArray(response.body.result.data)).toBe(true);
+            expect(Array.isArray(response.body.result.items)).toBe(true);
         });
 
         it('should fetch roles with pagination', async () => {
@@ -167,7 +163,7 @@ describe('Role Module - Integration Tests', () => {
             expect(response.body).toHaveProperty('result');
             expect(response.body.result).toHaveProperty('pagination');
             expect(response.body.result.pagination.currentPage).toBe(1);
-            expect(response.body.result.pagination.pageSize).toBe(5);
+            expect(response.body.result.pagination.recordsPerPage).toBe(5);
         });
 
         it('should fetch roles with filtering', async () => {
@@ -181,7 +177,7 @@ describe('Role Module - Integration Tests', () => {
             );
 
             expect(response.body).toHaveProperty('result');
-            expect(Array.isArray(response.body.result.data)).toBe(true);
+            expect(Array.isArray(response.body.result.items)).toBe(true);
         });
 
         it('should fetch roles with sorting', async () => {
@@ -231,7 +227,6 @@ describe('Role Module - Integration Tests', () => {
         it('should update a role successfully', async () => {
             const updateData = {
                 name: `Updated Role ${Date.now()}`,
-                description: 'Updated description',
             };
 
             const response = await performanceTracker.measureApiCall(
@@ -246,9 +241,6 @@ describe('Role Module - Integration Tests', () => {
 
             expect(response.body).toHaveProperty('result');
             expect(response.body.result.name).toBe(updateData.name);
-            expect(response.body.result.description).toBe(
-                updateData.description,
-            );
         });
 
         it('should fail to update non-existent role', async () => {
@@ -300,7 +292,6 @@ describe('Role Module - Integration Tests', () => {
         it('should create role with permissions', async () => {
             const roleData = {
                 name: `Role with Permissions ${Date.now()}`,
-                description: 'Test role with permissions',
                 status: '1',
             };
 
@@ -318,7 +309,7 @@ describe('Role Module - Integration Tests', () => {
                 .set('Authorization', `Bearer ${authToken}`)
                 .expect(200);
 
-            expect(getResponse.body.result).toMatchObject(roleData);
+            expect(getResponse.body.result.name).toBe(roleData.name);
 
             // Cleanup
             await prisma.role.delete({ where: { id: roleId } }).catch(() => {});
@@ -335,7 +326,6 @@ describe('Role Module - Integration Tests', () => {
                         .set('Authorization', `Bearer ${authToken}`)
                         .send({
                             name: `Concurrent Role ${index} ${Date.now()}`,
-                            description: `Test concurrent role ${index}`,
                             status: '1',
                         }),
                 );

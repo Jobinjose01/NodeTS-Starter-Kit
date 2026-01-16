@@ -59,9 +59,17 @@ describe('User Module - Integration Tests', () => {
                     request(app)
                         .post('/api/v1/user')
                         .set('Authorization', `Bearer ${authToken}`)
-                        .send(userData)
-                        .expect(201),
+                        .send(userData),
             );
+
+            if (response.status !== 201) {
+                console.error(
+                    'Create user failed:',
+                    response.status,
+                    response.body,
+                );
+            }
+            expect(response.status).toBe(201);
 
             expect(response.body).toHaveProperty('message');
             expect(response.body).toHaveProperty('result');
@@ -164,7 +172,8 @@ describe('User Module - Integration Tests', () => {
 
             expect(response.body).toHaveProperty('message');
             expect(response.body).toHaveProperty('result');
-            expect(Array.isArray(response.body.result.data)).toBe(true);
+            expect(response.body.result).toHaveProperty('items');
+            expect(Array.isArray(response.body.result.items)).toBe(true);
         });
 
         it('should fetch users with pagination', async () => {
@@ -180,7 +189,7 @@ describe('User Module - Integration Tests', () => {
             expect(response.body).toHaveProperty('result');
             expect(response.body.result).toHaveProperty('pagination');
             expect(response.body.result.pagination.currentPage).toBe(1);
-            expect(response.body.result.pagination.pageSize).toBe(5);
+            expect(response.body.result.pagination.recordsPerPage).toBe(5);
         });
 
         it('should fetch users with filtering', async () => {
@@ -194,7 +203,8 @@ describe('User Module - Integration Tests', () => {
             );
 
             expect(response.body).toHaveProperty('result');
-            expect(Array.isArray(response.body.result.data)).toBe(true);
+            expect(response.body.result).toHaveProperty('items');
+            expect(Array.isArray(response.body.result.items)).toBe(true);
         });
 
         it('should fetch users with sorting', async () => {
@@ -253,9 +263,17 @@ describe('User Module - Integration Tests', () => {
                     request(app)
                         .put(`/api/v1/user/${createdUserId}`)
                         .set('Authorization', `Bearer ${authToken}`)
-                        .send(updateData)
-                        .expect(200),
+                        .send(updateData),
             );
+
+            if (response.status !== 200) {
+                console.error(
+                    'Update user failed:',
+                    response.status,
+                    response.body,
+                );
+            }
+            expect(response.status).toBe(200);
 
             expect(response.body).toHaveProperty('result');
             expect(response.body.result.firstName).toBe('Updated');

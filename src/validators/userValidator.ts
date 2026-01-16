@@ -46,21 +46,35 @@ export const userValidationRules = (): ValidationChain[] => {
                     'validator.PASSWORD_MUST_BE_AT_LEAST_6_CHARACTERS_LONG',
                 ),
             ),
+        body('roleId')
+            .optional()
+            .toInt()
+            .isInt()
+            .withMessage(i18n.__('validator.ROLE_ID_MUST_BE_A_VALID_NUMBER')),
+        body('status')
+            .optional()
+            .toInt()
+            .isInt()
+            .withMessage(i18n.__('validator.STATUS_MUST_BE_A_VALID_NUMBER')),
     ];
 };
 
 export const userUpdateValidationRules = () => {
     return [
         param('id')
+            .toInt()
             .isInt()
             .withMessage(i18n.__('validator.USER_ID_MUST_BE_A_VALID_NUMBER')),
         body('firstName')
+            .optional()
             .isString()
             .withMessage(i18n.__('validator.USERNAME_MUST_BE_A_STRING')),
         body('lastName')
+            .optional()
             .isString()
             .withMessage(i18n.__('validator.LAST_NAME_MUST_BE_A_STRING')),
         body('username')
+            .optional()
             .isString()
             .withMessage(i18n.__('validator.USERNAME_MUST_BE_A_VALID_EMAIL'))
             .custom(async (username, { req }) => {
@@ -76,7 +90,18 @@ export const userUpdateValidationRules = () => {
                 }
             }),
         body('phone')
+            .optional()
             .isString()
             .withMessage(i18n.__('validator.PHONE_NUMBER_MUST_BE_A_STRING')),
+        body('roleId')
+            .optional()
+            .toInt()
+            .isInt()
+            .withMessage(i18n.__('validator.ROLE_ID_MUST_BE_A_VALID_NUMBER')),
+        body('status')
+            .optional()
+            .toInt()
+            .isInt()
+            .withMessage(i18n.__('validator.STATUS_MUST_BE_A_VALID_NUMBER')),
     ];
 };

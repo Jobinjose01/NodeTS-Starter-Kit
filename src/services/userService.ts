@@ -91,6 +91,16 @@ export class UserService extends BaseService<User> {
     }
 
     async deleteUser(userId: number): Promise<void> {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId,
+            },
+        });
+
+        if (!user) {
+            throw new Error('Record not found');
+        }
+
         await prisma.user.delete({
             where: {
                 id: userId,

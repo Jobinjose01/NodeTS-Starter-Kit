@@ -1,0 +1,3987 @@
+2026-01-16 12:27:22 error: Received shutdown signal, shutting down gracefully...
+2026-01-16 12:30:59 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768546858822@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$qirrkwumh8mIIN/PBHgNNurBZbqdgkSu14nMwTzu2lteBHjX.DD16",
+         createdAt: new Date("2026-01-16T07:00:58.926Z"),
+         updatedAt: new Date("2026-01-16T07:00:58.926Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:30:59 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768546859040@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$zOYTrwL6r0XO2LGEMoscROblYEigpNT9/8nSPlrX7V/nsPasL2blW",
+         createdAt: new Date("2026-01-16T07:00:59.127Z"),
+         updatedAt: new Date("2026-01-16T07:00:59.127Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:30:59 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:30:59 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:30:59 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:30:59 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768546859278@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$xEVmQ6r96rgzVLT/0NT14eYy7j7n/MF7EeyoPkiq8mCILQ3qOUY7.",
+         createdAt: new Date("2026-01-16T07:00:59.373Z"),
+         updatedAt: new Date("2026-01-16T07:00:59.373Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:30:59 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768546859278@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$fWMDPZxmTQnEfo3pH.wKAuiXMT7FTK70Y9GUNIZDu9G9qzlLPvjfa",
+         createdAt: new Date("2026-01-16T07:00:59.376Z"),
+         updatedAt: new Date("2026-01-16T07:00:59.376Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:30:59 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768546859278@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$k.uSr6mYB3RRKSlz61xUre8cCktD6Mzb6kuSz36Cr/MmsqddtFwTC",
+         createdAt: new Date("2026-01-16T07:00:59.379Z"),
+         updatedAt: new Date("2026-01-16T07:00:59.379Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:35:45 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768547144867@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$UkvLYIqlJf/Hairg9IhwDOZO0P7VBMX2dhaBH//W9RLPwrasNkUTO",
+         createdAt: new Date("2026-01-16T07:05:44.968Z"),
+         updatedAt: new Date("2026-01-16T07:05:44.968Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:35:45 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768547145090@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$5Si21DixEXybGhAsHn1GzuDO7gmIImB3D1f4EyWVKZ4NSO0BRIRvm",
+         createdAt: new Date("2026-01-16T07:05:45.176Z"),
+         updatedAt: new Date("2026-01-16T07:05:45.176Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:35:45 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:35:45 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:35:45 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:35:45 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768547145306@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$CG.C03v5Cs1./Sg2zbeZiuPAtQKVNSrEazx/Yi0tQqvYNnejzSb2e",
+         createdAt: new Date("2026-01-16T07:05:45.400Z"),
+         updatedAt: new Date("2026-01-16T07:05:45.400Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:35:45 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768547145306@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$8l0942zxOJy07254XW/XReY/X7Wd9BgUJDyc2kJmoMnENsfet0Oeq",
+         createdAt: new Date("2026-01-16T07:05:45.403Z"),
+         updatedAt: new Date("2026-01-16T07:05:45.403Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:35:45 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768547145306@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$RO0x4CP8GkgMX4/i83BPq.XBOgByJi8SorJ7GC2kkrZyzn6jvybq.",
+         createdAt: new Date("2026-01-16T07:05:45.406Z"),
+         updatedAt: new Date("2026-01-16T07:05:45.406Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:36:19 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768547179093@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$syoCE7vdBmqdzbP9IooxHO76c.2NvB0VPngzzJhj/w8EptlJT2Jsm",
+         createdAt: new Date("2026-01-16T07:06:19.197Z"),
+         updatedAt: new Date("2026-01-16T07:06:19.197Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:36:19 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768547179312@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$QTD95TbRbf62j50Hzrgsmew940dYuw40ViBY/Zu/37bM/dc80G6Z6",
+         createdAt: new Date("2026-01-16T07:06:19.400Z"),
+         updatedAt: new Date("2026-01-16T07:06:19.400Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:36:19 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:36:19 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:36:19 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:36:19 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768547179528@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$NeN5CvqH.z/DNkAa5BDfG.uxqTkJ8LVG1v363W30ebkzk7aLSQz4a",
+         createdAt: new Date("2026-01-16T07:06:19.624Z"),
+         updatedAt: new Date("2026-01-16T07:06:19.624Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:36:19 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768547179529@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$DsackjTZM/Nw45vjKJuOs.V2/bGnUyCsNWg7MCB9iFdhRiV.8fg5.",
+         createdAt: new Date("2026-01-16T07:06:19.627Z"),
+         updatedAt: new Date("2026-01-16T07:06:19.627Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:36:19 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768547179529@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$NX/pRXm8bU/CfVzqexUELO7KnfMB4eOJPak.aPGG9sAPdtSpkUAl.",
+         createdAt: new Date("2026-01-16T07:06:19.630Z"),
+         updatedAt: new Date("2026-01-16T07:06:19.630Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:41:33 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768547493611@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$npHRLIKd4Kcn3kE0YYgv/eK2mCTxOfnxa690YWWZW7ddsZ/cP7qOC",
+         createdAt: new Date("2026-01-16T07:11:33.712Z"),
+         updatedAt: new Date("2026-01-16T07:11:33.712Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:41:33 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768547493827@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$Ec9HJsolExkHMQCKAZOVsu98874b27yG3N..1wlbGr8e0RFr1rUbi",
+         createdAt: new Date("2026-01-16T07:11:33.914Z"),
+         updatedAt: new Date("2026-01-16T07:11:33.914Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:41:33 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:41:34 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:41:34 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:41:34 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768547494037@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$nN20L9xN6bFbo0pgz/.LruzWzrl/L5E7c/FujkMnnbBgffbAFUrOO",
+         createdAt: new Date("2026-01-16T07:11:34.133Z"),
+         updatedAt: new Date("2026-01-16T07:11:34.133Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:41:34 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768547494037@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$dBODiFp3km/Iv6.9DeYqxON/wgS.JI8RCDggs5iNQmzgrTkDuYsPC",
+         createdAt: new Date("2026-01-16T07:11:34.136Z"),
+         updatedAt: new Date("2026-01-16T07:11:34.136Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:41:34 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768547494037@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$s6UTM2wI6F8m6J9Nam6TA.JzryRnJ1JyU.z3mZQ5L781hKFQ1cl4G",
+         createdAt: new Date("2026-01-16T07:11:34.138Z"),
+         updatedAt: new Date("2026-01-16T07:11:34.138Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:44:48 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768547688628@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$fsuCkObmI3h9IR3p3Q7SkeHkJy5gLrupN8tRIo41ZAmFfibfjW.O.",
+         createdAt: new Date("2026-01-16T07:14:48.739Z"),
+         updatedAt: new Date("2026-01-16T07:14:48.739Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:44:48 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768547688857@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$IjqVYWxVfUQKO.3boyFwIuT3MaAxqKfzUIi0ydjhHlX8pcvPgxaJW",
+         createdAt: new Date("2026-01-16T07:14:48.944Z"),
+         updatedAt: new Date("2026-01-16T07:14:48.944Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:44:49 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:44:49 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:44:49 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:44:49 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768547689070@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$RVXsqUbhFr13p7B2WZVIyew2RvhMdjw/3flMHWaxpvq4uuAI/SDze",
+         createdAt: new Date("2026-01-16T07:14:49.169Z"),
+         updatedAt: new Date("2026-01-16T07:14:49.169Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:44:49 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768547689070@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$7usWzTn9jYWO0eIu5vx5g.WN3tC9BJZABrcwPRXnQgbu5nn46tghC",
+         createdAt: new Date("2026-01-16T07:14:49.172Z"),
+         updatedAt: new Date("2026-01-16T07:14:49.172Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:44:49 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768547689070@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$jjlm5VmwCVGUeQHxJv3bFeZZVTruFIhVouC/0W8pL/VgTt5W6XG/S",
+         createdAt: new Date("2026-01-16T07:14:49.175Z"),
+         updatedAt: new Date("2026-01-16T07:14:49.175Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:46:17 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768547777274@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$HsN0cetYhLiaNk0xW0wVuuWdl.uyTIsdUQuvN.q/33/UFiDMVvzIq",
+         createdAt: new Date("2026-01-16T07:16:17.387Z"),
+         updatedAt: new Date("2026-01-16T07:16:17.387Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:46:17 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768547777514@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$AopHgJHzcVHiw/o0/8InEejzjtDu6AnkIVBPlU/Fc0Pea3mElQKZ2",
+         createdAt: new Date("2026-01-16T07:16:17.604Z"),
+         updatedAt: new Date("2026-01-16T07:16:17.604Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:46:17 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:46:17 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:46:17 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:46:17 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768547777762@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$Vy/e.OI16i089IeYeNAbKeTVY8sWVBRxartZcCG5MyXmGzy77W9Le",
+         createdAt: new Date("2026-01-16T07:16:17.861Z"),
+         updatedAt: new Date("2026-01-16T07:16:17.861Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:46:17 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768547777762@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$gOpZS1w1DiSQOgAPrSAxK.I.ifibKqStQ4ASlWcS2kSZbWWmAQaOy",
+         createdAt: new Date("2026-01-16T07:16:17.865Z"),
+         updatedAt: new Date("2026-01-16T07:16:17.865Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:46:17 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768547777762@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$NzQSNRmOfssLYClMwlpcbum1T9tpqYFNg1tw8GGO9MNpXn6ndFJcW",
+         createdAt: new Date("2026-01-16T07:16:17.868Z"),
+         updatedAt: new Date("2026-01-16T07:16:17.868Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:47:21 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768547841296@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$9BDE/bJP8PykX5LO0eDQjOsmdTiLk9hGKYTQOHFmhtiASkinXZdH.",
+         createdAt: new Date("2026-01-16T07:17:21.403Z"),
+         updatedAt: new Date("2026-01-16T07:17:21.403Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:47:21 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768547841519@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$3hppaGxDMr7eYygiTedI0ehgfwenAFdbNl1YkHHzbhkAu04kqlwN6",
+         createdAt: new Date("2026-01-16T07:17:21.608Z"),
+         updatedAt: new Date("2026-01-16T07:17:21.608Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:47:21 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:47:21 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:47:21 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:47:21 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768547841745@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$XqlAVLqpeR/id4zalWuhoeGv7Swd3ZiTsnlGVaEYBiPmO1s6pccQC",
+         createdAt: new Date("2026-01-16T07:17:21.840Z"),
+         updatedAt: new Date("2026-01-16T07:17:21.840Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:47:21 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768547841745@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$2NcAeBrzUmpM0vTWMP9cJO6AW4fVjVu//JQSvprhOEbAoJH77z7WS",
+         createdAt: new Date("2026-01-16T07:17:21.843Z"),
+         updatedAt: new Date("2026-01-16T07:17:21.843Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:47:21 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768547841745@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$kqSy88d.8aqU7/lLwaxbg.t4oSWiGTnH4HRmoNjIbNomKHzOMNMVG",
+         createdAt: new Date("2026-01-16T07:17:21.846Z"),
+         updatedAt: new Date("2026-01-16T07:17:21.846Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:48:10 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768547889949@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$N4LDtllmLTIowKEc.AH2YerpyCDAEw.ZfddaaFbL9anqOTL.mNIQ.",
+         createdAt: new Date("2026-01-16T07:18:10.059Z"),
+         updatedAt: new Date("2026-01-16T07:18:10.059Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:48:10 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768547890182@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$EDBlS9q7bWt5l/yiTGPYhuZjY9CNcA456XDwbm8qTV7IBmmzoV1Ly",
+         createdAt: new Date("2026-01-16T07:18:10.273Z"),
+         updatedAt: new Date("2026-01-16T07:18:10.273Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:48:10 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:48:10 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:48:10 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:48:10 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768547890461@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$wPfgCqxZDw8OG5etnceGq.B9o19.HbB1BEqtSmYCwVtWC7C9FytT.",
+         createdAt: new Date("2026-01-16T07:18:10.562Z"),
+         updatedAt: new Date("2026-01-16T07:18:10.562Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:48:10 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768547890461@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$7FNLxluUfbv8pp0/b6zVuOBoo4m0JV0r3RXE4lSSI.0Nypko3rkv2",
+         createdAt: new Date("2026-01-16T07:18:10.566Z"),
+         updatedAt: new Date("2026-01-16T07:18:10.566Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:48:10 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768547890461@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$zH5KhxiVv6qxNEZkFL7/a.dJy4SkxjYtA9aEali7pvA9pypKMLZ36",
+         createdAt: new Date("2026-01-16T07:18:10.569Z"),
+         updatedAt: new Date("2026-01-16T07:18:10.569Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:52:50 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768548169851@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$yNKO1FyXU1C69IfDf4G5s.VyVvBpXr71ZK17J1RfPT/HtIcs5UKvC",
+         createdAt: new Date("2026-01-16T07:22:49.958Z"),
+         updatedAt: new Date("2026-01-16T07:22:49.958Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:52:50 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768548170079@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$PTSpD9AhsGkWaort7xj2buvN74gloveHokMpnBlQpxlbJ6.So5.Y6",
+         createdAt: new Date("2026-01-16T07:22:50.166Z"),
+         updatedAt: new Date("2026-01-16T07:22:50.166Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:52:50 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:52:50 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:52:50 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:52:50 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768548170303@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$8ttmT903GxNE8fjq1So0bOF93hZsDcmWr05gNfluoyaN5.mwBxbyO",
+         createdAt: new Date("2026-01-16T07:22:50.397Z"),
+         updatedAt: new Date("2026-01-16T07:22:50.397Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:52:50 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768548170303@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$65FQxkqjK0UBOQT8NPhWyu1XgNWY3wSFQ6YHYCwCiO4lNg/3Zyps2",
+         createdAt: new Date("2026-01-16T07:22:50.400Z"),
+         updatedAt: new Date("2026-01-16T07:22:50.400Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:52:50 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768548170303@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$slsQDalMg2yHx7c/0gG58.9p7PUIYlWBM9QR1Y.C3m72H1yD/u0xC",
+         createdAt: new Date("2026-01-16T07:22:50.403Z"),
+         updatedAt: new Date("2026-01-16T07:22:50.403Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:55:56 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768548356350@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$njrD1hMXsvIoWlGD.ZvmhOdWZyXUy8i3Y5DeztOuS5NAJH2LYrfsi",
+         createdAt: new Date("2026-01-16T07:25:56.458Z"),
+         updatedAt: new Date("2026-01-16T07:25:56.458Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:55:56 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768548356584@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$vOMbVcKnzmxtQDcWzPmjzOTXUjl2qUie9pH9f8HRk.1mZH0X.3zxG",
+         createdAt: new Date("2026-01-16T07:25:56.673Z"),
+         updatedAt: new Date("2026-01-16T07:25:56.673Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:55:56 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:55:56 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:55:56 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:55:56 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768548356851@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$srRBCpbytsmSGeiDIrxwFuQPwLe8dwdBd60SBMFVUuKsVzmQZeFQa",
+         createdAt: new Date("2026-01-16T07:25:56.950Z"),
+         updatedAt: new Date("2026-01-16T07:25:56.950Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:55:56 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768548356851@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$eqsLEOJ/oKcQEiWXbH3N2OOex.KOI0iWYq4UTDKk/9anLkM47gRMS",
+         createdAt: new Date("2026-01-16T07:25:56.954Z"),
+         updatedAt: new Date("2026-01-16T07:25:56.954Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:55:56 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768548356851@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$nUxozndj8viKhF9BTUf9dugn7oPKNgp7uI3qs.A8RB6FVSPQpgcOW",
+         createdAt: new Date("2026-01-16T07:25:56.957Z"),
+         updatedAt: new Date("2026-01-16T07:25:56.957Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:55:57 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Test Role 1768548357320",
+             description: "Integration test role",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:55:57 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Duplicate Role 1768548357421",
+             description: "Duplicate test",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:55:57 error: 
+Invalid `this.model.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:77:33
+
+  74 
+  75 // Get a record by ID
+  76 async getById(id: number): Promise<T | null> {
+→ 77     return await this.model.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:55:57 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update({
+           where: {
+             id: NaN
+           },
+           data: {
+             name: "Updated Role 1768548357543",
+             description: "Updated description",
+             ~~~~~~~~~~~
+         ?   status?: Int | IntFieldUpdateOperationsInput,
+         ?   createdAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+         ?   updatedAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+         ?   deletedAt?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null,
+         ?   users?: UserUpdateManyWithoutRoleNestedInput,
+         ?   rolePermissions?: RolePermissionUpdateManyWithoutRoleNestedInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:55:57 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 12:55:57 error: 
+Invalid `relatedModel.count()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:103:46
+
+  100 // Check if related data exists in all configured related models
+  101 async checkRelatedData(id: number): Promise<void> {
+  102     for (const { relatedModel, foreignKey } of this.relatedModels) {
+→ 103         const count = await relatedModel.count({
+                select: {
+                  _count: {
+                    select: {
+                      _all: true
+                    }
+                  }
+                },
+                where: {
+                  deletedAt: null,
+              +   roleId: {
+              +     equals: Int | IntFieldRefInput,
+              +     in: Int[],
+              +     notIn: Int[],
+              +     lt: Int | IntFieldRefInput,
+              +     lte: Int | IntFieldRefInput,
+              +     gt: Int | IntFieldRefInput,
+              +     gte: Int | IntFieldRefInput,
+              +     not: Int | NestedIntFilter
+              +   }
+                }
+              })
+
+Argument `roleId` is missing.
+2026-01-16 12:55:57 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 12:55:57 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768548357604",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:55:57 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 0 1768548357617",
+             description: "Test concurrent role 0",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:55:57 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 1 1768548357617",
+             description: "Test concurrent role 1",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:55:57 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 2 1768548357617",
+             description: "Test concurrent role 2",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:45 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768548464988@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$Ym1OEQ0vvqv7MkYOnC0frOKpU24yWayJIrcZ9xsW5WjpvvPgstjxu",
+         createdAt: new Date("2026-01-16T07:27:45.096Z"),
+         updatedAt: new Date("2026-01-16T07:27:45.096Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:57:45 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768548465227@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$F4iTkl1t1OTRUU7DFNuhu.G9nTSKomidvncgSFwVcjvxniTw1ORu2",
+         createdAt: new Date("2026-01-16T07:27:45.316Z"),
+         updatedAt: new Date("2026-01-16T07:27:45.316Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:57:45 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:57:45 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:57:45 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:57:45 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768548465470@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$dRa6ySx.JZEcooWLkG3vSOQWTb/NanhGJchoYB9bsDhuk88yXZP8.",
+         createdAt: new Date("2026-01-16T07:27:45.571Z"),
+         updatedAt: new Date("2026-01-16T07:27:45.571Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:57:45 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768548465470@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$oNKWu69MXL1BJXYptXlDmOywOMUG70nSAjR/jS6G/8EQLPzWUYyQC",
+         createdAt: new Date("2026-01-16T07:27:45.575Z"),
+         updatedAt: new Date("2026-01-16T07:27:45.575Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:57:45 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768548465470@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$9j2sfLtaOjRHKGcc98lMoOz3hV32RethWqdm2KUR66U1ZhdCp.PA2",
+         createdAt: new Date("2026-01-16T07:27:45.578Z"),
+         updatedAt: new Date("2026-01-16T07:27:45.578Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:57:46 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Test Role 1768548465945",
+             description: "Integration test role",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:46 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Duplicate Role 1768548466047",
+             description: "Duplicate test",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:46 error: 
+Invalid `this.model.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:77:33
+
+  74 
+  75 // Get a record by ID
+  76 async getById(id: number): Promise<T | null> {
+→ 77     return await this.model.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:57:46 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update({
+           where: {
+             id: NaN
+           },
+           data: {
+             name: "Updated Role 1768548466153",
+             description: "Updated description",
+             ~~~~~~~~~~~
+         ?   status?: Int | IntFieldUpdateOperationsInput,
+         ?   createdAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+         ?   updatedAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+         ?   deletedAt?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null,
+         ?   users?: UserUpdateManyWithoutRoleNestedInput,
+         ?   rolePermissions?: RolePermissionUpdateManyWithoutRoleNestedInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:46 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 12:57:46 error: 
+Invalid `relatedModel.count()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:103:46
+
+  100 // Check if related data exists in all configured related models
+  101 async checkRelatedData(id: number): Promise<void> {
+  102     for (const { relatedModel, foreignKey } of this.relatedModels) {
+→ 103         const count = await relatedModel.count({
+                select: {
+                  _count: {
+                    select: {
+                      _all: true
+                    }
+                  }
+                },
+                where: {
+                  deletedAt: null,
+              +   roleId: {
+              +     equals: Int | IntFieldRefInput,
+              +     in: Int[],
+              +     notIn: Int[],
+              +     lt: Int | IntFieldRefInput,
+              +     lte: Int | IntFieldRefInput,
+              +     gt: Int | IntFieldRefInput,
+              +     gte: Int | IntFieldRefInput,
+              +     not: Int | NestedIntFilter
+              +   }
+                }
+              })
+
+Argument `roleId` is missing.
+2026-01-16 12:57:46 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 12:57:46 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768548466215",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:46 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 0 1768548466229",
+             description: "Test concurrent role 0",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:46 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 1 1768548466229",
+             description: "Test concurrent role 1",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:46 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 2 1768548466229",
+             description: "Test concurrent role 2",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:58 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768548478649@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$5fU/IyYvdZ2sUZCWiHQwrOp0a.GuM6umxDw8u..MgeCB9p.H1JwSq",
+         createdAt: new Date("2026-01-16T07:27:58.757Z"),
+         updatedAt: new Date("2026-01-16T07:27:58.757Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:57:58 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Duplicate",
+         lastName: "Test",
+         username: "duplicate_1768548478884@example.com",
+         phone: "1111111111",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$GnjdtkDeBSsbXl8GIwmp5OEYpi3CyZjBRA0TtJF52gFD.pFQMcc6e",
+         createdAt: new Date("2026-01-16T07:27:58.973Z"),
+         updatedAt: new Date("2026-01-16T07:27:58.973Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:57:59 error: 
+Invalid `prisma.user.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:31:40
+
+  28 }
+  29 
+  30 async getUserById(userId: number) {
+→ 31     const user = await prisma.user.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:57:59 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:57:59 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 12:57:59 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent0",
+         lastName: "Test",
+         username: "concurrent0_1768548479135@example.com",
+         phone: "1000000000",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$TfxBRokm9zJ3kGcKV8HM..pHUTDbFQCCOlFzoOpUNAilYhiYOMGwO",
+         createdAt: new Date("2026-01-16T07:27:59.241Z"),
+         updatedAt: new Date("2026-01-16T07:27:59.241Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:57:59 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent2",
+         lastName: "Test",
+         username: "concurrent2_1768548479135@example.com",
+         phone: "1000000002",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$wuptA2owL6AQvvjDJmtbhuH3A2gwHydoq57RahfOxO5UWHVdegMba",
+         createdAt: new Date("2026-01-16T07:27:59.245Z"),
+         updatedAt: new Date("2026-01-16T07:27:59.245Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:57:59 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Concurrent1",
+         lastName: "Test",
+         username: "concurrent1_1768548479135@example.com",
+         phone: "1000000001",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$NwaPz1DZo20bi8.klhUV4.tzea7eYzPRKNjodn0e2/N1NFmmMnac.",
+         createdAt: new Date("2026-01-16T07:27:59.248Z"),
+         updatedAt: new Date("2026-01-16T07:27:59.248Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:57:59 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Test Role 1768548479613",
+             description: "Integration test role",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:59 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Duplicate Role 1768548479715",
+             description: "Duplicate test",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:59 error: 
+Invalid `this.model.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:77:33
+
+  74 
+  75 // Get a record by ID
+  76 async getById(id: number): Promise<T | null> {
+→ 77     return await this.model.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 12:57:59 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update({
+           where: {
+             id: NaN
+           },
+           data: {
+             name: "Updated Role 1768548479820",
+             description: "Updated description",
+             ~~~~~~~~~~~
+         ?   status?: Int | IntFieldUpdateOperationsInput,
+         ?   createdAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+         ?   updatedAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+         ?   deletedAt?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null,
+         ?   users?: UserUpdateManyWithoutRoleNestedInput,
+         ?   rolePermissions?: RolePermissionUpdateManyWithoutRoleNestedInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:59 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 12:57:59 error: 
+Invalid `relatedModel.count()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:103:46
+
+  100 // Check if related data exists in all configured related models
+  101 async checkRelatedData(id: number): Promise<void> {
+  102     for (const { relatedModel, foreignKey } of this.relatedModels) {
+→ 103         const count = await relatedModel.count({
+                select: {
+                  _count: {
+                    select: {
+                      _all: true
+                    }
+                  }
+                },
+                where: {
+                  deletedAt: null,
+              +   roleId: {
+              +     equals: Int | IntFieldRefInput,
+              +     in: Int[],
+              +     notIn: Int[],
+              +     lt: Int | IntFieldRefInput,
+              +     lte: Int | IntFieldRefInput,
+              +     gt: Int | IntFieldRefInput,
+              +     gte: Int | IntFieldRefInput,
+              +     not: Int | NestedIntFilter
+              +   }
+                }
+              })
+
+Argument `roleId` is missing.
+2026-01-16 12:57:59 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 12:57:59 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768548479881",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:59 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 0 1768548479896",
+             description: "Test concurrent role 0",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:59 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 1 1768548479896",
+             description: "Test concurrent role 1",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:57:59 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 2 1768548479896",
+             description: "Test concurrent role 2",
+             ~~~~~~~~~~~
+             status: "1",
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 12:58:32 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768548512212@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$itf1/wRrur1BpJ96zsjl8OMUyH13EO39XAWsLk4j8.YcWyEZM59XS",
+         createdAt: new Date("2026-01-16T07:28:32.306Z"),
+         updatedAt: new Date("2026-01-16T07:28:32.306Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 12:58:43 error: 
+Invalid `prisma.user.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:26:47
+
+  23     token, // Ensure token is always a string
+  24 };
+  25 
+→ 26 const createdUser = await prisma.user.create({
+       data: {
+         firstName: "Integration",
+         lastName: "Test",
+         username: "integration.test_1768548522787@example.com",
+         phone: "9876543210",
+         roleId: "2",
+                 ~~~
+         status: "1",
+         password: "$2b$10$xBHaQcOSqx17z8Jz1/6.s.hAcH3xvKyGCbjIHEgZPGPsl3kLAo.uG",
+         createdAt: new Date("2026-01-16T07:28:42.884Z"),
+         updatedAt: new Date("2026-01-16T07:28:42.884Z"),
+         token: ""
+       }
+     })
+
+Argument `roleId`: Invalid value provided. Expected Int, provided String.
+2026-01-16 13:02:58 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Test Role 1768548778467",
+             description: "Integration test role",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:02:58 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Duplicate Role 1768548778617",
+             description: "Duplicate test",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:02:58 error: 
+Invalid `this.model.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:77:33
+
+  74 
+  75 // Get a record by ID
+  76 async getById(id: number): Promise<T | null> {
+→ 77     return await this.model.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 13:02:58 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update({
+           where: {
+             id: NaN
+           },
+           data: {
+             name: "Updated Role 1768548778750",
+             description: "Updated description",
+             ~~~~~~~~~~~
+         ?   status?: Int | IntFieldUpdateOperationsInput,
+         ?   createdAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+         ?   updatedAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+         ?   deletedAt?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null,
+         ?   users?: UserUpdateManyWithoutRoleNestedInput,
+         ?   rolePermissions?: RolePermissionUpdateManyWithoutRoleNestedInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:02:58 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:02:58 error: 
+Invalid `relatedModel.count()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:103:46
+
+  100 // Check if related data exists in all configured related models
+  101 async checkRelatedData(id: number): Promise<void> {
+  102     for (const { relatedModel, foreignKey } of this.relatedModels) {
+→ 103         const count = await relatedModel.count({
+                select: {
+                  _count: {
+                    select: {
+                      _all: true
+                    }
+                  }
+                },
+                where: {
+                  deletedAt: null,
+              +   roleId: {
+              +     equals: Int | IntFieldRefInput,
+              +     in: Int[],
+              +     notIn: Int[],
+              +     lt: Int | IntFieldRefInput,
+              +     lte: Int | IntFieldRefInput,
+              +     gt: Int | IntFieldRefInput,
+              +     gte: Int | IntFieldRefInput,
+              +     not: Int | NestedIntFilter
+              +   }
+                }
+              })
+
+Argument `roleId` is missing.
+2026-01-16 13:02:58 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:02:58 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768548778810",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:02:58 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 0 1768548778826",
+             description: "Test concurrent role 0",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:02:58 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 1 1768548778826",
+             description: "Test concurrent role 1",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:02:58 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 2 1768548778826",
+             description: "Test concurrent role 2",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:02:59 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:03:11 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Test Role 1768548791542",
+             description: "Integration test role",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:03:11 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Duplicate Role 1768548791702",
+             description: "Duplicate test",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:03:11 error: 
+Invalid `this.model.findUnique()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:77:33
+
+  74 
+  75 // Get a record by ID
+  76 async getById(id: number): Promise<T | null> {
+→ 77     return await this.model.findUnique({
+           where: {
+         +   id: Int
+           }
+         })
+
+Argument `id` is missing.
+2026-01-16 13:03:11 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update({
+           where: {
+             id: NaN
+           },
+           data: {
+             name: "Updated Role 1768548791831",
+             description: "Updated description",
+             ~~~~~~~~~~~
+         ?   status?: Int | IntFieldUpdateOperationsInput,
+         ?   createdAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+         ?   updatedAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+         ?   deletedAt?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null,
+         ?   users?: UserUpdateManyWithoutRoleNestedInput,
+         ?   rolePermissions?: RolePermissionUpdateManyWithoutRoleNestedInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:03:11 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:03:11 error: 
+Invalid `relatedModel.count()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:103:46
+
+  100 // Check if related data exists in all configured related models
+  101 async checkRelatedData(id: number): Promise<void> {
+  102     for (const { relatedModel, foreignKey } of this.relatedModels) {
+→ 103         const count = await relatedModel.count({
+                select: {
+                  _count: {
+                    select: {
+                      _all: true
+                    }
+                  }
+                },
+                where: {
+                  deletedAt: null,
+              +   roleId: {
+              +     equals: Int | IntFieldRefInput,
+              +     in: Int[],
+              +     notIn: Int[],
+              +     lt: Int | IntFieldRefInput,
+              +     lte: Int | IntFieldRefInput,
+              +     gt: Int | IntFieldRefInput,
+              +     gte: Int | IntFieldRefInput,
+              +     not: Int | NestedIntFilter
+              +   }
+                }
+              })
+
+Argument `roleId` is missing.
+2026-01-16 13:03:11 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:03:11 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768548791901",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:03:11 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 0 1768548791915",
+             description: "Test concurrent role 0",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:03:11 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 1 1768548791915",
+             description: "Test concurrent role 1",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:03:11 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Concurrent Role 2 1768548791915",
+             description: "Test concurrent role 2",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:03:12 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:03:28 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Test Role 1768548808638",
+             description: "Integration test role",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:04:58 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:04:58 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:04:58 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768548898276",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:04:59 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:05:16 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:05:16 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:05:16 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768548916368",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:05:17 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:07:37 error: data and salt arguments required
+2026-01-16 13:07:37 error: data and salt arguments required
+2026-01-16 13:07:37 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:07:38 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:07:38 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:07:38 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549058449",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:07:50 error: data and salt arguments required
+2026-01-16 13:07:50 error: data and salt arguments required
+2026-01-16 13:07:50 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:07:51 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:07:51 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:07:51 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549071753",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:09:09 error: data and salt arguments required
+2026-01-16 13:09:09 error: data and salt arguments required
+2026-01-16 13:09:10 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:09:10 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:09:10 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:09:10 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549150842",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:09:22 error: data and salt arguments required
+2026-01-16 13:09:22 error: data and salt arguments required
+2026-01-16 13:09:22 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:09:23 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:09:23 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:09:23 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549163462",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:10:41 error: data and salt arguments required
+2026-01-16 13:10:41 error: data and salt arguments required
+2026-01-16 13:10:41 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:10:42 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:10:42 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:10:42 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549242241",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:11:19 error: data and salt arguments required
+2026-01-16 13:11:19 error: data and salt arguments required
+2026-01-16 13:11:19 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:11:20 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:11:20 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:11:20 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549280510",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:11:34 error: data and salt arguments required
+2026-01-16 13:11:34 error: data and salt arguments required
+2026-01-16 13:11:34 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:11:35 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:11:35 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:11:35 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549295050",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:11:49 error: data and salt arguments required
+2026-01-16 13:11:49 error: data and salt arguments required
+2026-01-16 13:11:50 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:11:50 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:11:50 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:11:50 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549310844",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:12:03 error: data and salt arguments required
+2026-01-16 13:12:03 error: data and salt arguments required
+2026-01-16 13:12:03 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:12:04 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:12:04 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:12:04 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549324572",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:12:13 error: data and salt arguments required
+2026-01-16 13:12:13 error: data and salt arguments required
+2026-01-16 13:12:14 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:12:14 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:12:14 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:12:14 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549334792",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:12:48 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:12:49 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:12:49 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:12:49 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549369140",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:13:00 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:13:00 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:13:00 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:13:00 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549380862",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:13:17 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:13:18 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:85:33
+
+  82 // Update a record by ID
+  83 async update(id: number, data: Partial<T>): Promise<T> {
+  84     const filteredData = filterFields(data, this.updatableFields);
+→ 85     return await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:13:18 error: 
+Invalid `this.model.update()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:94:26
+
+  91 // Delete a record by ID (soft delete for now)
+  92 async delete(id: number): Promise<void> {
+  93     await this.checkRelatedData(id);
+→ 94     await this.model.update(
+An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+2026-01-16 13:13:18 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549398615",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:14:42 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:14:43 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549483442",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:14:54 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:14:54 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549494910",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:15:08 error: 
+Invalid `prisma.user.delete()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/userService.ts:94:33
+
+  91 }
+  92 
+  93 async deleteUser(userId: number): Promise<void> {
+→ 94     await prisma.user.delete(
+An operation failed because it depends on one or more records that were required but not found. No record was found for a delete.
+2026-01-16 13:15:09 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549509391",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:16:19 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549579055",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:16:32 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549592449",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.
+2026-01-16 13:16:47 error: 
+Invalid `this.model.create()` invocation in
+/home/jobin/workspace/node-starter-kit/src/services/BaseService.ts:22:33
+
+  19 // Create a record
+  20 async create(data: T): Promise<T> {
+  21     const filteredData = filterFields(data, this.insertableFields);
+→ 22     return await this.model.create({
+           data: {
+             name: "Role with Permissions 1768549607753",
+             description: "Test role with permissions",
+             ~~~~~~~~~~~
+             status: 1,
+         ?   createdAt?: DateTime,
+         ?   updatedAt?: DateTime,
+         ?   deletedAt?: DateTime | Null,
+         ?   users?: UserCreateNestedManyWithoutRoleInput,
+         ?   rolePermissions?: RolePermissionCreateNestedManyWithoutRoleInput
+           }
+         })
+
+Unknown argument `description`. Available options are marked with ?.

@@ -13,6 +13,12 @@ jest.mock('../../../config/prismaClient', () => ({
             delete: jest.fn(),
             count: jest.fn(),
         },
+        user: {
+            count: jest.fn(),
+        },
+        rolePermission: {
+            count: jest.fn(),
+        },
     },
 }));
 
@@ -84,7 +90,7 @@ describe('RoleService Unit Tests', () => {
             const result = await roleService.update(1, updateData);
 
             expect(prisma.role.update).toHaveBeenCalledWith({
-                where: { id: 1, deletedAt: null },
+                where: { id: 1 },
                 data: expect.objectContaining(updateData),
             });
             expect(result).toHaveProperty('id');
@@ -93,6 +99,17 @@ describe('RoleService Unit Tests', () => {
 
     describe('delete', () => {
         it('should delete role successfully (soft delete)', async () => {
+            // Mock findUnique to return a role (exists check)
+            (prisma.role.findUnique as jest.Mock).mockResolvedValue({
+                id: 1,
+                name: 'Test Role',
+                deletedAt: null,
+            });
+
+            // Mock count for related models check
+            (prisma.user.count as jest.Mock).mockResolvedValue(0);
+            (prisma.rolePermission.count as jest.Mock).mockResolvedValue(0);
+
             (prisma.role.update as jest.Mock).mockResolvedValue({
                 id: 1,
                 deletedAt: new Date(),

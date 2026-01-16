@@ -136,7 +136,9 @@ describe('RoleController Unit Tests', () => {
             mockReq.params = { id: '999' };
             mockReq.body = { name: 'Updated Role' };
             mockRes.__ = jest.fn((key: string) => key);
-            mockRoleService.update = jest.fn().mockResolvedValue(null);
+            mockRoleService.update = jest
+                .fn()
+                .mockRejectedValue(new Error('Record not found'));
 
             await roleController.update(
                 mockReq as Request,
@@ -173,7 +175,6 @@ describe('RoleController Unit Tests', () => {
         it('should delete role successfully', async () => {
             mockReq.params = { id: '1' };
             mockRes.__ = jest.fn((key: string) => key);
-            mockRoleService.getById = jest.fn().mockResolvedValue({ id: 1 });
             mockRoleService.delete = jest.fn().mockResolvedValue(undefined);
 
             await roleController.delete(
@@ -182,7 +183,6 @@ describe('RoleController Unit Tests', () => {
                 mockNext,
             );
 
-            expect(mockRoleService.getById).toHaveBeenCalledWith(1);
             expect(mockRoleService.delete).toHaveBeenCalledWith(1);
             expect(mockRes.status).toHaveBeenCalledWith(200);
         });

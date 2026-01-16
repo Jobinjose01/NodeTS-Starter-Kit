@@ -38,16 +38,19 @@ export abstract class BaseController<_T> {
         try {
             const id = parseInt(this.getParamAsString(req.params.id));
             const updatedItem = await this.service.update(id, req.body);
-            if (updatedItem) {
-                res.status(200).json({
-                    message: res.__('item.UPDATED_SUCCESSFULLY'),
-                    result: updatedItem,
-                });
-            } else {
-                res.status(404).json({ message: res.__('item.NOT_FOUND') });
-            }
+            res.status(200).json({
+                message: res.__('item.UPDATED_SUCCESSFULLY'),
+                result: updatedItem,
+            });
         } catch (error) {
-            next(error);
+            if (
+                error instanceof Error &&
+                error.message === 'Record not found'
+            ) {
+                res.status(404).json({ message: res.__('item.NOT_FOUND') });
+            } else {
+                next(error);
+            }
         }
     }
 
@@ -63,7 +66,14 @@ export abstract class BaseController<_T> {
                 message: res.__('item.DELETED_SUCCESSFULLY'),
             });
         } catch (error) {
-            next(error);
+            if (
+                error instanceof Error &&
+                error.message === 'Record not found'
+            ) {
+                res.status(404).json({ message: res.__('item.NOT_FOUND') });
+            } else {
+                next(error);
+            }
         }
     }
 

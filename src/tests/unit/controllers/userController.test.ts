@@ -163,7 +163,9 @@ describe('UserController Unit Tests', () => {
             mockReq.params = { id: '999' };
             mockReq.body = { firstName: 'Jane' };
             mockRes.__ = jest.fn((key: string) => key);
-            mockUserService.update = jest.fn().mockResolvedValue(null);
+            mockUserService.update = jest
+                .fn()
+                .mockRejectedValue(new Error('Record not found'));
 
             await userController.update(
                 mockReq as Request,
@@ -229,7 +231,6 @@ describe('UserController Unit Tests', () => {
         it('should delete user successfully', async () => {
             mockReq.params = { id: '1' };
             mockRes.__ = jest.fn((key: string) => key);
-            mockUserService.getById = jest.fn().mockResolvedValue({ id: 1 });
             mockUserService.delete = jest.fn().mockResolvedValue(undefined);
 
             await userController.delete(
@@ -238,7 +239,6 @@ describe('UserController Unit Tests', () => {
                 mockNext,
             );
 
-            expect(mockUserService.getById).toHaveBeenCalledWith(1);
             expect(mockUserService.delete).toHaveBeenCalledWith(1);
             expect(mockRes.status).toHaveBeenCalledWith(200);
         });

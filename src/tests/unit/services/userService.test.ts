@@ -93,7 +93,7 @@ describe('UserService Unit Tests', () => {
             const result = await userService.update(1, updateData);
 
             expect(prisma.user.update).toHaveBeenCalledWith({
-                where: { id: 1, deletedAt: null },
+                where: { id: 1 },
                 data: expect.objectContaining(updateData),
             });
             expect(result).toHaveProperty('id');

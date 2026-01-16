@@ -27,6 +27,11 @@ export const roleValidationRules = (): ValidationChain[] => {
                 }
                 return true;
             }),
+        body('status')
+            .optional()
+            .toInt()
+            .isInt()
+            .withMessage(i18n.__('validator.STATUS_MUST_BE_A_VALID_INTEGER')),
     ];
 };
 
