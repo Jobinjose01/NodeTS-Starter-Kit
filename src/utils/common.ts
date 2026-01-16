@@ -3,7 +3,7 @@ import path from 'path';
 
 export const logDirectory: string =
     process.env.NODE_ENV === 'development'
-        ? path.resolve(os.homedir(), 'elbit-electron-app-logs')
+        ? path.resolve('logs')
         : path.resolve(process.env.ERROR_LOGS_PATH || os.homedir());
 
 export const convertToArray = async (
