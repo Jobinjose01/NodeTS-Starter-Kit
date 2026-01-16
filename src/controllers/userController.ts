@@ -59,7 +59,7 @@ export class UserController extends BaseController<UserService> {
         res: Response,
         next: NextFunction,
     ): Promise<void> {
-        const userId = parseInt(req.params.id);
+        const userId = parseInt(this.getParamAsString(req.params.id));
         const {
             firstName,
             lastName,
@@ -71,8 +71,6 @@ export class UserController extends BaseController<UserService> {
         } = req.body;
 
         try {
-            const hashedPassword = await bcrypt.hash(password, 10);
-
             const userDataToUpdate: Partial<User> = {
                 firstName,
                 lastName,
@@ -80,9 +78,15 @@ export class UserController extends BaseController<UserService> {
                 phone,
                 status,
                 roleId,
-                password: hashedPassword,
                 updatedAt: new Date(),
             };
+
+            // Only hash password if it's provided
+            if (password) {
+                const hashedPassword = await bcrypt.hash(password, 10);
+                userDataToUpdate.password = hashedPassword;
+            }
+
             const user = await this.service.getUserById(userId);
             if (user) {
                 const updatedUser = await this.service.updateUser(
@@ -114,14 +118,23 @@ export class UserController extends BaseController<UserService> {
         res: Response,
         next: NextFunction,
     ): Promise<void> {
-        const userId = parseInt(req.params.id);
+        const userId = parseInt(this.getParamAsString(req.params.id));
         try {
             await this.service.deleteUser(userId);
             res.status(200).json({
                 message: res.__('user.USER_DELETED_SUCCESSFULLY'),
             });
         } catch (error) {
-            next(error);
+            if (
+                error instanceof Error &&
+                error.message === 'Record not found'
+            ) {
+                res.status(404).json({
+                    message: res.__('user.USER_NOT_FOUND'),
+                });
+            } else {
+                next(error);
+            }
         }
     }
 
@@ -130,7 +143,7 @@ export class UserController extends BaseController<UserService> {
         res: Response,
         next: NextFunction,
     ): Promise<void> {
-        const userId = parseInt(req.params.id);
+        const userId = parseInt(this.getParamAsString(req.params.id));
         try {
             const user = await this.service.getUserById(userId);
             if (user) {
@@ -169,8 +182,10 @@ export class UserController extends BaseController<UserService> {
             if (users) {
                 res.status(200).json({
                     message: res.__('user.USERS_FETCHED'),
-                    result: handleUserResponse(users),
-                    pagination,
+                    result: {
+                        items: handleUserResponse(users),
+                        pagination,
+                    },
                 });
             } else {
                 res.status(404).json({

@@ -11,8 +11,10 @@ import checkPermissions from '../middlewares/checkPermissions';
 const router = Router();
 const userController = container.get<UserController>(UserController);
 
+// RESTful Routes
+// POST /api/v1/user - Create a new user
 router.post(
-    '/register',
+    '/',
     userValidationRules(),
     validate,
     checkPermissions([{ permission: 'Users', action: 'add' }]),
@@ -21,14 +23,25 @@ router.post(
     },
 );
 
+// GET /api/v1/user - Get all users
 router.get(
-    '/all',
+    '/',
     checkPermissions([{ permission: 'Users', action: 'view' }]),
     async (req: Request, res: Response, next: NextFunction) => {
         await userController.getUsers(req, res, next);
     },
 );
 
+// GET /api/v1/user/:id - Get a specific user by ID
+router.get(
+    '/:id',
+    checkPermissions([{ permission: 'Users', action: 'view' }]),
+    async (req: Request, res: Response, next: NextFunction) => {
+        await userController.getUserById(req, res, next);
+    },
+);
+
+// PUT /api/v1/user/:id - Update a user
 router.put(
     '/:id',
     userUpdateValidationRules(),
@@ -39,19 +52,12 @@ router.put(
     },
 );
 
+// DELETE /api/v1/user/:id - Delete a user
 router.delete(
     '/:id',
     checkPermissions([{ permission: 'Users', action: 'remove' }]),
     async (req: Request, res: Response, next: NextFunction) => {
         await userController.deleteUser(req, res, next);
-    },
-);
-
-router.get(
-    '/:id',
-    checkPermissions([{ permission: 'Users', action: 'view' }]),
-    async (req: Request, res: Response, next: NextFunction) => {
-        await userController.getUserById(req, res, next);
     },
 );
 

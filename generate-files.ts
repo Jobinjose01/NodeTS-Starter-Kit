@@ -10,10 +10,24 @@ const paths = {
   validators: 'src/validators',
   swaggerPath: 'src/config/swagger/paths',
   swaggerDefPath: 'src/config/swagger/definitions',
+  tests: 'src/tests',
+  unitTests: 'src/tests/unit',
+  integrationTests: 'src/tests/integration',
 };
 
-const schemaPath = path.join(process.cwd(), 'prisma/schema.prisma');
+const schemaPath = path.join(process.cwd(), 'db/prisma/schema.prisma');
 const schemaContent = fs.readFileSync(schemaPath, 'utf-8');
+
+function pluralize(word: string): string {
+  // Simple pluralization - you can extend this with more rules if needed
+  if (word.endsWith('y') && !['a', 'e', 'i', 'o', 'u'].includes(word.charAt(word.length - 2))) {
+    return word.slice(0, -1) + 'ies';
+  }
+  if (word.endsWith('s') || word.endsWith('x') || word.endsWith('z') || word.endsWith('ch') || word.endsWith('sh')) {
+    return word + 'es';
+  }
+  return word + 's';
+}
 
 function getTypeValidation(type: string): string {
   switch (type.replace(/[?]/g, '')) {
@@ -357,10 +371,11 @@ function addImportsToV1Routes(modelName: string) {
     const v1RoutesPath = path.join('src', 'routes', 'v1.ts');
     let content = fs.readFileSync(v1RoutesPath, 'utf-8');
     const modelNameLowerCase = modelName.charAt(0).toLowerCase() + modelName.slice(1);
+    const pluralModelName = pluralize(modelNameLowerCase);
 
     const newImports = `import ${modelName}Routes from './${modelNameLowerCase}Routes';
     `;
-    const newBinds = `router.use('/api/v1/${modelNameLowerCase}', authMiddleware, ${modelName}Routes);
+    const newBinds = `router.use('/api/v1/${pluralModelName}', authMiddleware, ${modelName}Routes);
     `;
 
     const importsExist = content.includes(`${modelNameLowerCase}Routes`);
@@ -398,8 +413,10 @@ function generateSwaggerPath(modelName: string){
     const templatePath = path.join('src', 'config', 'templates', 'swaggerPaths.ts');
     let content = fs.readFileSync(templatePath, 'utf-8');
     const modelNameLowerCase = modelName.charAt(0).toLowerCase() + modelName.slice(1);
+    const pluralModelName = pluralize(modelNameLowerCase);
     content = content.replace(/\${modelName}/g, modelNameLowerCase);
     content = content.replace(/\${ModelName}/g, modelName);
+    content = content.replace(/\${pluralModelName}/g, pluralModelName);
     fs.outputFileSync(path.join(paths.swaggerPath, `${modelNameLowerCase}Paths.ts`), content);
     console.log(`Swagger Path file for ${modelName} created at ${paths.swaggerPath}/${modelNameLowerCase}Paths.ts`);
     
@@ -472,6 +489,150 @@ function addImportsToSwaggerConfig(modelName: string) {
     console.log(`Added ${modelName}Paths and Definitions to SwaggerConfig`);
   }
 }
+
+function generateTestData(fields: string[], types: string[], optionalFields: Set<string>): {
+  createData: string;
+  createExpectation: string;
+  updateData: string;
+  updateExpectation: string;
+  partialUpdateData: string;
+  invalidData: string;
+  filterParam: string;
+} {
+  const createDataFields: string[] = [];
+  const createExpectFields: string[] = [];
+  const updateDataFields: string[] = [];
+  const updateExpectFields: string[] = [];
+  const partialFields: string[] = [];
+  const invalidFields: string[] = [];
+  let filterParam = 'id=1';
+
+  for (let i = 0; i < fields.length; i++) {
+    const field = fields[i];
+    const type = types[i];
+    const isOptional = optionalFields.has(field);
+
+    // Skip system fields
+    if (['id', 'createdAt', 'updatedAt', 'deletedAt'].includes(field)) {
+      continue;
+    }
+
+    // Generate test data based on type
+    let testValue = '';
+    let updateValue = '';
+    let invalidValue = '';
+
+    switch (type) {
+      case 'String':
+        testValue = `'Test ${field} \${Date.now()}'`;
+        updateValue = `'Updated ${field} \${Date.now()}'`;
+        invalidValue = '12345'; // number instead of string
+        filterParam = `${field}=test`;
+        break;
+      case 'Int':
+        testValue = '1';
+        updateValue = '2';
+        invalidValue = `'not a number'`;
+        break;
+      case 'Float':
+        testValue = '10.5';
+        updateValue = '20.5';
+        invalidValue = `'not a float'`;
+        break;
+      case 'Boolean':
+        testValue = 'true';
+        updateValue = 'false';
+        invalidValue = `'not a boolean'`;
+        break;
+      case 'DateTime':
+        testValue = `new Date().toISOString()`;
+        updateValue = `new Date().toISOString()`;
+        invalidValue = `'invalid date'`;
+        break;
+      default:
+        testValue = `'test value'`;
+        updateValue = `'updated value'`;
+        invalidValue = '123';
+    }
+
+    // Add to create data (skip optional fields for minimal test)
+    if (!isOptional || createDataFields.length < 2) {
+      createDataFields.push(`${field}: ${testValue}`);
+      createExpectFields.push(`${field}: expect.any(${type === 'String' ? 'String' : type === 'Int' || type === 'Float' ? 'Number' : type === 'Boolean' ? 'Boolean' : 'String'})`);
+    }
+
+    // Add to update data
+    updateDataFields.push(`${field}: ${updateValue}`);
+    updateExpectFields.push(`${field}: expect.any(${type === 'String' ? 'String' : type === 'Int' || type === 'Float' ? 'Number' : type === 'Boolean' ? 'Boolean' : 'String'})`);
+
+    // Add first field to partial update
+    if (partialFields.length === 0) {
+      partialFields.push(`${field}: ${updateValue}`);
+    }
+
+    // Add to invalid data
+    if (invalidFields.length < 2) {
+      invalidFields.push(`${field}: ${invalidValue}`);
+    }
+  }
+
+  return {
+    createData: createDataFields.join(',\n                '),
+    createExpectation: createExpectFields.join(',\n                '),
+    updateData: updateDataFields.join(',\n                '),
+    updateExpectation: updateExpectFields.join(',\n                '),
+    partialUpdateData: partialFields.join(',\n                '),
+    invalidData: invalidFields.join(',\n                '),
+    filterParam,
+  };
+}
+
+function generateTest(modelName: string, fields: string[], types: string[], optionalFields: Set<string>) {
+  const modelNameLowerCase = modelName.charAt(0).toLowerCase() + modelName.slice(1);
+  const pluralModelName = pluralize(modelNameLowerCase);
+  const testData = generateTestData(fields, types, optionalFields);
+
+  // Generate Controller Unit Tests
+  const controllerTemplatePath = path.join('src', 'config', 'templates', 'controller.test.ts');
+  let controllerContent = fs.readFileSync(controllerTemplatePath, 'utf-8');
+  controllerContent = controllerContent.replace(/\${modelName}/g, modelNameLowerCase);
+  controllerContent = controllerContent.replace(/\${ModelName}/g, modelName);
+  controllerContent = controllerContent.replace(/\${testCreateData}/g, testData.createData);
+  controllerContent = controllerContent.replace(/\${testUpdateData}/g, testData.updateData);
+  controllerContent = controllerContent.replace(/\${testPartialUpdateData}/g, testData.partialUpdateData);
+  controllerContent = controllerContent.replace(/\${testFilterParam}/g, testData.filterParam);
+  fs.outputFileSync(path.join(paths.unitTests, 'controllers', `${modelNameLowerCase}Controller.test.ts`), controllerContent);
+  console.log(`Controller unit tests created at ${paths.unitTests}/controllers/${modelNameLowerCase}Controller.test.ts`);
+
+  // Generate Service Unit Tests
+  const serviceTemplatePath = path.join('src', 'config', 'templates', 'service.test.ts');
+  let serviceContent = fs.readFileSync(serviceTemplatePath, 'utf-8');
+  serviceContent = serviceContent.replace(/\${modelName}/g, modelNameLowerCase);
+  serviceContent = serviceContent.replace(/\${ModelName}/g, modelName);
+  serviceContent = serviceContent.replace(/\${testCreateData}/g, testData.createData);
+  serviceContent = serviceContent.replace(/\${testUpdateData}/g, testData.updateData);
+  serviceContent = serviceContent.replace(/\${testPartialUpdateData}/g, testData.partialUpdateData);
+  serviceContent = serviceContent.replace(/\${testFilterParam}/g, testData.filterParam);
+  fs.outputFileSync(path.join(paths.unitTests, 'services', `${modelNameLowerCase}Service.test.ts`), serviceContent);
+  console.log(`Service unit tests created at ${paths.unitTests}/services/${modelNameLowerCase}Service.test.ts`);
+
+  // Generate Integration Tests
+  const integrationTemplatePath = path.join('src', 'config', 'templates', 'test.ts');
+  let integrationContent = fs.readFileSync(integrationTemplatePath, 'utf-8');
+  integrationContent = integrationContent.replace(/\${modelName}/g, modelNameLowerCase);
+  integrationContent = integrationContent.replace(/\${ModelName}/g, modelName);
+  integrationContent = integrationContent.replace(/\${pluralModelName}/g, pluralModelName);
+  integrationContent = integrationContent.replace(/\${testCreateData}/g, testData.createData);
+  integrationContent = integrationContent.replace(/\${testCreateExpectation}/g, testData.createExpectation);
+  integrationContent = integrationContent.replace(/\${testUpdateData}/g, testData.updateData);
+  integrationContent = integrationContent.replace(/\${testUpdateExpectation}/g, testData.updateExpectation);
+  integrationContent = integrationContent.replace(/\${testPartialUpdateData}/g, testData.partialUpdateData);
+  integrationContent = integrationContent.replace(/\${testInvalidData}/g, testData.invalidData);
+  integrationContent = integrationContent.replace(/\${testFilterParam}/g, testData.filterParam);
+  fs.outputFileSync(path.join(paths.integrationTests, `${modelNameLowerCase}.integration.test.ts`), integrationContent);
+  console.log(`Integration tests created at ${paths.integrationTests}/${modelNameLowerCase}.integration.test.ts`);
+}
+
 async function promptInputs() {
   const answers = await inquirer.prompt([
     {
@@ -505,8 +666,26 @@ async function promptInputs() {
     addImportsToV1Routes(modelName);
     generateSwaggerPath(modelName);
     addImportsToSwaggerConfig(modelName);
+    generateTest(modelName, fields, types, optionalFields);
 
-    console.log(`Files for ${modelName} created successfully!`);
+    console.log(`\n✅ Files for ${modelName} created successfully!\n`);
+    console.log(`📁 Generated Files:`);
+    console.log(`   - Model: src/models/${modelName.toLowerCase()}.ts`);
+    console.log(`   - Controller: src/controllers/${modelName.toLowerCase()}Controller.ts`);
+    console.log(`   - Service: src/services/${modelName.toLowerCase()}Service.ts`);
+    console.log(`   - Routes: src/routes/${modelName.toLowerCase()}Routes.ts`);
+    console.log(`   - Validator: src/validators/${modelName.toLowerCase()}Validator.ts`);
+    console.log(`   - Swagger Docs: src/config/swagger/paths/${modelName.toLowerCase()}Paths.ts`);
+    console.log(`   - Unit Tests:`);
+    console.log(`     • Controller: src/tests/unit/controllers/${modelName.toLowerCase()}Controller.test.ts`);
+    console.log(`     • Service: src/tests/unit/services/${modelName.toLowerCase()}Service.test.ts`);
+    console.log(`   - Integration Tests: src/tests/integration/${modelName.toLowerCase()}.integration.test.ts\n`);
+    console.log(`📊 Test Commands:`);
+    console.log(`   npm test              → Run all tests with coverage`);
+    console.log(`   npm run test:unit     → Run only unit tests`);
+    console.log(`   npm run test:integration → Run only integration tests`);
+    console.log(`   npm run test:watch    → Watch mode`);
+    console.log(`   npm run test:coverage → Run tests & open coverage report\n`);
   } catch (err) {
     if (err instanceof Error) {
         console.error(err.message);

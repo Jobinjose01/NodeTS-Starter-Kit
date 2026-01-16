@@ -1,5 +1,4 @@
 import { RolePermission } from '../models/RolePermission';
-import { RolePermissionDTO } from './RolePermission';
 import { UserDTO } from './UserDTO';
 
 export interface RoleDTO {

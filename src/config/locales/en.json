@@ -48,7 +48,9 @@
         "ROLE_NAME_MUST_BE_LESS_THAN_191_CHARACTERS": "Role name must be less than 191 characters",
         "ROLE_NAME_MUST_BE_A_STRING": "Role name must be a string",
         "ROLE_NAME_IS_REQUIRED": "Role name is required",
-        "STATUS_MUST_BE_A_VALID_INTEGER": "validator.STATUS_MUST_BE_A_VALID_INTEGER"
+        "STATUS_MUST_BE_A_VALID_INTEGER": "validator.STATUS_MUST_BE_A_VALID_INTEGER",
+        "ROLE_ID_MUST_BE_A_VALID_NUMBER": "validator.ROLE_ID_MUST_BE_A_VALID_NUMBER",
+        "STATUS_MUST_BE_A_VALID_NUMBER": "validator.STATUS_MUST_BE_A_VALID_NUMBER"
     },
     "permission": {
         "PERMISSION_CREATED": "Role permissions created successfully",

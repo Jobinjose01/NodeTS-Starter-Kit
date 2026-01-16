@@ -1,7 +1,8 @@
 const ${modelName}Paths = {
-    '/api/v1/${modelName}/create': {
+    '/api/v1/${modelName}': {
         post: {
             summary: 'Create a new ${modelName}',
+            description: 'Create a new ${modelName} in the system',
             security: [{ bearerAuth: [] }],
             tags: ['${ModelName}'],
             requestBody: {
@@ -16,7 +17,7 @@ const ${modelName}Paths = {
             },
             responses: {
                 '201': {
-                    description: '${ModelName} created successfully',                 
+                    description: '${ModelName} created successfully',
                 },
                 '400': {
                     description: 'Bad request',
@@ -30,11 +31,105 @@ const ${modelName}Paths = {
                                         errors: [
                                             {
                                                 field: 'name',
-                                                message:
-                                                    '${ModelName} name must be unique',
+                                                message: '${ModelName} name must be unique',
                                                 location: 'body',
                                             },
                                         ],
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                '500': {
+                    description: 'Internal server error',
+                },
+            },
+        },
+        get: {
+            tags: ['${ModelName}'],
+            summary: 'Get all ${modelName}s',
+            description: 'Retrieve a list of all ${modelName}s with optional filters',
+            security: [{ bearerAuth: [] }],
+            parameters: [
+                {
+                    name: 'id',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'integer',
+                    },
+                    description: 'Filter by ${modelName} ID',
+                },
+                {
+                    name: 'name',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'string',
+                    },
+                    description: 'Filter by ${modelName} Name',
+                },
+                {
+                    name: 'status',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'integer',
+                        enum: [0, 1],
+                    },
+                    description: 'Filter by status (Active = 1, Inactive = 0)',
+                },
+                {
+                    name: 'orderBy',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'string',
+                        default: 'id:desc',
+                    },
+                    description: 'Order by field (e.g., id:desc)',
+                },
+                {
+                    name: 'page',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'integer',
+                        default: 1,
+                    },
+                    description: 'Page number for pagination',
+                },
+                {
+                    name: 'limit',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'integer',
+                        default: 20,
+                    },
+                    description: 'Number of records per page',
+                },
+            ],
+            responses: {
+                '200': {
+                    description: '${ModelName}s retrieved successfully',
+                    content: {
+                        'application/json': {
+                            examples: {
+                                success: {
+                                    summary: 'Example of a successful response',
+                                    value: {
+                                        message: '${ModelName}s data fetched successfully',
+                                        result: {
+                                            data: [],
+                                            pagination: {
+                                                currentPage: 1,
+                                                pageSize: 20,
+                                                totalPages: 1,
+                                                totalCount: 0,
+                                            },
+                                        },
                                     },
                                 },
                             },
@@ -50,7 +145,7 @@ const ${modelName}Paths = {
     '/api/v1/${modelName}/{id}': {
         get: {
             summary: 'Get ${ModelName} by ID',
-            description: 'Endpoint to retrieve a ${modelName} by ID',
+            description: 'Retrieve a specific ${modelName} by its ID',
             security: [{ bearerAuth: [] }],
             tags: ['${ModelName}'],
             parameters: [
@@ -58,7 +153,10 @@ const ${modelName}Paths = {
                     name: 'id',
                     in: 'path',
                     required: true,
-                    type: 'integer',
+                    schema: {
+                        type: 'integer',
+                    },
+                    description: '${ModelName} ID',
                 },
             ],
             responses: {
@@ -76,7 +174,7 @@ const ${modelName}Paths = {
         put: {
             tags: ['${ModelName}'],
             summary: 'Update an existing ${ModelName}',
-            description: 'Updates a ${modelName} with the given ID.',
+            description: 'Updates a ${modelName} with the given ID',
             security: [{ bearerAuth: [] }],
             operationId: 'update${ModelName}',
             parameters: [
@@ -103,32 +201,23 @@ const ${modelName}Paths = {
             },
             responses: {
                 '200': {
-                    description: '${ModelName} updated successfully',                    
+                    description: '${ModelName} updated successfully',
                 },
                 '400': {
                     description: 'Invalid input',
-                    schema: {
-                        $ref: '#/definitions/Error',
-                    },
                 },
                 '404': {
                     description: '${ModelName} not found',
-                    schema: {
-                        $ref: '#/definitions/Error',
-                    },
                 },
                 '500': {
                     description: 'Internal server error',
-                    schema: {
-                        $ref: '#/definitions/Error',
-                    },
                 },
             },
         },
         delete: {
             tags: ['${ModelName}'],
             summary: 'Delete a ${modelName} by ID',
-            description: 'Deletes a ${modelName} with the given ID.',
+            description: 'Deletes a ${modelName} with the given ID',
             security: [{ bearerAuth: [] }],
             operationId: 'delete${ModelName}',
             parameters: [
@@ -144,78 +233,11 @@ const ${modelName}Paths = {
                 },
             ],
             responses: {
-                '204': {
-                    description: '${modelName} deleted successfully',
-                },
-                '500': {
-                    description: 'Internal server error',
-                },
-            },
-        },
-    },
-    '/api/v1/${modelName}/all': {
-        get: {
-            tags: ['${ModelName}'],
-            summary: 'Get all ${modelName}',
-            description: 'Returns a list of all ${modelName}s.',
-            security: [{ bearerAuth: [] }],
-            parameters: [
-                {
-                    name: 'id',
-                    in: 'query',
-                    description: 'Filter by ${modelName} Id ',
-                    schema: {
-                        type: 'integer',
-                        format: 'int64',
-                    },
-                },
-                {
-                    name: 'name',
-                    in: 'query',
-                    description: 'Filter by ${modelName} Name ',
-                    schema: {
-                        type: 'string',
-                    },
-                },
-                {
-                    name: 'status',
-                    in: 'query',
-                    description: 'Active = 1 , inactive = 0',
-                    schema: {
-                        type: 'number',
-                    },
-                },
-                {
-                    name: 'orderBy',
-                    in: 'query',
-                    description: 'OrderBy field  ',
-                    schema: {
-                        type: 'string',
-                        default: 'id:desc',
-                    },
-                },
-                {
-                    name: 'page',
-                    in: 'query',
-                    description: 'Page Number',
-                    schema: {
-                        type: 'int',
-                        default: '1',
-                    },
-                },
-                {
-                    name: 'limit',
-                    in: 'query',
-                    description: 'Number of records to fetch',
-                    schema: {
-                        type: 'int',
-                        default: '20',
-                    },
-                },
-            ],
-            responses: {
                 '200': {
-                    description: 'Successful response',
+                    description: '${ModelName} deleted successfully',
+                },
+                '404': {
+                    description: '${ModelName} not found',
                 },
                 '500': {
                     description: 'Internal server error',
@@ -224,4 +246,5 @@ const ${modelName}Paths = {
         },
     },
 };
+
 export default ${modelName}Paths;

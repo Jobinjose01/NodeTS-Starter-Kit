@@ -1,7 +1,8 @@
 const userPaths = {
-    '/api/v1/user/register': {
+    '/api/v1/user': {
         post: {
-            summary: 'Register a new user',
+            summary: 'Create a new user',
+            description: 'Create a new user in the system',
             security: [{ bearerAuth: [] }],
             tags: ['User'],
             requestBody: {
@@ -68,11 +69,130 @@ const userPaths = {
                 },
             },
         },
+        get: {
+            summary: 'Get all users',
+            description: 'Retrieve a list of all users with optional filters',
+            security: [{ bearerAuth: [] }],
+            tags: ['User'],
+            parameters: [
+                {
+                    name: 'id',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'integer',
+                    },
+                    description: 'Filter by User ID',
+                },
+                {
+                    name: 'firstName',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'string',
+                    },
+                    description: 'Filter by First Name',
+                },
+                {
+                    name: 'lastName',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'string',
+                    },
+                    description: 'Filter by Last Name',
+                },
+                {
+                    name: 'phone',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'string',
+                    },
+                    description: 'Filter by Phone number',
+                },
+                {
+                    name: 'orderBy',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'string',
+                        default: 'id:desc',
+                    },
+                    description: 'Order by field (e.g., id:desc)',
+                },
+                {
+                    name: 'page',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'integer',
+                        default: 1,
+                    },
+                    description: 'Page number for pagination',
+                },
+                {
+                    name: 'limit',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'integer',
+                        default: 20,
+                    },
+                    description: 'Number of records per page',
+                },
+            ],
+            responses: {
+                '200': {
+                    description: 'Users retrieved successfully',
+                    content: {
+                        'application/json': {
+                            examples: {
+                                success: {
+                                    summary: 'Example of a successful response',
+                                    value: {
+                                        message:
+                                            'Users data fetched successfully',
+                                        result: {
+                                            data: [
+                                                {
+                                                    id: 5,
+                                                    firstName: 'John',
+                                                    lastName: 'Doe',
+                                                    username:
+                                                        'john.doe3@example.com',
+                                                    phone: '1234567890',
+                                                    roleId: '4',
+                                                    status: '1',
+                                                    createdAt:
+                                                        '2024-07-10T13:45:27.487Z',
+                                                    updatedAt:
+                                                        '2024-07-10T13:45:27.487Z',
+                                                },
+                                            ],
+                                            pagination: {
+                                                currentPage: 1,
+                                                pageSize: 20,
+                                                totalPages: 1,
+                                                totalCount: 1,
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                '500': {
+                    description: 'Internal server error',
+                },
+            },
+        },
     },
     '/api/v1/user/{id}': {
         get: {
             summary: 'Get user by ID',
-            description: 'Endpoint to retrieve a user by ID',
+            description: 'Retrieve a specific user by their ID',
             security: [{ bearerAuth: [] }],
             tags: ['User'],
             parameters: [
@@ -80,7 +200,10 @@ const userPaths = {
                     name: 'id',
                     in: 'path',
                     required: true,
-                    type: 'integer',
+                    schema: {
+                        type: 'integer',
+                    },
+                    description: 'User ID',
                 },
             ],
             responses: {
@@ -100,6 +223,8 @@ const userPaths = {
                                             lastName: 'Doe',
                                             username: 'john.doe3@example.com',
                                             phone: '1234567890',
+                                            roleId: '4',
+                                            status: '1',
                                             createdAt:
                                                 '2024-07-10T13:45:27.487Z',
                                             updatedAt:
@@ -122,7 +247,7 @@ const userPaths = {
         put: {
             tags: ['User'],
             summary: 'Update an existing user',
-            description: 'Updates a user with the given ID.',
+            description: 'Updates a user with the given ID',
             security: [{ bearerAuth: [] }],
             operationId: 'updateUser',
             parameters: [
@@ -150,48 +275,47 @@ const userPaths = {
             responses: {
                 '200': {
                     description: 'User updated successfully',
-                    schema: {
-                        $ref: '#/definitions/UserResponse',
-                    },
-                    examples: {
+                    content: {
                         'application/json': {
-                            message: 'User updated successfully',
-                            result: {
-                                id: 1,
-                                firstName: 'John',
-                                lastName: 'Doe',
-                                username: 'john.doe@example.com',
-                                phone: '1234567890',
-                                createdAt: '2024-07-10T11:59:56.412Z',
-                                updatedAt: '2024-07-10T11:59:56.412Z',
+                            examples: {
+                                success: {
+                                    summary: 'Example of a successful response',
+                                    value: {
+                                        message: 'User updated successfully',
+                                        result: {
+                                            id: 1,
+                                            firstName: 'John',
+                                            lastName: 'Doe',
+                                            username: 'john.doe@example.com',
+                                            phone: '1234567890',
+                                            roleId: '4',
+                                            status: '1',
+                                            createdAt:
+                                                '2024-07-10T11:59:56.412Z',
+                                            updatedAt:
+                                                '2024-07-10T11:59:56.412Z',
+                                        },
+                                    },
+                                },
                             },
                         },
                     },
                 },
                 '400': {
                     description: 'Invalid input',
-                    schema: {
-                        $ref: '#/definitions/Error',
-                    },
                 },
                 '404': {
                     description: 'User not found',
-                    schema: {
-                        $ref: '#/definitions/Error',
-                    },
                 },
                 '500': {
                     description: 'Internal server error',
-                    schema: {
-                        $ref: '#/definitions/Error',
-                    },
                 },
             },
         },
         delete: {
             tags: ['User'],
             summary: 'Delete a user by ID',
-            description: 'Deletes a user with the given ID.',
+            description: 'Deletes a user with the given ID',
             security: [{ bearerAuth: [] }],
             operationId: 'deleteUser',
             parameters: [
@@ -207,131 +331,23 @@ const userPaths = {
                 },
             ],
             responses: {
-                '204': {
-                    description: 'User deleted successfully',
-                },
-                '500': {
-                    description: 'Internal server error',
-                },
-            },
-        },
-    },
-    '/api/v1/user/all': {
-        get: {
-            tags: ['User'],
-            summary: 'Get all users',
-            description: 'Retrieve all users',
-            security: [{ bearerAuth: [] }],
-            parameters: [
-                {
-                    name: 'id',
-                    in: 'query',
-                    description: 'Filter by User Id ',
-                    schema: {
-                        type: 'integer',
-                        format: 'int64',
-                    },
-                },
-                {
-                    name: 'firstName',
-                    in: 'query',
-                    description: 'Filter by First Name ',
-                    schema: {
-                        type: 'string',
-                    },
-                },
-                {
-                    name: 'lastName',
-                    in: 'query',
-                    description: 'Filter by Last Name ',
-                    schema: {
-                        type: 'string',
-                    },
-                },
-                {
-                    name: 'phone',
-                    in: 'query',
-                    description: 'Filter by Phone number ',
-                    schema: {
-                        type: 'string',
-                    },
-                },
-                {
-                    name: 'orderBy',
-                    in: 'query',
-                    description: 'OrderBy field  ',
-                    schema: {
-                        type: 'string',
-                        default: 'id:desc',
-                    },
-                },
-                {
-                    name: 'page',
-                    in: 'query',
-                    description: 'Page Number',
-                    schema: {
-                        type: 'int',
-                        default: '1',
-                    },
-                },
-                {
-                    name: 'limit',
-                    in: 'query',
-                    description: 'Number of records to fetch',
-                    schema: {
-                        type: 'int',
-                        default: '20',
-                    },
-                },
-            ],
-            responses: {
                 '200': {
-                    description: 'Successful response',
+                    description: 'User deleted successfully',
                     content: {
                         'application/json': {
                             examples: {
                                 success: {
                                     summary: 'Example of a successful response',
                                     value: {
-                                        message:
-                                            'User data fetched successfully',
-                                        result: [
-                                            {
-                                                id: 5,
-                                                firstName: 'John',
-                                                lastName: 'Doe',
-                                                username:
-                                                    'john.doe3@example.com',
-                                                phone: '1234567890',
-                                                createdAt:
-                                                    '2024-07-10T13:45:27.487Z',
-                                                updatedAt:
-                                                    '2024-07-10T13:45:27.487Z',
-                                            },
-                                            {
-                                                id: 6,
-                                                firstName: 'John',
-                                                lastName: 'Doe',
-                                                username:
-                                                    'john.doe6@example.com',
-                                                phone: '1234567890',
-                                                createdAt:
-                                                    '2024-07-10T13:45:27.487Z',
-                                                updatedAt:
-                                                    '2024-07-10T13:45:27.487Z',
-                                            },
-                                        ],
-                                        pagination: {
-                                            totalRecords: 2,
-                                            totalPages: 1,
-                                            currentPage: 1,
-                                            recordsPerPage: 20,
-                                        },
+                                        message: 'User deleted successfully',
                                     },
                                 },
                             },
                         },
                     },
+                },
+                '404': {
+                    description: 'User not found',
                 },
                 '500': {
                     description: 'Internal server error',
@@ -340,4 +356,5 @@ const userPaths = {
         },
     },
 };
+
 export default userPaths;

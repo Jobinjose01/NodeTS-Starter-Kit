@@ -1,4 +1,4 @@
-import { body, param, ValidationChain } from 'express-validator';
+import { body, ValidationChain } from 'express-validator';
 import i18n from 'i18n';
 import prisma from '../config/prismaClient';
 
@@ -27,6 +27,11 @@ export const roleValidationRules = (): ValidationChain[] => {
                 }
                 return true;
             }),
+        body('status')
+            .optional()
+            .toInt()
+            .isInt()
+            .withMessage(i18n.__('validator.STATUS_MUST_BE_A_VALID_INTEGER')),
     ];
 };
 

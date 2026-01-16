@@ -75,12 +75,21 @@ export abstract class BaseService<T extends object> {
     // Get a record by ID
     async getById(id: number): Promise<T | null> {
         return await this.model.findUnique({
-            where: { id },
+            where: { id, deletedAt: null },
         });
     }
 
     // Update a record by ID
     async update(id: number, data: Partial<T>): Promise<T> {
+        // Check if record exists
+        const exists = await this.model.findUnique({
+            where: { id, deletedAt: null },
+        });
+
+        if (!exists) {
+            throw new Error('Record not found');
+        }
+
         const filteredData = filterFields(data, this.updatableFields);
         return await this.model.update({
             where: { id },
@@ -90,6 +99,15 @@ export abstract class BaseService<T extends object> {
 
     // Delete a record by ID (soft delete for now)
     async delete(id: number): Promise<void> {
+        // Check if record exists
+        const record = await this.model.findUnique({
+            where: { id, deletedAt: null },
+        });
+
+        if (!record) {
+            throw new Error('Record not found');
+        }
+
         await this.checkRelatedData(id);
         await this.model.update({
             where: { id },

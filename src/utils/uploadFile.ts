@@ -24,9 +24,6 @@ const createStorage = (destinationPath: string): StorageEngine =>
         },
         filename: (req, file, cb) => {
             const ext = path.extname(file.originalname); // e.g. ".jpg"
-            const baseName = path
-                .basename(file.originalname, ext)
-                .replace(/\s+/g, '_'); // optional: sanitize
             const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
             const finalName = `${uniqueSuffix}${ext}`;
             cb(null, finalName);

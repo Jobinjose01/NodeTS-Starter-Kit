@@ -13,7 +13,7 @@ const ${modelName}Controller = container.get<${ModelName}Controller>(${ModelName
 const ${modelName}Routes: RouteConfig<${ModelName}Controller>[] = [
     {
         method: 'post',
-        path: '/create',
+        path: '/',
         action: 'create',
         middlewares: [
             checkPermissions([{ permission: '${permission}', action: 'add' }]),
@@ -23,8 +23,16 @@ const ${modelName}Routes: RouteConfig<${ModelName}Controller>[] = [
     },
     {
         method: 'get',
-        path: '/all',
+        path: '/',
         action: 'getAll',
+        middlewares: [
+            checkPermissions([{ permission: '${permission}', action: 'view' }]),
+        ],
+    },
+    {
+        method: 'get',
+        path: '/:id',
+        action: 'getById',
         middlewares: [
             checkPermissions([{ permission: '${permission}', action: 'view' }]),
         ],
@@ -45,14 +53,6 @@ const ${modelName}Routes: RouteConfig<${ModelName}Controller>[] = [
         action: 'delete',
         middlewares: [
             checkPermissions([{ permission: '${permission}', action: 'remove' }]),
-        ],
-    },
-    {
-        method: 'get',
-        path: '/:id',
-        action: 'getById',
-        middlewares: [
-            checkPermissions([{ permission: '${permission}', action: 'view' }]),
         ],
     },
 ];

@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import { User } from '../models/User';
 import { inject, injectable } from 'inversify';
 import jwt from 'jsonwebtoken';

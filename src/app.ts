@@ -2,18 +2,18 @@ import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+// Load environment variables from .env file
+dotenv.config();
+
 import i18n from './config/i18n';
 import v1Routes from './routes/v1';
-import { PrismaClient } from '@prisma/client';
 import setupSwagger from './config/swagger/swaggerConfig';
 import { errorHandler } from './middlewares/errorHandler';
 
 import path from 'path';
 import appConfig from './config/appConfig';
 import prisma from './config/prismaClient';
-
-// Load environment variables from .env file
-dotenv.config();
+import { performanceMiddleware } from './middlewares/performanceMiddleware';
 
 const app = express();
 
@@ -23,6 +23,12 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// Add performance tracking middleware (before routes)
+if (process.env.ENABLE_PERFORMANCE_TRACKING !== 'false') {
+    app.use(performanceMiddleware);
+}
+
 if (process.env.NODE_ENV == 'development') {
     app.use(
         express.static(

@@ -15,9 +15,30 @@ const dailyRotateFileTransport = new transports.DailyRotateFile({
     datePattern: 'YYYY-MM-DD',
     maxFiles: '30d',
 });
+/**
+ * Determine log level based on LOG_LEVEL environment variable
+ * - high: All logs including debug (debug)
+ * - medium: Error and info logs (info)
+ * - low: Only error logs (error)
+ * Default: info (medium)
+ */
+const getLogLevel = (): string => {
+    const logLevel = process.env.LOGGER_LEVEL?.toLowerCase() || 'medium';
+
+    switch (logLevel) {
+        case 'high':
+            return 'debug';
+        case 'medium':
+            return 'info';
+        case 'low':
+            return 'error';
+        default:
+            return 'error'; // Default to low
+    }
+};
 
 const logger = createLogger({
-    level: 'error',
+    level: getLogLevel(),
     format: format.combine(
         format.timestamp({
             format: 'YYYY-MM-DD HH:mm:ss',

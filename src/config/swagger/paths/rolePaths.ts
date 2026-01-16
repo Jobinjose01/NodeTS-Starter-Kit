@@ -1,7 +1,8 @@
 const rolePaths = {
-    '/api/v1/role/create': {
+    '/api/v1/role': {
         post: {
             summary: 'Create a new role',
+            description: 'Create a new role in the system',
             security: [{ bearerAuth: [] }],
             tags: ['Role'],
             requestBody: {
@@ -52,10 +53,103 @@ const rolePaths = {
                                             {
                                                 field: 'name',
                                                 message:
-                                                    'Role name must be unique',
+                                                    'Role name is already in use',
                                                 location: 'body',
                                             },
                                         ],
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        get: {
+            summary: 'Get all roles',
+            description: 'Retrieve a list of all roles with optional filters',
+            security: [{ bearerAuth: [] }],
+            tags: ['Role'],
+            parameters: [
+                {
+                    name: 'id',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'integer',
+                    },
+                    description: 'Filter by Role ID',
+                },
+                {
+                    name: 'name',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'string',
+                    },
+                    description: 'Filter by Role Name',
+                },
+                {
+                    name: 'orderBy',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'string',
+                        default: 'id:desc',
+                    },
+                    description: 'Order by field (e.g., id:desc)',
+                },
+                {
+                    name: 'page',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'integer',
+                        default: 1,
+                    },
+                    description: 'Page number for pagination',
+                },
+                {
+                    name: 'limit',
+                    in: 'query',
+                    required: false,
+                    schema: {
+                        type: 'integer',
+                        default: 20,
+                    },
+                    description: 'Number of records per page',
+                },
+            ],
+            responses: {
+                '200': {
+                    description: 'Roles retrieved successfully',
+                    content: {
+                        'application/json': {
+                            examples: {
+                                success: {
+                                    summary: 'Example of a successful response',
+                                    value: {
+                                        message:
+                                            'Roles data fetched successfully',
+                                        result: {
+                                            data: [
+                                                {
+                                                    id: 1,
+                                                    name: 'Admin',
+                                                    status: 1,
+                                                    createdAt:
+                                                        '2024-07-10T11:59:56.412Z',
+                                                    updatedAt:
+                                                        '2024-07-10T11:59:56.412Z',
+                                                },
+                                            ],
+                                            pagination: {
+                                                currentPage: 1,
+                                                pageSize: 20,
+                                                totalPages: 1,
+                                                totalCount: 1,
+                                            },
+                                        },
                                     },
                                 },
                             },
@@ -71,7 +165,7 @@ const rolePaths = {
     '/api/v1/role/{id}': {
         get: {
             summary: 'Get role by ID',
-            description: 'Endpoint to retrieve a role by ID',
+            description: 'Retrieve a specific role by its ID',
             security: [{ bearerAuth: [] }],
             tags: ['Role'],
             parameters: [
@@ -79,7 +173,10 @@ const rolePaths = {
                     name: 'id',
                     in: 'path',
                     required: true,
-                    type: 'integer',
+                    schema: {
+                        type: 'integer',
+                    },
+                    description: 'Role ID',
                 },
             ],
             responses: {
@@ -94,13 +191,13 @@ const rolePaths = {
                                         message:
                                             'Role data fetched successfully',
                                         result: {
-                                            id: 5,
-                                            content: 'Role number 5',
+                                            id: 1,
+                                            name: 'Admin',
                                             status: 1,
                                             createdAt:
-                                                '2024-07-10T13:45:27.487Z',
+                                                '2024-07-10T11:59:56.412Z',
                                             updatedAt:
-                                                '2024-07-10T13:45:27.487Z',
+                                                '2024-07-10T11:59:56.412Z',
                                         },
                                     },
                                 },
@@ -119,7 +216,7 @@ const rolePaths = {
         put: {
             tags: ['Role'],
             summary: 'Update an existing role',
-            description: 'Updates a role with the given ID.',
+            description: 'Updates a role with the given ID',
             security: [{ bearerAuth: [] }],
             operationId: 'updateRole',
             parameters: [
@@ -147,46 +244,43 @@ const rolePaths = {
             responses: {
                 '200': {
                     description: 'Role updated successfully',
-                    schema: {
-                        $ref: '#/definitions/RoleResponse',
-                    },
-                    examples: {
+                    content: {
                         'application/json': {
-                            message: 'Role updated successfully',
-                            result: {
-                                id: 5,
-                                name: 'Role number 5',
-                                status: 1,
-                                createdAt: '2024-07-10T11:59:56.412Z',
-                                updatedAt: '2024-07-10T11:59:56.412Z',
+                            examples: {
+                                success: {
+                                    summary: 'Example of a successful response',
+                                    value: {
+                                        message: 'Role updated successfully',
+                                        result: {
+                                            id: 1,
+                                            name: 'Admin Updated',
+                                            status: 1,
+                                            createdAt:
+                                                '2024-07-10T11:59:56.412Z',
+                                            updatedAt:
+                                                '2024-07-10T13:45:27.487Z',
+                                        },
+                                    },
+                                },
                             },
                         },
                     },
                 },
                 '400': {
                     description: 'Invalid input',
-                    schema: {
-                        $ref: '#/definitions/Error',
-                    },
                 },
                 '404': {
                     description: 'Role not found',
-                    schema: {
-                        $ref: '#/definitions/Error',
-                    },
                 },
                 '500': {
                     description: 'Internal server error',
-                    schema: {
-                        $ref: '#/definitions/Error',
-                    },
                 },
             },
         },
         delete: {
             tags: ['Role'],
             summary: 'Delete a role by ID',
-            description: 'Deletes a role with the given ID.',
+            description: 'Deletes a role with the given ID',
             security: [{ bearerAuth: [] }],
             operationId: 'deleteRole',
             parameters: [
@@ -202,111 +296,23 @@ const rolePaths = {
                 },
             ],
             responses: {
-                '204': {
-                    description: 'Role deleted successfully',
-                },
-                '500': {
-                    description: 'Internal server error',
-                },
-            },
-        },
-    },
-    '/api/v1/role/all': {
-        get: {
-            tags: ['Role'],
-            summary: 'Get all roles',
-            description: 'Returns a list of all roles.',
-            security: [{ bearerAuth: [] }],
-            parameters: [
-                {
-                    name: 'id',
-                    in: 'query',
-                    description: 'Filter by Role Id ',
-                    schema: {
-                        type: 'integer',
-                        format: 'int64',
-                    },
-                },
-                {
-                    name: 'name',
-                    in: 'query',
-                    description: 'Filter by Role Name ',
-                    schema: {
-                        type: 'string',
-                    },
-                },
-                {
-                    name: 'status',
-                    in: 'query',
-                    description: 'Active = 1 , inactive = 0',
-                    schema: {
-                        type: 'number',
-                    },
-                },
-                {
-                    name: 'orderBy',
-                    in: 'query',
-                    description: 'OrderBy field  ',
-                    schema: {
-                        type: 'string',
-                        default: 'id:desc',
-                    },
-                },
-                {
-                    name: 'page',
-                    in: 'query',
-                    description: 'Page Number',
-                    schema: {
-                        type: 'int',
-                        default: '1',
-                    },
-                },
-                {
-                    name: 'limit',
-                    in: 'query',
-                    description: 'Number of records to fetch',
-                    schema: {
-                        type: 'int',
-                        default: '20',
-                    },
-                },
-            ],
-            responses: {
                 '200': {
-                    description: 'Successful response',
+                    description: 'Role deleted successfully',
                     content: {
                         'application/json': {
                             examples: {
                                 success: {
                                     summary: 'Example of a successful response',
                                     value: {
-                                        message:
-                                            'Roles data fetched successfully',
-                                        result: [
-                                            {
-                                                id: 5,
-                                                name: 'Role number 5',
-                                                status: 1,
-                                                createdAt:
-                                                    '2024-07-10T13:45:27.487Z',
-                                                updatedAt:
-                                                    '2024-07-10T13:45:27.487Z',
-                                            },
-                                            {
-                                                id: 6,
-                                                name: 'Role number 6',
-                                                status: 1,
-                                                createdAt:
-                                                    '2024-07-10T13:45:27.487Z',
-                                                updatedAt:
-                                                    '2024-07-10T13:45:27.487Z',
-                                            },
-                                        ],
+                                        message: 'Role deleted successfully',
                                     },
                                 },
                             },
                         },
                     },
+                },
+                '404': {
+                    description: 'Role not found',
                 },
                 '500': {
                     description: 'Internal server error',
@@ -315,4 +321,5 @@ const rolePaths = {
         },
     },
 };
+
 export default rolePaths;

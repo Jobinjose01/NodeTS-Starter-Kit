@@ -2,8 +2,17 @@ import { Request, Response, NextFunction } from 'express';
 import { injectable } from 'inversify';
 
 @injectable()
-export abstract class BaseController<T> {
+export abstract class BaseController<_T> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected abstract service: any;
+
+    // Helper method to safely get string param from Express 5
+    protected getParamAsString(param: string | string[] | undefined): string {
+        if (Array.isArray(param)) {
+            return param[0];
+        }
+        return param || '';
+    }
 
     async create(
         req: Request,
@@ -27,18 +36,21 @@ export abstract class BaseController<T> {
         next: NextFunction,
     ): Promise<void> {
         try {
-            const id = parseInt(req.params.id);
+            const id = parseInt(this.getParamAsString(req.params.id));
             const updatedItem = await this.service.update(id, req.body);
-            if (updatedItem) {
-                res.status(200).json({
-                    message: res.__('item.UPDATED_SUCCESSFULLY'),
-                    result: updatedItem,
-                });
-            } else {
-                res.status(404).json({ message: res.__('item.NOT_FOUND') });
-            }
+            res.status(200).json({
+                message: res.__('item.UPDATED_SUCCESSFULLY'),
+                result: updatedItem,
+            });
         } catch (error) {
-            next(error);
+            if (
+                error instanceof Error &&
+                error.message === 'Record not found'
+            ) {
+                res.status(404).json({ message: res.__('item.NOT_FOUND') });
+            } else {
+                next(error);
+            }
         }
     }
 
@@ -48,13 +60,20 @@ export abstract class BaseController<T> {
         next: NextFunction,
     ): Promise<void> {
         try {
-            const id = parseInt(req.params.id);
+            const id = parseInt(this.getParamAsString(req.params.id));
             await this.service.delete(id);
             res.status(200).json({
                 message: res.__('item.DELETED_SUCCESSFULLY'),
             });
         } catch (error) {
-            next(error);
+            if (
+                error instanceof Error &&
+                error.message === 'Record not found'
+            ) {
+                res.status(404).json({ message: res.__('item.NOT_FOUND') });
+            } else {
+                next(error);
+            }
         }
     }
 
@@ -64,7 +83,7 @@ export abstract class BaseController<T> {
         next: NextFunction,
     ): Promise<void> {
         try {
-            const id = parseInt(req.params.id);
+            const id = parseInt(this.getParamAsString(req.params.id));
             const item = await this.service.getById(id);
             if (item) {
                 res.status(200).json({
