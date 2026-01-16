@@ -115,6 +115,9 @@ describe('RoleController Unit Tests', () => {
             mockReq.params = { id: '1' };
             mockReq.body = { name: 'Updated Role' };
             mockRes.__ = jest.fn((key: string) => key);
+            mockRoleService.getById = jest
+                .fn()
+                .mockResolvedValue({ id: 1, name: 'Admin' });
             mockRoleService.update = jest
                 .fn()
                 .mockResolvedValue({ id: 1, ...mockReq.body });
@@ -125,6 +128,7 @@ describe('RoleController Unit Tests', () => {
                 mockNext,
             );
 
+            expect(mockRoleService.getById).toHaveBeenCalledWith(1);
             expect(mockRoleService.update).toHaveBeenCalledWith(
                 1,
                 mockReq.body,
@@ -136,9 +140,7 @@ describe('RoleController Unit Tests', () => {
             mockReq.params = { id: '999' };
             mockReq.body = { name: 'Updated Role' };
             mockRes.__ = jest.fn((key: string) => key);
-            mockRoleService.update = jest
-                .fn()
-                .mockRejectedValue(new Error('Record not found'));
+            mockRoleService.getById = jest.fn().mockResolvedValue(null);
 
             await roleController.update(
                 mockReq as Request,
@@ -146,6 +148,7 @@ describe('RoleController Unit Tests', () => {
                 mockNext,
             );
 
+            expect(mockRoleService.getById).toHaveBeenCalledWith(999);
             expect(mockRes.status).toHaveBeenCalledWith(404);
         });
     });
@@ -175,6 +178,9 @@ describe('RoleController Unit Tests', () => {
         it('should delete role successfully', async () => {
             mockReq.params = { id: '1' };
             mockRes.__ = jest.fn((key: string) => key);
+            mockRoleService.getById = jest
+                .fn()
+                .mockResolvedValue({ id: 1, name: 'Admin' });
             mockRoleService.delete = jest.fn().mockResolvedValue(undefined);
 
             await roleController.delete(
@@ -183,8 +189,24 @@ describe('RoleController Unit Tests', () => {
                 mockNext,
             );
 
+            expect(mockRoleService.getById).toHaveBeenCalledWith(1);
             expect(mockRoleService.delete).toHaveBeenCalledWith(1);
             expect(mockRes.status).toHaveBeenCalledWith(200);
+        });
+
+        it('should return 404 when role not found', async () => {
+            mockReq.params = { id: '999' };
+            mockRes.__ = jest.fn((key: string) => key);
+            mockRoleService.getById = jest.fn().mockResolvedValue(null);
+
+            await roleController.delete(
+                mockReq as Request,
+                mockRes as Response,
+                mockNext,
+            );
+
+            expect(mockRoleService.getById).toHaveBeenCalledWith(999);
+            expect(mockRes.status).toHaveBeenCalledWith(404);
         });
     });
 });

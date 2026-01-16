@@ -3,6 +3,7 @@ import app from '../../app';
 import i18n from 'i18n';
 import prisma from '../../config/prismaClient';
 import { performanceTracker } from '../helpers/performanceHelper';
+import { getAuthToken } from './setup';
 
 describe('Role Module - Integration Tests', () => {
     let createdRoleId: number;
@@ -11,16 +12,8 @@ describe('Role Module - Integration Tests', () => {
     beforeAll(async () => {
         i18n.setLocale('en');
 
-        // Login to get auth token
-        const loginResponse = await request(app)
-            .post('/api/v1/auth/login')
-            .send({
-                username: process.env.TEST_ADMIN_USERNAME || 'admin@test.com',
-                password: process.env.TEST_ADMIN_PASSWORD || '123456',
-            });
-
-        authToken = loginResponse.body.result.token;
-        console.log('✓ Authentication successful for Role tests');
+        // Get shared auth token
+        authToken = await getAuthToken();
     });
 
     afterAll(async () => {

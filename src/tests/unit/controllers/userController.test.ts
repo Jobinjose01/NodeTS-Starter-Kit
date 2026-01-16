@@ -142,6 +142,13 @@ describe('UserController Unit Tests', () => {
             mockReq.params = { id: '1' };
             mockReq.body = { firstName: 'Jane', lastName: 'Doe' };
             mockRes.__ = jest.fn((key: string) => key);
+            mockUserService.getById = jest
+                .fn()
+                .mockResolvedValue({
+                    id: 1,
+                    firstName: 'John',
+                    lastName: 'Doe',
+                });
             mockUserService.update = jest
                 .fn()
                 .mockResolvedValue({ id: 1, ...mockReq.body });
@@ -152,6 +159,7 @@ describe('UserController Unit Tests', () => {
                 mockNext,
             );
 
+            expect(mockUserService.getById).toHaveBeenCalledWith(1);
             expect(mockUserService.update).toHaveBeenCalledWith(
                 1,
                 mockReq.body,
@@ -163,9 +171,7 @@ describe('UserController Unit Tests', () => {
             mockReq.params = { id: '999' };
             mockReq.body = { firstName: 'Jane' };
             mockRes.__ = jest.fn((key: string) => key);
-            mockUserService.update = jest
-                .fn()
-                .mockRejectedValue(new Error('Record not found'));
+            mockUserService.getById = jest.fn().mockResolvedValue(null);
 
             await userController.update(
                 mockReq as Request,
@@ -173,6 +179,7 @@ describe('UserController Unit Tests', () => {
                 mockNext,
             );
 
+            expect(mockUserService.getById).toHaveBeenCalledWith(999);
             expect(mockRes.status).toHaveBeenCalledWith(404);
         });
 
@@ -180,6 +187,9 @@ describe('UserController Unit Tests', () => {
             mockReq.params = { id: '1' };
             mockReq.body = { firstName: 'Jane' };
             const error = new Error('Update failed');
+            mockUserService.getById = jest
+                .fn()
+                .mockResolvedValue({ id: 1, firstName: 'John' });
             mockUserService.update = jest.fn().mockRejectedValue(error);
 
             await userController.update(
@@ -231,6 +241,9 @@ describe('UserController Unit Tests', () => {
         it('should delete user successfully', async () => {
             mockReq.params = { id: '1' };
             mockRes.__ = jest.fn((key: string) => key);
+            mockUserService.getById = jest
+                .fn()
+                .mockResolvedValue({ id: 1, firstName: 'John' });
             mockUserService.delete = jest.fn().mockResolvedValue(undefined);
 
             await userController.delete(
@@ -239,8 +252,24 @@ describe('UserController Unit Tests', () => {
                 mockNext,
             );
 
+            expect(mockUserService.getById).toHaveBeenCalledWith(1);
             expect(mockUserService.delete).toHaveBeenCalledWith(1);
             expect(mockRes.status).toHaveBeenCalledWith(200);
+        });
+
+        it('should return 404 when user not found', async () => {
+            mockReq.params = { id: '999' };
+            mockRes.__ = jest.fn((key: string) => key);
+            mockUserService.getById = jest.fn().mockResolvedValue(null);
+
+            await userController.delete(
+                mockReq as Request,
+                mockRes as Response,
+                mockNext,
+            );
+
+            expect(mockUserService.getById).toHaveBeenCalledWith(999);
+            expect(mockRes.status).toHaveBeenCalledWith(404);
         });
 
         it('should handle error during deletion', async () => {

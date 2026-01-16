@@ -37,20 +37,21 @@ export abstract class BaseController<_T> {
     ): Promise<void> {
         try {
             const id = parseInt(this.getParamAsString(req.params.id));
+
+            // Check if record exists first
+            const existingItem = await this.service.getById(id);
+            if (!existingItem) {
+                res.status(404).json({ message: res.__('item.NOT_FOUND') });
+                return;
+            }
+
             const updatedItem = await this.service.update(id, req.body);
             res.status(200).json({
                 message: res.__('item.UPDATED_SUCCESSFULLY'),
                 result: updatedItem,
             });
         } catch (error) {
-            if (
-                error instanceof Error &&
-                error.message === 'Record not found'
-            ) {
-                res.status(404).json({ message: res.__('item.NOT_FOUND') });
-            } else {
-                next(error);
-            }
+            next(error);
         }
     }
 
@@ -61,19 +62,20 @@ export abstract class BaseController<_T> {
     ): Promise<void> {
         try {
             const id = parseInt(this.getParamAsString(req.params.id));
+
+            // Check if record exists first
+            const existingItem = await this.service.getById(id);
+            if (!existingItem) {
+                res.status(404).json({ message: res.__('item.NOT_FOUND') });
+                return;
+            }
+
             await this.service.delete(id);
             res.status(200).json({
                 message: res.__('item.DELETED_SUCCESSFULLY'),
             });
         } catch (error) {
-            if (
-                error instanceof Error &&
-                error.message === 'Record not found'
-            ) {
-                res.status(404).json({ message: res.__('item.NOT_FOUND') });
-            } else {
-                next(error);
-            }
+            next(error);
         }
     }
 
