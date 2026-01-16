@@ -13,6 +13,7 @@ import { errorHandler } from './middlewares/errorHandler';
 import path from 'path';
 import appConfig from './config/appConfig';
 import prisma from './config/prismaClient';
+import { performanceMiddleware } from './middlewares/performanceMiddleware';
 
 const app = express();
 
@@ -22,6 +23,12 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// Add performance tracking middleware (before routes)
+if (process.env.ENABLE_PERFORMANCE_TRACKING !== 'false') {
+    app.use(performanceMiddleware);
+}
+
 if (process.env.NODE_ENV == 'development') {
     app.use(
         express.static(

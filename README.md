@@ -273,6 +273,7 @@ The starter kit includes built-in performance tracking:
 - **Automatic logging** to `logs/benchmark/`
 - **Performance thresholds**: Fast (<100ms), Acceptable (<500ms), Slow (<1000ms)
 - **Summary reports** after test runs
+`npm run analyze-benchmark`
 
 Example output:
 ```
