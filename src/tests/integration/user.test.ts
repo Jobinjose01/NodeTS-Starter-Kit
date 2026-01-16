@@ -8,6 +8,8 @@ import { getAuthToken } from './setup';
 describe('User Module - Integration Tests', () => {
     let createdUserId: number;
     let authToken: string;
+    let userDeleted = false;
+    const additionalUserIds: number[] = []; // Track users created in duplicate/edge case tests
 
     beforeAll(async () => {
         i18n.setLocale('en');
@@ -17,15 +19,31 @@ describe('User Module - Integration Tests', () => {
     });
 
     afterAll(async () => {
-        // Cleanup: delete test data
-        if (createdUserId) {
-            await prisma.user
-                .delete({
-                    where: { id: createdUserId },
-                })
-                .catch(() => {
-                    // Ignore if already deleted
-                });
+        // Cleanup: delete test data only if CLEAN_TEST_DATA is true and not already deleted
+        const shouldCleanup = process.env.CLEAN_TEST_DATA !== 'false';
+
+        if (shouldCleanup) {
+            // Delete main test user
+            if (createdUserId && !userDeleted) {
+                await prisma.user
+                    .delete({
+                        where: { id: createdUserId },
+                    })
+                    .catch(() => {
+                        // Ignore if already deleted
+                    });
+            }
+
+            // Delete any additional users created in tests
+            for (const userId of additionalUserIds) {
+                await prisma.user
+                    .delete({
+                        where: { id: userId },
+                    })
+                    .catch(() => {
+                        // Ignore if already deleted
+                    });
+            }
         }
         await prisma.$disconnect();
 
@@ -107,11 +125,16 @@ describe('User Module - Integration Tests', () => {
             };
 
             // Create first user
-            await request(app)
+            const firstResponse = await request(app)
                 .post('/api/v1/user')
                 .set('Authorization', `Bearer ${authToken}`)
                 .send(userData)
                 .expect(201);
+
+            // Track for cleanup
+            if (firstResponse.body.result?.id) {
+                additionalUserIds.push(firstResponse.body.result.id);
+            }
 
             // Try to create duplicate
             const response = await performanceTracker.measureApiCall(
@@ -302,6 +325,7 @@ describe('User Module - Integration Tests', () => {
             );
 
             expect(response.body).toHaveProperty('message');
+            userDeleted = true; // Mark as deleted to skip cleanup
         });
 
         it('should return 404 when deleting non-existent user', async () => {
