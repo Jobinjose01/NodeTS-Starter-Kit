@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { ${ModelName}Controller } from '../../../controllers/${modelName}Controller';
 import { ${ModelName}Service } from '../../../services/${modelName}Service';
 

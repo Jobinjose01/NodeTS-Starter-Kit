@@ -49,4 +49,21 @@ export default tseslint.config(
             ],
         },
     },
+    {
+        // Special rules for test files
+        files: ['**/*.test.ts', '**/*.spec.ts', '**/tests/**/*.ts'],
+        rules: {
+            '@typescript-eslint/no-unused-vars': [
+                'error',
+                {
+                    argsIgnorePattern: '^_',
+                    varsIgnorePattern: '^_',
+                    // Allow unused variables in test files if they're used in template strings
+                    // or destructured from objects (common in test setup)
+                    destructuredArrayIgnorePattern: '^_',
+                    caughtErrors: 'none',
+                },
+            ],
+        },
+    },
 );

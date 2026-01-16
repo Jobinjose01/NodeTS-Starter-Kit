@@ -15,7 +15,7 @@ const paths = {
   integrationTests: 'src/tests/integration',
 };
 
-const schemaPath = path.join(process.cwd(), 'db/prisma/schema.prisma');
+const schemaPath = path.join(process.cwd(), 'prisma/schema.prisma');
 const schemaContent = fs.readFileSync(schemaPath, 'utf-8');
 
 function pluralize(word: string): string {
