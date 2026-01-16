@@ -23,6 +23,27 @@ The project uses **Jest 30** as the testing framework with the following testing
 - **Integration Tests**: Test complete API endpoints with real server, database, and authentication
 - **Performance Tests**: Measure and track API response times with color-coded benchmarks
 
+### Test Data Management
+
+Integration tests automatically manage test data cleanup based on the `CLEAN_TEST_DATA` environment variable:
+
+- **`CLEAN_TEST_DATA=true`** (default): Test data is automatically deleted after tests run
+- **`CLEAN_TEST_DATA=false`**: Test data is preserved in the database for debugging
+
+```bash
+# In .env file
+CLEAN_TEST_DATA=true  # Clean up test data (default)
+CLEAN_TEST_DATA=false # Keep test data for inspection
+```
+
+**When to use `CLEAN_TEST_DATA=false`:**
+- 🐛 Debugging failed tests - inspect the actual data created
+- 🔍 Analyzing test behavior - verify database state
+- 📊 Manual testing - use test data for manual API testing
+- 🎯 Database inspection - check relationships and constraints
+
+**Important:** Remember to set it back to `true` for normal test runs to avoid database clutter.
+
 ## Test Structure
 
 ```

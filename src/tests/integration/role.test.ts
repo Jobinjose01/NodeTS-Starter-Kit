@@ -8,6 +8,8 @@ import { getAuthToken } from './setup';
 describe('Role Module - Integration Tests', () => {
     let createdRoleId: number;
     let authToken: string;
+    let roleDeleted = false;
+    const additionalRoleIds: number[] = []; // Track roles created in duplicate/edge case tests
 
     beforeAll(async () => {
         i18n.setLocale('en');
@@ -17,15 +19,31 @@ describe('Role Module - Integration Tests', () => {
     });
 
     afterAll(async () => {
-        // Cleanup: delete test data
-        if (createdRoleId) {
-            await prisma.role
-                .delete({
-                    where: { id: createdRoleId },
-                })
-                .catch(() => {
-                    // Ignore if already deleted
-                });
+        // Cleanup: delete test data only if CLEAN_TEST_DATA is true and not already deleted
+        const shouldCleanup = process.env.CLEAN_TEST_DATA !== 'false';
+
+        if (shouldCleanup) {
+            // Delete main test role
+            if (createdRoleId && !roleDeleted) {
+                await prisma.role
+                    .delete({
+                        where: { id: createdRoleId },
+                    })
+                    .catch(() => {
+                        // Ignore if already deleted
+                    });
+            }
+
+            // Delete any additional roles created in tests
+            for (const roleId of additionalRoleIds) {
+                await prisma.role
+                    .delete({
+                        where: { id: roleId },
+                    })
+                    .catch(() => {
+                        // Ignore if already deleted
+                    });
+            }
         }
         await prisma.$disconnect();
 
@@ -85,11 +103,16 @@ describe('Role Module - Integration Tests', () => {
             };
 
             // Create first role
-            await request(app)
+            const firstResponse = await request(app)
                 .post('/api/v1/role')
                 .set('Authorization', `Bearer ${authToken}`)
                 .send(roleData)
                 .expect(201);
+
+            // Track for cleanup
+            if (firstResponse.body.result?.id) {
+                additionalRoleIds.push(firstResponse.body.result.id);
+            }
 
             // Try to create duplicate
             const response = await performanceTracker.measureApiCall(
@@ -265,6 +288,7 @@ describe('Role Module - Integration Tests', () => {
             );
 
             expect(response.body).toHaveProperty('message');
+            roleDeleted = true; // Mark as deleted to skip cleanup
         });
 
         it('should return 404 when deleting non-existent role', async () => {

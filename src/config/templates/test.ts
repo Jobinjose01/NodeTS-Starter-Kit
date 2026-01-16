@@ -2,36 +2,50 @@ import request from 'supertest';
 import app from '../../app';
 import i18n from 'i18n';
 import prisma from '../../config/prismaClient';
+import { performanceTracker } from '../helpers/performanceHelper';
+import { getAuthToken } from './setup';
 
-describe('${ModelName} Module', () => {
+describe('${ModelName} Module - Integration Tests', () => {
     let created${ModelName}Id: number;
     let authToken: string;
+    let ${modelName}Deleted = false;
+    const additional${ModelName}Ids: number[] = []; // Track ${pluralModelName} created in duplicate/edge case tests
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         i18n.setLocale('en');
         
-        // Login to get auth token
-        const loginResponse = await request(app)
-            .post('/api/v1/auth/login')
-            .send({
-                username: process.env.TEST_ADMIN_USERNAME || 'admin@test.com',
-                password: process.env.TEST_ADMIN_PASSWORD || '123456',
-            });
-        
-        authToken = loginResponse.body.result.token;
-        console.log('✓ Authentication successful');
+        // Get shared auth token
+        authToken = await getAuthToken();
     });
 
     afterAll(async () => {
-        // Cleanup: delete test data if needed
-        if (created${ModelName}Id) {
-            await prisma.${modelName}.delete({
-                where: { id: created${ModelName}Id },
-            }).catch(() => {
-                // Ignore if already deleted
-            });
+        // Cleanup: delete test data only if CLEAN_TEST_DATA is true and not already deleted
+        const shouldCleanup = process.env.CLEAN_TEST_DATA !== 'false';
+        
+        if (shouldCleanup) {
+            // Delete main test ${modelName}
+            if (created${ModelName}Id && !${modelName}Deleted) {
+                await prisma.${modelName}.delete({
+                    where: { id: created${ModelName}Id },
+                }).catch(() => {
+                    // Ignore if already deleted
+                });
+            }
+
+            // Delete any additional ${pluralModelName} created in tests
+            for (const ${modelName}Id of additional${ModelName}Ids) {
+                await prisma.${modelName}.delete({
+                    where: { id: ${modelName}Id },
+                }).catch(() => {
+                    // Ignore if already deleted
+                });
+            }
         }
         await prisma.$disconnect();
+
+        // Display performance summary
+        performanceTracker.getSummary();
+        performanceTracker.reset();
     });
 
     describe('POST /api/v1/${pluralModelName} - Create ${ModelName}', () => {
@@ -275,12 +289,17 @@ describe('${ModelName} Module', () => {
 
     describe('DELETE /api/v1/${pluralModelName}/:id - Delete ${ModelName}', () => {
         it('should delete a ${modelName} successfully', async () => {
-            const response = await request(app)
-                .delete(`/api/v1/${pluralModelName}/\${created${ModelName}Id}`)
-                .set('Authorization', `Bearer \${authToken}`)
-                .expect(200);
+            const response = await performanceTracker.measureApiCall(
+                'Delete ${ModelName}',
+                () =>
+                    request(app)
+                        .delete(`/api/v1/${pluralModelName}/\${created${ModelName}Id}`)
+                        .set('Authorization', `Bearer \${authToken}`)
+                        .expect(200),
+            );
 
             expect(response.body).toHaveProperty('message');
+            ${modelName}Deleted = true; // Mark as deleted to skip cleanup
         });
 
         it('should fail to delete ${modelName} with non-existent ID', async () => {
