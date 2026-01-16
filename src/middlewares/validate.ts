@@ -7,7 +7,7 @@ export const validate = (
     res: Response,
     next: NextFunction,
 ): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {

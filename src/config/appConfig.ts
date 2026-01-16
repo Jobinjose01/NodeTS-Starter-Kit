@@ -1,5 +1,3 @@
-import path from 'path';
-
 interface AppConfig {
     PUBLIC_ASSET_PATH: string | undefined;
     UPLOAD_LIMIT: string;

@@ -1,5 +1,5 @@
 const permissionPaths = {
-    '/api/v1/permission/create': {
+    '/api/v1/permission': {
         post: {
             tags: ['Permissions'],
             summary: 'Create Role Permissions',
@@ -62,6 +62,73 @@ const permissionPaths = {
         },
     },
     '/api/v1/permission/{roleId}': {
+        get: {
+            tags: ['Permissions'],
+            summary: 'Get Permissions by Role ID',
+            description: 'Get all permissions associated with a specific role',
+            security: [{ bearerAuth: [] }],
+            parameters: [
+                {
+                    name: 'roleId',
+                    in: 'path',
+                    required: true,
+                    schema: {
+                        type: 'integer',
+                    },
+                    example: 1,
+                },
+            ],
+            responses: {
+                '200': {
+                    description: 'Permissions fetched successfully',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    result: {
+                                        type: 'array',
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                roleId: {
+                                                    type: 'integer',
+                                                },
+                                                permissionId: {
+                                                    type: 'integer',
+                                                },
+                                                add: {
+                                                    type: 'integer',
+                                                    enum: [0, 1],
+                                                },
+                                                edit: {
+                                                    type: 'integer',
+                                                    enum: [0, 1],
+                                                },
+                                                remove: {
+                                                    type: 'integer',
+                                                    enum: [0, 1],
+                                                },
+                                                view: {
+                                                    type: 'integer',
+                                                    enum: [0, 1],
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                '400': {
+                    description: 'Role ID is required',
+                },
+                '500': {
+                    description: 'Internal Server Error',
+                },
+            },
+        },
         delete: {
             tags: ['Permissions'],
             summary: 'Delete Role Permissions by Role ID',
@@ -91,91 +158,7 @@ const permissionPaths = {
                 },
             },
         },
-        get: {
-            tags: ['Permissions'],
-            summary: 'Get Permissions by Role ID',
-            description: 'Get all permissions associated with a specific role',
-            security: [{ bearerAuth: [] }],
-            parameters: [
-                {
-                    name: 'roleId',
-                    in: 'path',
-                    required: true,
-                    schema: {
-                        type: 'integer',
-                    },
-                    example: 1,
-                },
-            ],
-            responses: {
-                '200': {
-                    description: 'Permissions retrieved successfully',
-                    content: {
-                        'application/json': {
-                            schema: {
-                                type: 'array',
-                                items: {
-                                    $ref: '#/definitions/RolePermission',
-                                },
-                            },
-                            example: {
-                                message: 'Permissions retrieved successfully',
-                                result: [
-                                    {
-                                        id: 2,
-                                        roleId: 1,
-                                        permissionId: 1,
-                                        add: 1,
-                                        edit: 1,
-                                        remove: 1,
-                                        view: 1,
-                                        createdAt: '2024-08-07T07:16:49.518Z',
-                                        updatedAt: '2024-08-07T07:16:49.518Z',
-                                        deletedAt: null,
-                                        permission: {
-                                            id: 1,
-                                            name: 'Users',
-                                            createdAt:
-                                                '2024-08-05T05:23:35.665Z',
-                                            updatedAt:
-                                                '2024-08-05T05:23:35.665Z',
-                                            deletedAt: null,
-                                        },
-                                    },
-                                    {
-                                        id: 3,
-                                        roleId: 1,
-                                        permissionId: 2,
-                                        add: 1,
-                                        edit: 1,
-                                        remove: 1,
-                                        view: 1,
-                                        createdAt: '2024-08-07T07:16:49.518Z',
-                                        updatedAt: '2024-08-07T07:16:49.518Z',
-                                        deletedAt: null,
-                                        permission: {
-                                            id: 2,
-                                            name: 'Roles',
-                                            createdAt:
-                                                '2024-08-05T05:23:35.671Z',
-                                            updatedAt:
-                                                '2024-08-05T05:23:35.671Z',
-                                            deletedAt: null,
-                                        },
-                                    },
-                                ],
-                            },
-                        },
-                    },
-                },
-                '400': {
-                    description: 'Role ID is required',
-                },
-                '500': {
-                    description: 'Internal Server Error',
-                },
-            },
-        },
     },
 };
+
 export default permissionPaths;

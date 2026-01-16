@@ -1,9 +1,5 @@
 import os from 'os';
 import path from 'path';
-import fs from 'fs-extra';
-import archiver from 'archiver';
-import { Response } from 'express';
-import appConfig from '../config/appConfig';
 
 export const logDirectory: string =
     process.env.NODE_ENV === 'development'

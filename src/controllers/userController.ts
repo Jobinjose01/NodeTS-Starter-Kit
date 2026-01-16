@@ -59,7 +59,7 @@ export class UserController extends BaseController<UserService> {
         res: Response,
         next: NextFunction,
     ): Promise<void> {
-        const userId = parseInt(req.params.id);
+        const userId = parseInt(this.getParamAsString(req.params.id));
         const {
             firstName,
             lastName,
@@ -114,7 +114,7 @@ export class UserController extends BaseController<UserService> {
         res: Response,
         next: NextFunction,
     ): Promise<void> {
-        const userId = parseInt(req.params.id);
+        const userId = parseInt(this.getParamAsString(req.params.id));
         try {
             await this.service.deleteUser(userId);
             res.status(200).json({
@@ -130,7 +130,7 @@ export class UserController extends BaseController<UserService> {
         res: Response,
         next: NextFunction,
     ): Promise<void> {
-        const userId = parseInt(req.params.id);
+        const userId = parseInt(this.getParamAsString(req.params.id));
         try {
             const user = await this.service.getUserById(userId);
             if (user) {

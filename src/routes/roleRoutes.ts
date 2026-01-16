@@ -10,10 +10,11 @@ import { createRouter, RouteConfig } from './BaseRouter';
 
 const roleController = container.get<RoleController>(RoleController);
 
+// RESTful Routes
 const roleRoutes: RouteConfig<RoleController>[] = [
     {
         method: 'post',
-        path: '/create',
+        path: '/', // POST /api/v1/role - Create a new role
         action: 'create',
         middlewares: [
             checkPermissions([{ permission: 'Roles', action: 'add' }]),
@@ -23,15 +24,23 @@ const roleRoutes: RouteConfig<RoleController>[] = [
     },
     {
         method: 'get',
-        path: '/all',
+        path: '/', // GET /api/v1/role - Get all roles
         action: 'getAll',
         middlewares: [
             checkPermissions([{ permission: 'Roles', action: 'view' }]),
         ],
     },
     {
+        method: 'get',
+        path: '/:id', // GET /api/v1/role/:id - Get a specific role
+        action: 'getById',
+        middlewares: [
+            checkPermissions([{ permission: 'Roles', action: 'view' }]),
+        ],
+    },
+    {
         method: 'put',
-        path: '/:id',
+        path: '/:id', // PUT /api/v1/role/:id - Update a role
         action: 'update',
         middlewares: [
             checkPermissions([{ permission: 'Roles', action: 'edit' }]),
@@ -41,18 +50,10 @@ const roleRoutes: RouteConfig<RoleController>[] = [
     },
     {
         method: 'delete',
-        path: '/:id',
+        path: '/:id', // DELETE /api/v1/role/:id - Delete a role
         action: 'delete',
         middlewares: [
             checkPermissions([{ permission: 'Roles', action: 'remove' }]),
-        ],
-    },
-    {
-        method: 'get',
-        path: '/:id',
-        action: 'getById',
-        middlewares: [
-            checkPermissions([{ permission: 'Roles', action: 'view' }]),
         ],
     },
 ];
