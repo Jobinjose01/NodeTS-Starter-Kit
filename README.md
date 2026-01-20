@@ -348,4 +348,7 @@ For questions or issues:
 
 ---
 
+## Upstream
+git remote add upstream git@github.com:Jobinjose01/NodeTS-Starter-Kit.git
+
 **Built with ❤️ using TypeScript, Express, and Prisma**
