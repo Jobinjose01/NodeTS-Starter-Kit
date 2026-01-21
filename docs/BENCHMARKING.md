@@ -5,6 +5,7 @@ This guide covers performance tracking, benchmarking, and optimization in the No
 ## Table of Contents
 
 - [Overview](#overview)
+- [Performance Middleware](#performance-middleware)
 - [Performance Helper](#performance-helper)
 - [Benchmark Logging](#benchmark-logging)
 - [Using in Tests](#using-in-tests)
@@ -19,6 +20,79 @@ The starter kit includes built-in performance tracking tools to help you:
 - Identify slow endpoints
 - Set performance benchmarks
 - Log performance metrics
+
+## Performance Middleware
+
+The performance middleware automatically tracks all API requests in production/development.
+
+### Location
+```
+src/middlewares/performanceMiddleware.ts
+```
+
+### Features
+
+- **Automatic tracking**: Logs performance for all API routes
+- **Smart filtering**: Skips static assets (CSS, JS, images, Swagger UI)
+- **Response time tracking**: Measures actual request/response cycle
+- **Benchmark logging**: Saves metrics to daily log files
+- **Request metadata**: Captures method, status, user agent, IP
+
+### What Gets Tracked
+
+✅ **Tracked:**
+- API endpoints: `/api/v1/user`, `/api/v1/role`, etc.
+- API docs main page: `/api-docs/` (the page itself)
+- Root endpoint: `/`
+- Any custom routes
+
+❌ **Not Tracked (filtered out):**
+- Static files: `.js`, `.css`, `.png`, `.jpg`, `.ico`, etc.
+- Swagger UI assets: `/api-docs/swagger-ui-bundle.js`, etc.
+- Public assets: `/public/*`, `/uploads/*`, `/assets/*`
+- Favicon requests: `/favicon.ico`
+
+### How It Works
+
+```typescript
+// Automatically applied in app.ts
+app.use(performanceMiddleware);
+
+// Filters out non-API requests
+function shouldTrackRequest(url: string): boolean {
+    const skipPatterns = [
+        /\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/i,
+        /^\/api-docs\//,
+        /^\/favicon/,
+        /^\/public\//,
+        /^\/uploads\//,
+        /^\/assets\//,
+        /^\/static\//,
+    ];
+    return !skipPatterns.some(pattern => pattern.test(url));
+}
+```
+
+### Log Output
+
+Console output (development):
+```
+2026-01-21 08:31:19 info: API Performance: POST /api/v1/auth/login
+2026-01-21 08:31:20 info: API Performance: GET /api/v1/user
+```
+
+Benchmark log file (all environments):
+```json
+{
+  "level": "info",
+  "message": "API Performance: POST /api/v1/auth/login",
+  "endpoint": "/api/v1/auth/login",
+  "method": "POST",
+  "statusCode": 200,
+  "responseTime": 245,
+  "timestamp": "2026-01-21T08:31:19.123Z"
+}
+```
 
 ## Performance Helper
 

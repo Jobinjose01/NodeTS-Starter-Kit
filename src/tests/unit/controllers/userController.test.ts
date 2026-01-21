@@ -64,12 +64,29 @@ describe('UserController Unit Tests', () => {
                 mockNext,
             );
 
-            expect(mockUserService.create).toHaveBeenCalledWith(mockReq.body);
+            // Verify service was called (password will be hashed, so we can't match exact values)
+            expect(mockUserService.create).toHaveBeenCalled();
+            const callArg = (mockUserService.create as jest.Mock).mock
+                .calls[0][0];
+            expect(callArg.firstName).toBe(userData.firstName);
+            expect(callArg.lastName).toBe(userData.lastName);
+            expect(callArg.username).toBe(userData.username);
+            expect(callArg.password).not.toBe(userData.password); // Password should be hashed
+            expect(callArg).toHaveProperty('createdAt');
+            expect(callArg).toHaveProperty('updatedAt');
             expect(mockRes.status).toHaveBeenCalledWith(201);
         });
 
         it('should handle error during creation', async () => {
-            mockReq.body = { username: 'test@test.com' };
+            mockReq.body = {
+                firstName: 'Test',
+                lastName: 'User',
+                username: 'test@test.com',
+                password: 'password123',
+                phone: '1234567890',
+                roleId: '1',
+                status: '1',
+            };
             const error = new Error('Creation failed');
             mockUserService.create = jest.fn().mockRejectedValue(error);
 
@@ -142,13 +159,11 @@ describe('UserController Unit Tests', () => {
             mockReq.params = { id: '1' };
             mockReq.body = { firstName: 'Jane', lastName: 'Doe' };
             mockRes.__ = jest.fn((key: string) => key);
-            mockUserService.getById = jest
-                .fn()
-                .mockResolvedValue({
-                    id: 1,
-                    firstName: 'John',
-                    lastName: 'Doe',
-                });
+            mockUserService.getById = jest.fn().mockResolvedValue({
+                id: 1,
+                firstName: 'John',
+                lastName: 'Doe',
+            });
             mockUserService.update = jest
                 .fn()
                 .mockResolvedValue({ id: 1, ...mockReq.body });
@@ -160,10 +175,14 @@ describe('UserController Unit Tests', () => {
             );
 
             expect(mockUserService.getById).toHaveBeenCalledWith(1);
-            expect(mockUserService.update).toHaveBeenCalledWith(
-                1,
-                mockReq.body,
-            );
+            // Verify service was called (updatedAt will be added)
+            expect(mockUserService.update).toHaveBeenCalled();
+            const callArgs = (mockUserService.update as jest.Mock).mock
+                .calls[0];
+            expect(callArgs[0]).toBe(1); // id
+            expect(callArgs[1].firstName).toBe('Jane');
+            expect(callArgs[1].lastName).toBe('Doe');
+            expect(callArgs[1]).toHaveProperty('updatedAt');
             expect(mockRes.status).toHaveBeenCalledWith(200);
         });
 
