@@ -6,6 +6,7 @@ import authPaths from './paths/authPaths';
 import rolePaths from './paths/rolePaths';
 import userPaths from './paths/userPaths';
 import permissionPaths from './paths/permissionPaths';
+import passwordPaths from './paths/passwordPaths';
 // Path Imports ends
 
 // Definition Imports
@@ -14,6 +15,7 @@ import roleDefinitions from './definitions/roleDefinitions';
 import commonDefinitions from './definitions/commonDefinitions';
 import userDefinition from './definitions/userDefinitions';
 import permissionDefinitions from './definitions/permissionDefinitions';
+import passwordDefinitions from './definitions/passwordDefinitions';
 // Definition Imports ends
 
 const swaggerDocument = {
@@ -40,6 +42,7 @@ const swaggerDocument = {
     },
     paths: {
         ...authPaths,
+        ...passwordPaths,
         ...rolePaths,
         ...userPaths,
         ...permissionPaths,
@@ -47,6 +50,7 @@ const swaggerDocument = {
     },
     definitions: {
         ...authDefinitions,
+        ...passwordDefinitions,
         ...roleDefinitions,
         ...commonDefinitions,
         ...userDefinition,

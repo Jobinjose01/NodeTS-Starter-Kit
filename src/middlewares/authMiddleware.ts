@@ -39,6 +39,10 @@ export const authMiddleware = async (
                 message: res.__('INVALID_TOKEN'),
             });
         }
+
+        // Attach decoded token to request for use in controllers
+        (req as any).user = decoded;
+
         next();
     } catch (error) {
         console.error('Token verification failed:', error);

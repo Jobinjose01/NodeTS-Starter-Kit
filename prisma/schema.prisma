@@ -21,19 +21,21 @@ model Role {
 }
 
 model User {
-    id        Int       @id @default(autoincrement())
-    firstName String
-    lastName  String
-    username  String    @unique
-    password  String
-    phone     String?
-    status    Int       @default(1)
-    roleId    Int       @default(4)
-    role      Role      @relation(fields: [roleId], references: [id])
-    token     String?   @db.Text
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    deletedAt DateTime? 
+    id                Int       @id @default(autoincrement())
+    firstName         String
+    lastName          String
+    username          String    @unique
+    password          String
+    phone             String?
+    status            Int       @default(1)
+    roleId            Int       @default(4)
+    role              Role      @relation(fields: [roleId], references: [id])
+    token             String?   @db.Text
+    resetToken        String?   @db.Text
+    resetTokenExpiry  DateTime?
+    createdAt         DateTime  @default(now())
+    updatedAt         DateTime  @updatedAt
+    deletedAt         DateTime? 
 
     //Relation starts below
     @@map("Users") // Set table name to "users"
