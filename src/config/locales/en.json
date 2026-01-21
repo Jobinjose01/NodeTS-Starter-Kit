@@ -79,6 +79,16 @@
         "NO_ROLES_AVAILABLE": "No roles available",
         "ROLE_FETCHED": "Role details fetched"
     },
+    "password": {
+        "RESET_EMAIL_SENT_IF_EXISTS": "If an account with that email exists, a password reset link has been sent",
+        "INVALID_OR_EXPIRED_TOKEN": "Invalid or expired reset token",
+        "TOKEN_VALID": "Reset token is valid",
+        "PASSWORD_RESET_SUCCESSFULLY": "Password has been reset successfully. You can now log in with your new password",
+        "PASSWORD_CHANGED_SUCCESSFULLY": "Password changed successfully",
+        "CURRENT_PASSWORD_INCORRECT": "Current password is incorrect",
+        "RESET_TOKEN_REQUIRED": "Reset token is required",
+        "NEW_PASSWORD_REQUIRED": "New password is required"
+    },
     "language": {
         "ROLES_FETCHED": "language.ROLES_FETCHED"
     },
