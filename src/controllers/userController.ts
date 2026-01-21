@@ -4,7 +4,6 @@ import { handleUserResponse } from '../responseHandlers/UserResponseHandler';
 import { User } from '../models/User';
 import bcrypt from 'bcrypt';
 import { inject, injectable } from 'inversify';
-import { UserFilterDTO } from '../dtos/UserFilterDTO';
 import { BaseController } from './BaseController';
 
 @injectable()
@@ -16,35 +15,37 @@ export class UserController extends BaseController<UserService> {
         this.service = userService;
     }
 
-    async createUser(
+    // Override create to handle password hashing
+    async create(
         req: Request,
         res: Response,
         next: NextFunction,
     ): Promise<void> {
-        const {
-            firstName,
-            lastName,
-            username,
-            phone,
-            password,
-            roleId,
-            status,
-        } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const userData: User = {
-            firstName,
-            lastName,
-            username,
-            phone,
-            roleId,
-            status,
-            password: hashedPassword,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        };
-
         try {
-            const createdUser = await this.service.createUser(userData);
+            const {
+                firstName,
+                lastName,
+                username,
+                phone,
+                password,
+                roleId,
+                status,
+            } = req.body;
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const userData: User = {
+                firstName,
+                lastName,
+                username,
+                phone,
+                roleId,
+                status,
+                password: hashedPassword,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            };
+
+            const createdUser = await this.service.create(userData);
             res.status(201).json({
                 message: res.__('user.USER_CREATED_SUCCESSFULLY'),
                 result: handleUserResponse(createdUser),
@@ -54,23 +55,34 @@ export class UserController extends BaseController<UserService> {
         }
     }
 
-    async updateUser(
+    // Override update to handle password hashing and user response formatting
+    async update(
         req: Request,
         res: Response,
         next: NextFunction,
     ): Promise<void> {
-        const userId = parseInt(this.getParamAsString(req.params.id));
-        const {
-            firstName,
-            lastName,
-            username,
-            phone,
-            password,
-            status,
-            roleId,
-        } = req.body;
-
         try {
+            const id = parseInt(this.getParamAsString(req.params.id));
+
+            // Check if record exists first
+            const existingUser = await this.service.getById(id);
+            if (!existingUser) {
+                res.status(404).json({
+                    message: res.__('user.USER_NOT_FOUND'),
+                });
+                return;
+            }
+
+            const {
+                firstName,
+                lastName,
+                username,
+                phone,
+                password,
+                status,
+                roleId,
+            } = req.body;
+
             const userDataToUpdate: Partial<User> = {
                 firstName,
                 lastName,
@@ -87,65 +99,52 @@ export class UserController extends BaseController<UserService> {
                 userDataToUpdate.password = hashedPassword;
             }
 
-            const user = await this.service.getUserById(userId);
-            if (user) {
-                const updatedUser = await this.service.updateUser(
-                    userId,
-                    userDataToUpdate,
-                );
-                if (updatedUser) {
-                    res.status(200).json({
-                        message: res.__('user.USER_UPDATED_SUCCESSFULLY'),
-                        result: handleUserResponse(updatedUser),
-                    });
-                } else {
-                    res.status(404).json({
-                        message: res.__('user.FAILED_TO_UPDATE_USER'),
-                    });
-                }
-            } else {
-                res.status(404).json({
-                    message: res.__('user.USER_NOT_FOUND'),
-                });
-            }
+            const updatedUser = await this.service.update(id, userDataToUpdate);
+            res.status(200).json({
+                message: res.__('user.USER_UPDATED_SUCCESSFULLY'),
+                result: handleUserResponse(updatedUser),
+            });
         } catch (error) {
             next(error);
         }
     }
 
-    async deleteUser(
+    // Override delete to use custom error message
+    async delete(
         req: Request,
         res: Response,
         next: NextFunction,
     ): Promise<void> {
-        const userId = parseInt(this.getParamAsString(req.params.id));
         try {
-            await this.service.deleteUser(userId);
+            const id = parseInt(this.getParamAsString(req.params.id));
+
+            // Check if record exists first
+            const existingUser = await this.service.getById(id);
+            if (!existingUser) {
+                res.status(404).json({
+                    message: res.__('user.USER_NOT_FOUND'),
+                });
+                return;
+            }
+
+            await this.service.delete(id);
             res.status(200).json({
                 message: res.__('user.USER_DELETED_SUCCESSFULLY'),
             });
         } catch (error) {
-            if (
-                error instanceof Error &&
-                error.message === 'Record not found'
-            ) {
-                res.status(404).json({
-                    message: res.__('user.USER_NOT_FOUND'),
-                });
-            } else {
-                next(error);
-            }
+            next(error);
         }
     }
 
-    async getUserById(
+    // Override getById to handle user response formatting
+    async getById(
         req: Request,
         res: Response,
         next: NextFunction,
     ): Promise<void> {
-        const userId = parseInt(this.getParamAsString(req.params.id));
         try {
-            const user = await this.service.getUserById(userId);
+            const id = parseInt(this.getParamAsString(req.params.id));
+            const user = await this.service.getById(id);
             if (user) {
                 res.status(200).json({
                     message: res.__('user.USER_FETCHED'),
@@ -161,37 +160,37 @@ export class UserController extends BaseController<UserService> {
         }
     }
 
-    async getUsers(
+    // Override getAll to handle user response formatting
+    async getAll(
         req: Request,
         res: Response,
         next: NextFunction,
     ): Promise<void> {
         try {
-            const filters: UserFilterDTO = {
-                id: req.query.id ? Number(req.query.id) : undefined,
-                firstName: req.query.firstName as string,
-                lastName: req.query.lastName as string,
-                phone: req.query.phone as string,
-                orderBy: req.query.orderBy as string,
-                page: req.query.page ? Number(req.query.page) : 1,
-                limit: req.query.limit ? Number(req.query.limit) : 20,
+            const { page = 1, limit = 20, orderBy, ...queryParams } = req.query;
+
+            const filters = this.buildFilters(queryParams);
+
+            const pagination = {
+                page: Number(page),
+                limit: Number(limit),
             };
 
-            const { users, pagination } =
-                await this.service.getAllUsers(filters);
-            if (users) {
-                res.status(200).json({
-                    message: res.__('user.USERS_FETCHED'),
-                    result: {
-                        items: handleUserResponse(users),
-                        pagination,
-                    },
-                });
-            } else {
-                res.status(404).json({
-                    message: res.__('user.NO_USERS_AVAILABLE'),
-                });
+            let sort: Record<string, string> | undefined;
+            if (typeof orderBy === 'string') {
+                const [key, value] = orderBy.split(':');
+                sort = { [key]: value };
             }
+
+            const result = await this.service.getAll(filters, pagination, sort);
+
+            res.status(200).json({
+                message: res.__('user.USERS_FETCHED'),
+                result: {
+                    items: handleUserResponse(result.items),
+                    pagination: result.pagination,
+                },
+            });
         } catch (error) {
             next(error);
         }

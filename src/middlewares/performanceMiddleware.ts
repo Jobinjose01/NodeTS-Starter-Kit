@@ -13,6 +13,25 @@ interface PerformanceMetrics {
 }
 
 /**
+ * Check if the request should be tracked
+ */
+function shouldTrackRequest(url: string): boolean {
+    // Skip static assets and non-API routes
+    const skipPatterns = [
+        /\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/i, // Static files
+        /^\/api-docs\//, // Swagger UI assets
+        /^\/favicon/, // Favicon requests
+        /^\/public\//, // Public assets
+        /^\/uploads\//, // Upload directory
+        /^\/assets\//, // Assets directory
+        /^\/static\//, // Static directory
+    ];
+
+    // Check if URL matches any skip pattern
+    return !skipPatterns.some((pattern) => pattern.test(url));
+}
+
+/**
  * Middleware to track API performance
  */
 export const performanceMiddleware = (
@@ -21,6 +40,12 @@ export const performanceMiddleware = (
     next: NextFunction,
 ) => {
     const startTime = Date.now();
+    const url = req.originalUrl || req.url;
+
+    // Skip tracking for non-API routes and static assets
+    if (!shouldTrackRequest(url)) {
+        return next();
+    }
 
     // Override res.end to capture response time
     const originalEnd = res.end.bind(res);
@@ -32,7 +57,7 @@ export const performanceMiddleware = (
         const responseTime = endTime - startTime;
 
         const metrics: PerformanceMetrics = {
-            endpoint: req.originalUrl || req.url,
+            endpoint: url,
             method: req.method,
             statusCode: res.statusCode,
             responseTime,

@@ -1,64 +1,62 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { validate } from '../middlewares/validate';
+import container from '../config/inversifyConfig';
+import checkPermissions from '../middlewares/checkPermissions';
 import { UserController } from '../controllers/userController';
 import {
     userUpdateValidationRules,
     userValidationRules,
 } from '../validators/userValidator';
-import { validate } from '../middlewares/validate';
-import container from '../config/inversifyConfig';
-import checkPermissions from '../middlewares/checkPermissions';
+import { createRouter, RouteConfig } from './BaseRouter';
 
-const router = Router();
 const userController = container.get<UserController>(UserController);
 
 // RESTful Routes
-// POST /api/v1/user - Create a new user
-router.post(
-    '/',
-    userValidationRules(),
-    validate,
-    checkPermissions([{ permission: 'Users', action: 'add' }]),
-    async (req: Request, res: Response, next: NextFunction) => {
-        await userController.createUser(req, res, next);
+const userRoutes: RouteConfig<UserController>[] = [
+    {
+        method: 'post',
+        path: '/', // POST /api/v1/user - Create a new user
+        action: 'create',
+        middlewares: [
+            checkPermissions([{ permission: 'Users', action: 'add' }]),
+            userValidationRules(),
+            validate,
+        ],
     },
-);
-
-// GET /api/v1/user - Get all users
-router.get(
-    '/',
-    checkPermissions([{ permission: 'Users', action: 'view' }]),
-    async (req: Request, res: Response, next: NextFunction) => {
-        await userController.getUsers(req, res, next);
+    {
+        method: 'get',
+        path: '/', // GET /api/v1/user - Get all users
+        action: 'getAll',
+        middlewares: [
+            checkPermissions([{ permission: 'Users', action: 'view' }]),
+        ],
     },
-);
-
-// GET /api/v1/user/:id - Get a specific user by ID
-router.get(
-    '/:id',
-    checkPermissions([{ permission: 'Users', action: 'view' }]),
-    async (req: Request, res: Response, next: NextFunction) => {
-        await userController.getUserById(req, res, next);
+    {
+        method: 'get',
+        path: '/:id', // GET /api/v1/user/:id - Get a specific user by ID
+        action: 'getById',
+        middlewares: [
+            checkPermissions([{ permission: 'Users', action: 'view' }]),
+        ],
     },
-);
-
-// PUT /api/v1/user/:id - Update a user
-router.put(
-    '/:id',
-    userUpdateValidationRules(),
-    validate,
-    checkPermissions([{ permission: 'Users', action: 'edit' }]),
-    async (req: Request, res: Response, next: NextFunction) => {
-        await userController.updateUser(req, res, next);
+    {
+        method: 'put',
+        path: '/:id', // PUT /api/v1/user/:id - Update a user
+        action: 'update',
+        middlewares: [
+            checkPermissions([{ permission: 'Users', action: 'edit' }]),
+            userUpdateValidationRules(),
+            validate,
+        ],
     },
-);
-
-// DELETE /api/v1/user/:id - Delete a user
-router.delete(
-    '/:id',
-    checkPermissions([{ permission: 'Users', action: 'remove' }]),
-    async (req: Request, res: Response, next: NextFunction) => {
-        await userController.deleteUser(req, res, next);
+    {
+        method: 'delete',
+        path: '/:id', // DELETE /api/v1/user/:id - Delete a user
+        action: 'delete',
+        middlewares: [
+            checkPermissions([{ permission: 'Users', action: 'remove' }]),
+        ],
     },
-);
+];
 
-export default router;
+const userRouter = createRouter(userController, userRoutes);
+export default userRouter;
