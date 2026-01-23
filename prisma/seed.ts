@@ -1,12 +1,27 @@
 import { PrismaClient } from '@prisma/client';
+import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import { roles } from './seeders/roles';
 import { permissions } from './seeders/permissions';
 import { rolePermissions } from './seeders/rolePermissions';
 import { adminUser } from './seeders/adminUser';
 import bcrypt from 'bcrypt';
 import minimist from 'minimist';
+import dotenv from 'dotenv';
 
-const prisma = new PrismaClient();
+// Load environment variables
+dotenv.config();
+
+// Prisma 7 with MariaDB adapter for MySQL connections
+const databaseUrl = (process.env.DATABASE_URL || '').replace(
+    'mysql://',
+    'mariadb://',
+);
+const adapter = new PrismaMariaDb(databaseUrl);
+
+const prisma = new PrismaClient({
+    adapter,
+    log: ['error', 'warn'],
+});
 
 
 // Define the type for the seeders object
@@ -21,8 +36,13 @@ async function seedUsers() {
     for (const user of adminUser) {
       const hashedPassword = await bcrypt.hash(user.password, 10);
 
-      await prisma.user.create({
-        data: {
+      await prisma.user.upsert({
+        where: { username: user.username },
+        update: {
+          password: hashedPassword,
+          updatedAt: new Date(),
+        },
+        create: {
           ...user,
           password: hashedPassword,
           createdAt: new Date(),
@@ -38,9 +58,6 @@ async function seedUsers() {
 }
 async function seedRoles() {
   try{
-    await prisma.$executeRaw`SET FOREIGN_KEY_CHECKS = 0;`;  
-    await prisma.$executeRaw`TRUNCATE TABLE Role;`;
-
     for (const role of roles) {
       await prisma.role.upsert({
         where: { name: role.name },
@@ -51,17 +68,12 @@ async function seedRoles() {
     console.log('Roles have been seeded.');
   }catch(error){
     console.log(error);
-  }finally{
-    await prisma.$executeRaw`SET FOREIGN_KEY_CHECKS = 1;`;
   }
 }
 
 async function seedPermissions() {
 
   try{
-    await prisma.$executeRaw`SET FOREIGN_KEY_CHECKS = 0;`;  
-    await prisma.$executeRaw`TRUNCATE TABLE Permission;`;
-
     for (const permission of permissions) {
       await prisma.permission.upsert({
         where: { name: permission.name}, // Use the unique field
@@ -75,8 +87,6 @@ async function seedPermissions() {
     console.log('Permissions have been seeded.');
   }catch(error){
     console.log(error);
-  }finally{
-    await prisma.$executeRaw`SET FOREIGN_KEY_CHECKS = 1;`;
   }
 }
 
